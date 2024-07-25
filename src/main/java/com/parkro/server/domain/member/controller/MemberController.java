@@ -28,10 +28,10 @@ public class MemberController {
     private final MemberService memberService;
     @GetMapping
     public ResponseEntity<Integer> usernameDetails(@RequestParam("user") String username) {
-        return ResponseEntity.ok(memberService.usernamefind(username));
+        return ResponseEntity.ok(memberService.findUsername(username));
     }
     @PostMapping("/sign-up")
     public ResponseEntity<Integer> memberAdd(@RequestBody SignupRequestDTO signupRequestDTO){
-        return ResponseEntity.ok(memberService.memberadd(signupRequestDTO));
+        return ResponseEntity.ok(memberService.addMember(signupRequestDTO));
     }
 }

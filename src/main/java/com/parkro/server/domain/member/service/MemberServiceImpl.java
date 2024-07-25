@@ -15,8 +15,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
 
     @Override
-    public Integer usernamefind(String username) {
-        int cnt = memberMapper.usernameselect(username);
+    public Integer findUsername(String username) {
+        int cnt = memberMapper.selectUsername(username);
         if(cnt >= 1){
             throw new CustomException(ErrorCode.FIND_DUPLICATED_USERNAME);
         }
@@ -25,12 +25,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Integer memberadd(SignupRequestDTO signupRequestDTO) {
-        if (memberMapper.usernameselect(signupRequestDTO.getUsername()) < 0) {
+    public Integer addMember(SignupRequestDTO signupRequestDTO) {
+        if (memberMapper.selectUsername(signupRequestDTO.getUsername()) < 0) {
             throw new CustomException(ErrorCode.FIND_DUPLICATED_USERNAME);
         }
 
-        return memberMapper.memberinsert(signupRequestDTO);
+        return memberMapper.insertMember(signupRequestDTO);
     }
 
 
