@@ -26,9 +26,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Integer addMember(PostMemberReq postMemberReq) {
-        if (memberMapper.selectUsername(postMemberReq.getUsername()) < 0) {
-            throw new CustomException(ErrorCode.FIND_DUPLICATED_USERNAME);
-        }
 
         return memberMapper.insertMember(postMemberReq);
     }
