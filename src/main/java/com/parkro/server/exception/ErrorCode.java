@@ -11,6 +11,9 @@ public enum ErrorCode {
     /* 400 */
     FIND_FAIL_USER_ID(400, "존재하지 않는 유저입니다."),
 
+    /* 404 */
+    RECEIPT_NOT_FOUND(404, "영수증 정보를 찾을 수 없습니다."),
+
     /* 409 */
     FIND_DUPLICATED_USERNAME(409, "중복된 유저 아이디 입니다."),
 
