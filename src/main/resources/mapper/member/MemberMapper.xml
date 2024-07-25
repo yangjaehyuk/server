@@ -7,7 +7,7 @@
         SELECT COUNT(username) FROM member WHERE username = #{username}
         ]]>
     </select>
-    <insert id="insertMember" parameterType="com.parkro.server.domain.member.dto.SignupRequestDTO">
+    <insert id="insertMember" parameterType="com.parkro.server.domain.member.dto.PostMemberReq">
     <![CDATA[
         INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, fcm_token, role)
         VALUES (member_seq.NEXTVAL, #{username}, #{password}, #{nickname}, #{phoneNumber}, #{carNumber}, 1, '1234', 'ROLE_USER')

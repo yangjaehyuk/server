@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignupRequestDTO {
+public class PostMemberReq {
     private String username;
     private String password;
     private String nickname;

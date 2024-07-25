@@ -1,6 +1,6 @@
 package com.parkro.server.domain.member.service;
 
-import com.parkro.server.domain.member.dto.SignupRequestDTO;
+import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
@@ -25,12 +25,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Integer addMember(SignupRequestDTO signupRequestDTO) {
-        if (memberMapper.selectUsername(signupRequestDTO.getUsername()) < 0) {
+    public Integer addMember(PostMemberReq postMemberReq) {
+        if (memberMapper.selectUsername(postMemberReq.getUsername()) < 0) {
             throw new CustomException(ErrorCode.FIND_DUPLICATED_USERNAME);
         }
 
-        return memberMapper.insertMember(signupRequestDTO);
+        return memberMapper.insertMember(postMemberReq);
     }
 
 
