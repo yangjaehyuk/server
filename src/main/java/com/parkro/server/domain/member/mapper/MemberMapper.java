@@ -4,4 +4,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberMapper {
+    int countUsername(String username);
 }
