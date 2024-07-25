@@ -3,4 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.receipt.mapper.ReceiptMapper">
 
+    <insert id="insertReceipt" parameterType="PostReceiptReq">
+        <![CDATA[
+            INSERT INTO receipt(receipt_id, store_id, total_price, created_date)
+            VALUES (#{receiptId}, #{storeId}, #{totalPrice}, CURRENT_TIMESTAMP)
+        ]]>
+    </insert>
 </mapper>
