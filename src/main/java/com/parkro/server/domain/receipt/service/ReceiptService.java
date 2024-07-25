@@ -4,5 +4,5 @@ import com.parkro.server.domain.receipt.dto.PostReceiptReq;
 
 public interface ReceiptService {
 
-  int addReceipt(PostReceiptReq req);
+  Integer addReceipt(PostReceiptReq req);
 }

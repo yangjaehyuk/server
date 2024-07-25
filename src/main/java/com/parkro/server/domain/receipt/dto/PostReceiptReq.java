@@ -8,7 +8,6 @@ import lombok.*;
 @Builder
 public class PostReceiptReq {
 
-  @Setter
   private Integer receiptId;
   private Integer storeId;
   private Integer totalPrice;

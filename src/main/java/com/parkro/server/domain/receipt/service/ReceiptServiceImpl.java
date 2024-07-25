@@ -14,8 +14,7 @@ public class ReceiptServiceImpl implements ReceiptService {
   private final ReceiptMapper receiptMapper;
 
   @Override
-
-  public int addReceipt(PostReceiptReq req) {
+  public Integer addReceipt(PostReceiptReq req) {
     receiptMapper.insertReceipt(req);
     log.info("[receipt service] addReceipt: " + req.getReceiptId());
     return req.getReceiptId();
