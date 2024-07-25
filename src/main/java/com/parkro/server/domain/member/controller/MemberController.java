@@ -1,12 +1,12 @@
 package com.parkro.server.domain.member.controller;
 
+import com.parkro.server.domain.member.dto.SignupRequestDTO;
 import com.parkro.server.domain.member.service.MemberService;
+import com.parkro.server.exception.CustomException;
+import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 회원
@@ -27,7 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
     @GetMapping
-    public ResponseEntity<Integer> checkUsername(@RequestParam("user") String username) {
-        return ResponseEntity.ok(memberService.checkMember(username));
+    public ResponseEntity<Integer> usernameDetails(@RequestParam("user") String username) {
+        return ResponseEntity.ok(memberService.usernamefind(username));
+    }
+    @PostMapping("/sign-up")
+    public ResponseEntity<Integer> memberAdd(@RequestBody SignupRequestDTO signupRequestDTO){
+        return ResponseEntity.ok(memberService.memberadd(signupRequestDTO));
     }
 }
