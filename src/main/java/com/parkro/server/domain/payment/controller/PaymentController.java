@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 정산
  *
- * @author 김땡땡
+ * @author 김지수
  * @since 2024.07.25
  * @version 1.0
  *

@@ -21,10 +21,10 @@
               AND mc.status = 'ACTIVE'
         ]]>
     </select>
-    <insert id="insertPayment" parameterType="PostPaymentReq">
-        <selectKey keyProperty="paymentId" resultType="Integer" order="BEFORE">
+    <insert id="insertPayment" parameterType="Map">
+        <selectKey keyProperty="req.paymentId" resultType="Integer" order="BEFORE">
             <![CDATA[
-                SELECT payment_seq.nextval AS payment_id FROM dual
+                SELECT payment_seq.nextval AS paymentId FROM dual
             ]]>
         </selectKey>
         INSERT INTO payment (
@@ -43,18 +43,18 @@
         status
         )
         VALUES (
-        #{paymentId},
+        #{req.paymentId},
         #{memberId},
-        #{parkingId},
-        #{memberCouponId, jdbcType=INTEGER},
-        #{receiptId, jdbcType=INTEGER},
-        #{discountTime},
-        #{totalParkingTime},
-        #{totalPrice},
-        #{card},
+        #{req.parkingId},
+        #{req.memberCouponId, jdbcType=INTEGER},
+        #{req.receiptId, jdbcType=INTEGER},
+        #{req.discountTime},
+        #{req.totalParkingTime},
+        #{req.totalPrice},
+        #{req.card},
         DEFAULT,
-        #{paymentKey},
-        #{cancelledDate, jdbcType=TIMESTAMP},
+        #{req.paymentKey},
+        #{req.cancelledDate, jdbcType=TIMESTAMP},
         DEFAULT
         )
     </insert>

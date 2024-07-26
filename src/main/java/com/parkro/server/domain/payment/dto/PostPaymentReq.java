@@ -8,11 +8,12 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Builder
+@ToString
 public class PostPaymentReq {
 
   @Setter
   private Integer paymentId;
-  private Integer memberId;
+  private String username;
   private Integer parkingId;
   private Integer memberCouponId;
   private Integer receiptId;

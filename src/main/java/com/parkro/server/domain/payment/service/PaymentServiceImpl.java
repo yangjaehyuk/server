@@ -29,8 +29,8 @@ public class PaymentServiceImpl implements PaymentService {
   @Override
   @Transactional
   public Integer addPayment(PostPaymentReq req) {
-    paymentMapper.insertPayment(req);
-    log.info("[payment service] addPayment: " + req.getPaymentId());
+    GetMemberRes member = memberService.findMember(req.getUsername());
+    paymentMapper.insertPayment(req, member.getMemberId());
     return req.getPaymentId();
   }
 }
