@@ -3,6 +3,8 @@ package com.parkro.server.domain.member.controller;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.service.MemberService;
 import com.parkro.server.domain.member.service.TokenBlacklistService;
+import com.parkro.server.exception.CustomException;
+import com.parkro.server.exception.ErrorCode;
 import com.parkro.server.exception.LoginFailedException;
 import com.parkro.server.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -65,38 +67,24 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity memberDetais(@RequestBody PostMemberReq postMemberReq){
+    public ResponseEntity memberDetails(@RequestBody PostMemberReq postMemberReq){
 
-        ResponseEntity responseEntity = null;
+        String token = memberService.signInMember(postMemberReq);
 
-        try {
-            String token = memberService.signInMember(postMemberReq);
+        if(token != null){
 
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + token);
 
-            Map<String, String> responseBody = new HashMap<>();
-            responseBody.put("username", postMemberReq.getUsername());
-            responseBody.put("accessToken", "Bearer " + token);
-
             return ResponseEntity.status(HttpStatus.OK)
                     .headers(httpHeaders)
-                    .body(responseBody);
-        } catch (LoginFailedException exception) {
-
-            responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("로그인 실패");
+                    .body("로그인 성공");
         }
+        else{
 
-        return responseEntity;
+            throw new CustomException(ErrorCode.FAIL_SIGN_IN);
+
+        }
     }
 
-    @PostMapping("/sign-out")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
-        String token = jwtTokenProvider.resolveToken(request);
-        if (token != null) {
-            tokenBlacklistService.addToken(token);
-        }
-        SecurityContextHolder.clearContext();
-        return ResponseEntity.ok().build();
-    }
 }

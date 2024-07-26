@@ -40,12 +40,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/member/sign-up", "/member/sign-in", "/member*", "/auth/logout").permitAll()
+                .antMatchers("/member/sign-up", "/member/sign-in", "/member*").permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and()
+                .logout()
+                .logoutUrl("/member/sign-out")
+                .logoutSuccessHandler(new CustomLogoutSuccessHandler(jwtTokenProvider, tokenBlacklistService))
                 .and()
                 .addFilterBefore(new JwtFilter(jwtTokenProvider, tokenBlacklistService), UsernamePasswordAuthenticationFilter.class);
     }

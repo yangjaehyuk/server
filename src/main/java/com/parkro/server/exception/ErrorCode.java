@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ErrorCode {
     /* 400 */
     FIND_FAIL_USER_ID(400, "존재하지 않는 유저입니다."),
+    FAIL_SIGN_IN(400, "로그인에 실패했습니다."),
 
     /* 404 */
     FAIL_WITHDRAW(404, "회원 탈퇴에 실패했습니다."),
