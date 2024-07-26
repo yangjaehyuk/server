@@ -12,6 +12,7 @@ public enum ErrorCode {
     /* 404 */
     FAIL_WITHDRAW(404, "회원 탈퇴에 실패했습니다."),
     RECEIPT_NOT_FOUND(404, "영수증 정보를 찾을 수 없습니다."),
+    FIND_FAIL_PARKING_INFO(404, "현재 주차된 차량이 없습니다."),
 
     /* 409 */
     FIND_DUPLICATED_USERNAME(409, "중복된 유저 아이디 입니다."),
