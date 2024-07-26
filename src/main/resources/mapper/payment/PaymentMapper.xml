@@ -7,7 +7,6 @@
         <![CDATA[
             SELECT
                 mc.member_coupon_id AS memberCouponId,
-                mc.member_id AS memberId,
                 mc.coupon_id AS couponId,
                 mc.parking_lot_id AS parkingLotId,
                 mc.status AS status,
