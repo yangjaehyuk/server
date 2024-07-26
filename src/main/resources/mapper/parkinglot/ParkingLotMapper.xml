@@ -2,5 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.parkinglot.mapper.ParkingLotMapper">
-
+    <select id="selectParkingLots" parameterType="Integer" resultType="GetParkingLotRes">
+        <![CDATA[
+        SELECT
+            name AS name,
+            address AS address,
+            latitude AS latitude,
+            longitude AS longitude,
+            is_internal AS isInternal,
+            total_spaces AS totalSpaces,
+            used_spaces AS usedSpaces
+        FROM parking_lot
+        WHERE
+            store_id = #{store}
+        ]]>
+    </select>
 </mapper>
