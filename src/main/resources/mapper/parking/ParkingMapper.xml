@@ -11,8 +11,9 @@
             s.name AS storeName,
             pl.name AS parkingLotName,
             p.entrance_date AS entranceDate,
-            EXTRACT(HOUR FROM CURRENT_TIMESTAMP)-EXTRACT(HOUR FROM p.entrance_date) AS parkingTimeHour,
-            EXTRACT(MINUTE FROM CURRENT_TIMESTAMP)-EXTRACT(MINUTE FROM p.entrance_date) AS parkingTimeMinute,
+            EXTRACT(DAY FROM (CURRENT_TIMESTAMP - p.entrance_date)) * 24 +
+            EXTRACT(HOUR FROM (CURRENT_TIMESTAMP - p.entrance_date)) AS parkingTimeHour,
+            EXTRACT(MINUTE FROM CURRENT_TIMESTAMP-p.entrance_date) AS parkingTimeMinute,
             pl.per_price AS perPrice
         FROM
             member m
@@ -25,6 +26,9 @@
         WHERE
             m.member_id = #{memberId}
             AND p.status = 'ENTRANCE'
+        ORDER BY
+            p.entrance_date ASC
+        FETCH FIRST 1 ROW ONLY
         ]]>
     </select>
 </mapper>
