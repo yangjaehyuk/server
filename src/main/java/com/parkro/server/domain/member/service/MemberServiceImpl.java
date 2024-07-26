@@ -1,5 +1,6 @@
 package com.parkro.server.domain.member.service;
 
+import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.exception.CustomException;
@@ -26,10 +27,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Integer addMember(PostMemberReq postMemberReq) {
-
         return memberMapper.insertMember(postMemberReq);
     }
 
-
-
+    @Override
+    public GetMemberRes findMember(String username) {
+        return memberMapper.selectUserByUsername(username);
+    }
 }
