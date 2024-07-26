@@ -78,6 +78,22 @@ public class JwtTokenProvider {
         return null;
     }
 
+    // JWT 토큰 만료시키기
+    public String invalidateToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        // 토큰을 현재 시간으로 만료시키기 위해 발급
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date()) // 만료 시간 현재로 설정
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
     // JWT 토큰 유효성 체크
     public boolean validateToken(String token) {
         try {

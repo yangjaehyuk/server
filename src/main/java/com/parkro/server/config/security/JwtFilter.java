@@ -1,5 +1,6 @@
 package com.parkro.server.config.security;
 
+import com.parkro.server.domain.member.service.TokenBlacklistService;
 import com.parkro.server.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,12 +23,13 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final TokenBlacklistService tokenBlacklistService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
         String requestURI = ((HttpServletRequest) request).getRequestURI();
-        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token) && !tokenBlacklistService.isTokenBlacklisted(token))  {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.info("Security context에 인증 정보를 저장했습니다, uri: {}", requestURI);

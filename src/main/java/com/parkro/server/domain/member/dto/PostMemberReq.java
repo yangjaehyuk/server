@@ -17,11 +17,9 @@ public class PostMemberReq implements UserDetails {
     private String nickname;
     private String phoneNumber;
     private String carNumber;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String role;
-
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<? extends GrantedAuthority> authorities;
