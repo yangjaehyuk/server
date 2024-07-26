@@ -9,4 +9,12 @@
             VALUES (#{receiptId}, #{storeId}, #{totalPrice}, CURRENT_TIMESTAMP)
         ]]>
     </insert>
+
+    <select id="selectReceipt" parameterType="Integer" resultType="GetReceiptRes">
+        <![CDATA[
+            SELECT receipt_id AS receiptId, store_id AS storeId, total_price AS totalPrice, status, created_date AS createdDate
+            FROM receipt
+            WHERE receipt_id = #{receiptId} AND status = 'ACTIVE'
+        ]]>
+    </select>
 </mapper>
