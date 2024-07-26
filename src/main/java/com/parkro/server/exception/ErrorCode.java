@@ -3,8 +3,6 @@ package com.parkro.server.exception;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
@@ -12,6 +10,7 @@ public enum ErrorCode {
     FIND_FAIL_USER_ID(400, "존재하지 않는 유저입니다."),
 
     /* 404 */
+    FAIL_WITHDRAW(404, "회원 탈퇴에 실패했습니다."),
     RECEIPT_NOT_FOUND(404, "영수증 정보를 찾을 수 없습니다."),
 
     /* 409 */

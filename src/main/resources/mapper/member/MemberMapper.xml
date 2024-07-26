@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.member.mapper.MemberMapper">
+  
     <select id="selectUsername" resultType="Integer" parameterType="String">
         <![CDATA[
         SELECT COUNT(username) FROM member WHERE username = #{username}
         ]]>
     </select>
+
     <insert id="insertMember" parameterType="com.parkro.server.domain.member.dto.PostMemberReq">
     <![CDATA[
         INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, fcm_token, role)
@@ -14,6 +16,17 @@
         ]]>
     </insert>
 
+    <delete id="deleteMember" parameterType="String">
+    <![CDATA[
+        UPDATE member
+        SET deleted_date = CURRENT_TIMESTAMP,
+            status = 'INACTIVE'
+        WHERE username = #{username}
+          AND deleted_date IS NULL
+          AND status = 'ACTIVE'
+        ]]>
+    </delete>
+  
     <select id="selectUserByUsername" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
             SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcm_token
