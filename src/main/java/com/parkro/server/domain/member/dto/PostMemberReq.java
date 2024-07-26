@@ -21,6 +21,10 @@ public class PostMemberReq implements UserDetails {
     private String password;
     private String role;
 
+    public String getCarNumber() {
+        return carNumber != null && !carNumber.trim().isEmpty() ? carNumber : null;
+    }
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<? extends GrantedAuthority> authorities;
 
