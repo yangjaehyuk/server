@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
         int cnt = memberMapper.deleteMember(username);
 
         if(cnt == 0){
-            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
+            throw new CustomException(ErrorCode.FAIL_WITHDRAW);
         }
 
         return cnt;

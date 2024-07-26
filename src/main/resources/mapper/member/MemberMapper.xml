@@ -16,9 +16,14 @@
     </insert>
 
     <delete id="deleteMember" parameterType="String">
-        <![CDATA[
-        UPDATE member set deleted_date = CURRENT_TIMESTAMP WHERE username = #{username} AND deleted_date IS NULL
+    <![CDATA[
+        UPDATE member
+        SET deleted_date = CURRENT_TIMESTAMP,
+            status = 'INACTIVE'
+        WHERE username = #{username}
+          AND deleted_date IS NULL
+          AND status = 'ACTIVE'
         ]]>
-    </delete>
+</delete>
 
 </mapper>
