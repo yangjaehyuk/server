@@ -3,23 +3,16 @@ package com.parkro.server.domain.member.controller;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.service.MemberService;
 import com.parkro.server.domain.member.service.TokenBlacklistService;
-import com.parkro.server.exception.CustomException;
-import com.parkro.server.exception.ErrorCode;
-import com.parkro.server.exception.LoginFailedException;
 import com.parkro.server.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 회원
