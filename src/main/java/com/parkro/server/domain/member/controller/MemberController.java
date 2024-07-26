@@ -38,15 +38,11 @@ public class MemberController {
     private final TokenBlacklistService tokenBlacklistService;
 
     @GetMapping()
-    public ResponseEntity<PostMemberReq> usernameDetails(@RequestParam("user") String username) {
+    public ResponseEntity<String> usernameDetails(@RequestParam("user") String username) {
 
-        Optional<PostMemberReq> optionalMemberReq = memberService.findUsername(username);
+        memberService.findUsername(username);
 
-        if (optionalMemberReq.isPresent()) {
-            return ResponseEntity.ok(optionalMemberReq.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok("사용 가능한 아이디 입니다.");
     }
 
     @PostMapping("/sign-up")

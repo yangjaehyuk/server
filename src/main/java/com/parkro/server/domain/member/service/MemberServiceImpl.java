@@ -30,7 +30,17 @@ public class MemberServiceImpl implements MemberService {
     public Optional<PostMemberReq> findUsername(String username) {
 
         Optional<PostMemberReq> optionalPostMemberReq = memberMapper.selectUsername(username);
-        return optionalPostMemberReq;
+
+        if (optionalPostMemberReq.isPresent()) {
+
+            throw new CustomException(ErrorCode.FIND_DUPLICATED_USERNAME);
+
+
+        } else {
+
+            return Optional.empty();
+
+        }
     }
 
     @Override
