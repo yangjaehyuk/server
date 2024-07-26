@@ -33,12 +33,8 @@ public class ParkingLotController {
     private final ParkingLotService parkingLotService;
 
     // 백화점 지점별 외부 주차장 조회
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<GetParkingLotRes>> parkingLotList(@RequestParam Integer store) {
-        List<GetParkingLotRes> list = parkingLotService.findParkingLots(store);
-        for (GetParkingLotRes res : list) {
-            System.out.println("resres--- "+res);
-        }
         return ResponseEntity.ok(parkingLotService.findParkingLots(store));
     }
 

@@ -12,7 +12,8 @@
             is_internal AS isInternal,
             total_spaces AS totalSpaces,
             used_spaces AS usedSpaces
-        FROM parking_lot
+        FROM
+            parking_lot
         WHERE
             store_id = #{store}
         ]]>
