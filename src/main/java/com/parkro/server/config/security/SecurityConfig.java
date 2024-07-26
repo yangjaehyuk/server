@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/member/sign-up", "/member/sign-in", "/member*" +
                         "").permitAll()
-                .anyRequest().hasAnyRole("ROLE_USER", "ROLE_ADMIN")
+                .anyRequest().hasAnyRole("USER", "ADMIN")
 
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
