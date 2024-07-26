@@ -71,20 +71,12 @@ public class MemberController {
 
         String token = memberService.signInMember(postMemberReq);
 
-        if(token != null){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + token);
 
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("Authorization", "Bearer " + token);
-
-            return ResponseEntity.status(HttpStatus.OK)
-                    .headers(httpHeaders)
-                    .body("로그인 성공");
-        }
-        else{
-
-            throw new CustomException(ErrorCode.FAIL_SIGN_IN);
-
-        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .headers(httpHeaders)
+                .body("로그인 성공");
     }
 
 }

@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
             }
         }
 
-        throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
+        throw new CustomException(ErrorCode.FAIL_SIGN_IN);
     }
 
     @Override
