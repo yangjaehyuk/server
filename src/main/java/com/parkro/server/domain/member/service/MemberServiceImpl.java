@@ -16,7 +16,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Integer findUsername(String username) {
+
         int cnt = memberMapper.selectUsername(username);
+
         if(cnt >= 1){
             throw new CustomException(ErrorCode.FIND_DUPLICATED_USERNAME);
         }
@@ -30,6 +32,17 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.insertMember(postMemberReq);
     }
 
+    @Override
+    public Integer deleteMember(String username) {
+
+        int cnt = memberMapper.deleteMember(username);
+
+        if(cnt == 0){
+            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
+        }
+
+        return cnt;
+    }
 
 
 }

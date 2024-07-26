@@ -7,6 +7,7 @@
         SELECT COUNT(username) FROM member WHERE username = #{username}
         ]]>
     </select>
+
     <insert id="insertMember" parameterType="com.parkro.server.domain.member.dto.PostMemberReq">
     <![CDATA[
         INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, fcm_token, role)
@@ -14,5 +15,10 @@
         ]]>
     </insert>
 
+    <delete id="deleteMember" parameterType="String">
+        <![CDATA[
+        DELETE FROM member WHERE username = #{username}
+        ]]>
+    </delete>
 
 </mapper>
