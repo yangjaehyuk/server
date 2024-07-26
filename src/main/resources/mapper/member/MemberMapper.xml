@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.member.mapper.MemberMapper">
-  
-    <select id="selectUsername" resultType="Integer" parameterType="String">
+
+    <select id="selectUsername" parameterType="String" resultType="com.parkro.server.domain.member.dto.PostMemberReq">
         <![CDATA[
-        SELECT COUNT(username) FROM member WHERE username = #{username}
+        SELECT username, password, role
+        FROM member
+        WHERE username = #{username}
         ]]>
     </select>
 

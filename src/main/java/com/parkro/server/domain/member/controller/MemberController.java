@@ -2,9 +2,15 @@ package com.parkro.server.domain.member.controller;
 
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.service.MemberService;
+import com.parkro.server.exception.LoginFailedException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 /**
  * 회원
@@ -21,21 +27,50 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequiredArgsConstructor
+@Log4j2
 @RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping
-    public ResponseEntity<Integer> usernameDetails(@RequestParam("user") String username) {
-        return ResponseEntity.ok(memberService.findUsername(username));
+    @GetMapping()
+    public ResponseEntity<PostMemberReq> usernameDetails(@RequestParam("user") String username) {
+
+        Optional<PostMemberReq> optionalMemberReq = memberService.findUsername(username);
+
+        if (optionalMemberReq.isPresent()) {
+            return ResponseEntity.ok(optionalMemberReq.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
     @PostMapping("/sign-up")
     public ResponseEntity<Integer> memberAdd(@RequestBody PostMemberReq postMemberReq){
         return ResponseEntity.ok(memberService.addMember(postMemberReq));
     }
+
     @DeleteMapping("/{username}")
-    public ResponseEntity<Integer> usernameRemove(@PathVariable String username){
+    public ResponseEntity<Integer> usernameRemove(@PathVariable String username) {
         return ResponseEntity.ok(memberService.deleteMember(username));
+    }
+
+    @PostMapping("/sign-in")
+    public ResponseEntity memberDetais(@RequestBody PostMemberReq postMemberReq){
+
+        ResponseEntity responseEntity = null;
+
+        try {
+            String token = memberService.signInMember(postMemberReq);
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("Authorization", "Bearer " + token);
+            responseEntity = ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body("로그인 성공");
+        } catch (LoginFailedException exception) {
+
+            responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("로그인 실패");
+        }
+
+        return responseEntity;
     }
 }
