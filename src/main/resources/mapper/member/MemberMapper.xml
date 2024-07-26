@@ -17,7 +17,7 @@
 
     <delete id="deleteMember" parameterType="String">
         <![CDATA[
-        DELETE FROM member WHERE username = #{username}
+        UPDATE member set deleted_date = CURRENT_TIMESTAMP WHERE username = #{username} AND deleted_date IS NULL
         ]]>
     </delete>
 
