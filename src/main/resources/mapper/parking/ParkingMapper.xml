@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.parking.mapper.ParkingMapper">
 
+    <!-- 입차 -->
     <insert id="insertParking" parameterType="com.parkro.server.domain.parking.dto.PostParkingReq">
         <selectKey keyProperty="parkingId" resultType="Integer" order="BEFORE">
             <![CDATA[
@@ -17,4 +18,34 @@
         )
         ]]>
     </insert>
+  
+    <!-- 주차 정산(전) 정보 조회 -->
+    <select id="selectParkingPay" parameterType="Integer" resultType="GetParkingPayRes">
+        <![CDATA[
+        SELECT
+            p.car_number AS carNumber,
+            s.name AS storeName,
+            pl.name AS parkingLotName,
+            p.entrance_date AS entranceDate,
+            EXTRACT(DAY FROM (CURRENT_TIMESTAMP - p.entrance_date)) * 24 +
+            EXTRACT(HOUR FROM (CURRENT_TIMESTAMP - p.entrance_date)) AS parkingTimeHour,
+            EXTRACT(MINUTE FROM CURRENT_TIMESTAMP-p.entrance_date) AS parkingTimeMinute,
+            pl.per_price AS perPrice
+        FROM
+            member m
+        INNER JOIN
+            parking p ON m.member_id = p.member_id
+        INNER JOIN
+            parking_lot pl ON p.parking_lot_id = pl.parking_lot_id
+        INNER JOIN
+            store s ON pl.store_id = s.store_id
+        WHERE
+            m.member_id = #{memberId}
+            AND p.status = 'ENTRANCE'
+        ORDER BY
+            p.entrance_date ASC
+        FETCH FIRST 1 ROW ONLY
+        ]]>
+    </select>
+    
 </mapper>
