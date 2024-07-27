@@ -22,7 +22,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     // 주차 정산(전) 정보 조회
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<GetParkingPayRes> findParkingPay(String username) {
         GetMemberRes member = memberService.findMember(username);
 
