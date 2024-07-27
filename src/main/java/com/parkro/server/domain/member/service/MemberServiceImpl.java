@@ -48,4 +48,8 @@ public class MemberServiceImpl implements MemberService {
 
         return cnt;
     }
+
+    @Override
+    @Transactional(readOnly=true)
+    public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectUserByCarNumber(carNumber);}
 }

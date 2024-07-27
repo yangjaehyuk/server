@@ -8,4 +8,5 @@ public interface MemberService {
     Integer addMember(PostMemberReq postMemberReq);
     Integer deleteMember(String username);
     GetMemberRes findMember(String username);
+    GetMemberRes findMemberByCarNumber(String carNumber);
 }

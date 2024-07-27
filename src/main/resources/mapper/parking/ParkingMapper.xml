@@ -3,6 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.parking.mapper.ParkingMapper">
 
+    <!-- 입차 -->
+    <insert id="insertParking" parameterType="com.parkro.server.domain.parking.dto.PostParkingReq">
+        <selectKey keyProperty="parkingId" resultType="Integer" order="BEFORE">
+            <![CDATA[
+                SELECT parking_seq.nextval AS parkingId FROM dual
+            ]]>
+        </selectKey>
+        <![CDATA[
+        INSERT INTO parking (
+            parking_id, parking_lot_id, car_number, member_id
+        ) VALUES (
+            #{parkingId}, #{parkingLotId}, #{carNumber}, #{memberId, jdbcType=INTEGER}
+        )
+        ]]>
+    </insert>
+  
     <!-- 주차 정산(전) 정보 조회 -->
     <select id="selectParkingPay" parameterType="Integer" resultType="GetParkingPayRes">
         <![CDATA[
@@ -31,4 +47,5 @@
         FETCH FIRST 1 ROW ONLY
         ]]>
     </select>
+    
 </mapper>

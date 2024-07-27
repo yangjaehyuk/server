@@ -2,6 +2,7 @@ package com.parkro.server.domain.parking.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
+import com.parkro.server.domain.parking.dto.PostParkingReq;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.exception.CustomException;
@@ -19,6 +20,21 @@ public class ParkingServiceImpl implements ParkingService {
 
     private final ParkingMapper parkingMapper;
     private final MemberService memberService;
+
+    // 입차
+    @Override
+    @Transactional
+    public Integer addParking(PostParkingReq req) {
+
+        // 입차한 차 번호로 가입된 유저 조회
+        GetMemberRes member = memberService.findMemberByCarNumber(req.getCarNumber());
+        if (member == null) {
+            req.setMemberId(null);
+        } else {
+            req.setMemberId(member.getMemberId());
+        }
+        parkingMapper.insertParking(req);
+        return req.getParkingId();
 
     // 주차 정산(전) 정보 조회
     @Override
