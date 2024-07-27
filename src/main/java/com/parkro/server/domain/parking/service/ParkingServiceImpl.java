@@ -58,6 +58,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     // 출차
     @Override
+    @Transactional
     public Integer modifyParkingOut(PatchParkingReq req) {
         int numRowsUpdated = parkingMapper.updateParkingOut(req);
         if (numRowsUpdated == 0) {
@@ -82,6 +83,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     // 지점별 주차 내역 목록 조회
     @Override
+    @Transactional(readOnly=true)
     public List<GetParkingPayRes> findParkingListByStore(GetParkingReq req) {
       return parkingMapper.selectParkingListByStore(req);
     }
