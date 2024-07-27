@@ -5,6 +5,8 @@ import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 
+import java.util.List;
+
 public interface ParkingService {
 
   GetParkingRes findParkingByParkingId(Integer parkingId);

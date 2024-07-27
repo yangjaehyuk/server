@@ -33,7 +33,7 @@ public class PaymentSchedulerServiceImpl implements PaymentSchedulerService {
   public CompletableFuture<Void> schedulerModifyCancelledDate(Integer parkingId, Integer paymentId) {
     log.info("결제 취소 카운트 시작");
     try {
-      TimeUnit.SECONDS.sleep(10);
+      TimeUnit.MINUTES.sleep(10);
       modifyCancelledDate(parkingId, paymentId);
     } catch (InterruptedException e) {
       log.error("Error during sleep: " + e);
