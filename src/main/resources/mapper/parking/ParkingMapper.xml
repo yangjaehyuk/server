@@ -4,7 +4,7 @@
 <mapper namespace="com.parkro.server.domain.parking.mapper.ParkingMapper">
 
     <!-- 입차 -->
-    <insert id="insertParking" parameterType="com.parkro.server.domain.parking.dto.PostParkingReq">
+    <insert id="insertParking" parameterType="PostParkingReq">
         <selectKey keyProperty="parkingId" resultType="Integer" order="BEFORE">
             <![CDATA[
                 SELECT parking_seq.nextval AS parkingId FROM dual
@@ -20,7 +20,7 @@
     </insert>
 
     <!-- 출차 -->
-    <update id="updateParkingOut" parameterType="com.parkro.server.domain.parking.dto.PatchParkingReq">
+    <update id="updateParkingOut" parameterType="PatchParkingReq">
         <![CDATA[
         UPDATE parking
         SET status = 'EXIT'
