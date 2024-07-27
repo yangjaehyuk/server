@@ -5,4 +5,5 @@ import com.parkro.server.domain.parking.dto.GetParkingRes;
 public interface ParkingService {
 
   GetParkingRes findParkingByParkingId(Integer parkingId);
+  Integer modifyParkingStatus(Integer parkingId);
 }

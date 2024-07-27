@@ -1,5 +1,6 @@
 package com.parkro.server.domain.payment.service;
 
+import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.service.ParkingService;
 import com.parkro.server.domain.payment.mapper.PaymentMapper;
 import com.parkro.server.exception.CustomException;
@@ -32,7 +33,7 @@ public class PaymentSchedulerServiceImpl implements PaymentSchedulerService {
   public CompletableFuture<Void> schedulerModifyCancelledDate(Integer parkingId, Integer paymentId) {
     log.info("결제 취소 카운트 시작");
     try {
-      TimeUnit.MINUTES.sleep(10);
+      TimeUnit.SECONDS.sleep(10);
       modifyCancelledDate(parkingId, paymentId);
     } catch (InterruptedException e) {
       log.error("Error during sleep: " + e);
@@ -48,15 +49,18 @@ public class PaymentSchedulerServiceImpl implements PaymentSchedulerService {
    */
   @Override
   public void modifyCancelledDate(Integer parkingId, Integer paymentId) {
+    String curr_status = parkingService.findParkingByParkingId(parkingId).getStatus();
     // 현재 출차한 상태라면 결제 취소 로직 수행하지 않음
-    if (parkingService.findParkingByParkingId(parkingId).getStatus().equals("EXIT")) return;
+    if (curr_status.equals("EXIT")) return;
     // 현재 결제 전 상태라면 예외 처리
-    if (parkingService.findParkingByParkingId(parkingId).getStatus().equals("ENTRANCE")) throw new CustomException(INVALID_PAYMENT_CANCELLATION);
+    if (curr_status.equals("ENTRANCE")) throw new CustomException(INVALID_PAYMENT_CANCELLATION);
 
     // 결제 취소 수행
     paymentMapper.updateCancelledDate(paymentId);
-    // 결제 취소 로직
 
-    log.info("{}번 결제 내역 취소 완료", paymentId);
+    // 주차된 차량의 상태 업데이트
+    parkingService.modifyParkingStatus(parkingId);
+
+    log.info("parking_id {}번, payment_id {}번 결제 내역 취소 완료", parkingId, paymentId);
   }
 }

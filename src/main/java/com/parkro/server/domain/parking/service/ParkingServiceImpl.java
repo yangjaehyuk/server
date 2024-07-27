@@ -20,4 +20,14 @@ public class ParkingServiceImpl implements ParkingService {
   public GetParkingRes findParkingByParkingId(Integer parkingId) {
     return parkingMapper.selectParkingByParkingId(parkingId);
   }
+
+  /**
+   * 결제 취소 시, 차량 상태 ENTRANCE로 업데이트
+   * @param parkingId
+   * @return 업데이트된 row
+   */
+  @Override
+  public Integer modifyParkingStatus(Integer parkingId) {
+    return parkingMapper.updateParkingStatus(parkingId);
+  }
 }

@@ -15,4 +15,13 @@
             WHERE parking_id = #{parkingId}
         ]]>
     </select>
+
+    <update id="updateParkingStatus" parameterType="Integer">
+        <![CDATA[
+        UPDATE parking
+        SET
+            status = 'ENTRANCE'
+        WHERE parking_id = #{parkingId}
+        ]]>
+    </update>
 </mapper>
