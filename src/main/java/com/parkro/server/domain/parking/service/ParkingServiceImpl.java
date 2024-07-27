@@ -2,6 +2,7 @@ package com.parkro.server.domain.parking.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
+import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
@@ -11,9 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.parkro.server.exception.ErrorCode.INVALID_PARKING_STATUS;
 import java.util.List;
-import static com.parkro.server.exception.ErrorCode.FIND_FAIL_PARKING_INFO;
+
+import static com.parkro.server.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +59,20 @@ public class ParkingServiceImpl implements ParkingService {
 
         if (res.isEmpty()) {
             throw new CustomException(FIND_FAIL_PARKING_INFO);
+        }
+        return res;
+    }
+
+    // 나의 주차 내역 목록 조회
+    @Override
+    @Transactional(readOnly=true)
+    public List<GetParkingRes> findMyParkingList(String username) {
+        GetMemberRes member = memberService.findMember(username);
+
+        List<GetParkingRes> res = parkingMapper.selectParkingListByMemberId(member.getMemberId());
+
+        if (res.isEmpty()) {
+            throw new CustomException(FIND_FAIL_PARKING_LIST);
         }
         return res;
     }
