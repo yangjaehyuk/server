@@ -1,16 +1,12 @@
 package com.parkro.server.domain.payment.controller;
 
 import com.parkro.server.domain.payment.dto.GetPaymentCouponRes;
+import com.parkro.server.domain.payment.dto.GetPaymentRes;
 import com.parkro.server.domain.payment.dto.PostPaymentReq;
 import com.parkro.server.domain.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,5 +39,10 @@ public class PaymentController {
   @PostMapping
   public ResponseEntity<Integer> paymentAdd(@RequestBody PostPaymentReq req) {
     return ResponseEntity.ok(paymentService.addPayment(req));
+  }
+
+  @GetMapping
+  public ResponseEntity<GetPaymentRes> paymentDetails(@RequestParam("parking") Integer parkingId) {
+    return ResponseEntity.ok(paymentService.findPaymentByParkingId(parkingId));
   }
 }
