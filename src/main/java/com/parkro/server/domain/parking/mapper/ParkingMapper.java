@@ -24,5 +24,5 @@ public interface ParkingMapper {
     List<GetParkingPayRes> selectParkingPay(Integer memberId);
 
     // 지점별 주차 내역 목록 조회
-    List<GetParkingPayRes> selectParkingListByStore(GetParkingReq req);
+    List<GetParkingRes> selectParkingListByStore(GetParkingReq req);
 }

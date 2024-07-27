@@ -84,7 +84,7 @@ public class ParkingServiceImpl implements ParkingService {
     // 지점별 주차 내역 목록 조회
     @Override
     @Transactional(readOnly=true)
-    public List<GetParkingPayRes> findParkingListByStore(GetParkingReq req) {
+    public List<GetParkingRes> findParkingListByStore(GetParkingReq req) {
       return parkingMapper.selectParkingListByStore(req);
     }
 }

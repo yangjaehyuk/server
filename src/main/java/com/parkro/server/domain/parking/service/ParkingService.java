@@ -19,5 +19,5 @@ public interface ParkingService {
     List<GetParkingPayRes> findParkingPay(String username);
 
     // 지점별 주차 내역 목록 조회
-    List<GetParkingPayRes> findParkingListByStore(GetParkingReq req);
+    List<GetParkingRes> findParkingListByStore(GetParkingReq req);
 }

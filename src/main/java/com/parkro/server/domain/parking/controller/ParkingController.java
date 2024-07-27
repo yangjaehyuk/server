@@ -1,11 +1,8 @@
 package com.parkro.server.domain.parking.controller;
 
-import com.parkro.server.domain.parking.dto.GetParkingReq;
-import com.parkro.server.domain.parking.dto.PatchParkingReq;
-import com.parkro.server.domain.parking.dto.PostParkingReq;
+import com.parkro.server.domain.parking.dto.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 import com.parkro.server.domain.parking.service.ParkingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -62,10 +59,10 @@ public class ParkingController {
 
     // 지점별 주차 내역 목록 조회
     @GetMapping("/admin/list")
-    public ResponseEntity<List<GetParkingPayRes>> storeParkingList(@RequestParam String store,
-                                                                   @RequestParam String date,
-                                                                   @RequestParam(required = false) String car,
-                                                                   @RequestParam Integer page) {
+    public ResponseEntity<List<GetParkingRes>> storeParkingList(@RequestParam String store,
+                                                                @RequestParam String date,
+                                                                @RequestParam(required = false) String car,
+                                                                @RequestParam Integer page) {
 
         GetParkingReq req = GetParkingReq.builder()
                 .storeId(store)
