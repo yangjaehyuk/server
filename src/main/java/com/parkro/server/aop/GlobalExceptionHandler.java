@@ -2,15 +2,18 @@ package com.parkro.server.aop;
 
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorResponse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Log4j2
 public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ErrorResponse> handleCustomException(CustomException ex) {
+        log.error(ex.getMessage(), ex);
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .status(ex.getErrorCode().getStatus())
                 .errorCode(ex.getErrorCode().name())
@@ -21,6 +24,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+        log.error(ex.getMessage(), ex);
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .errorCode("INTERNAL_SERVER_ERROR")
