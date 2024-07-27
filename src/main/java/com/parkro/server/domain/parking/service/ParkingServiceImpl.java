@@ -35,6 +35,7 @@ public class ParkingServiceImpl implements ParkingService {
         }
         parkingMapper.insertParking(req);
         return req.getParkingId();
+    }
 
     // 주차 정산(전) 정보 조회
     @Override

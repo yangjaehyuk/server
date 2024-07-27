@@ -40,10 +40,11 @@ public class ParkingController {
     public ResponseEntity<Integer> parkingAdd(@RequestBody PostParkingReq req) {
         return ResponseEntity.ok(parkingService.addParking(req));
 
+    }
+
     // 주차 정산(전) 정보 조회
     @GetMapping
     public ResponseEntity<List<GetParkingPayRes>> parkingPayDetails(@RequestParam String username) {
         return ResponseEntity.ok(parkingService.findParkingPay(username));
-
     }
 }
