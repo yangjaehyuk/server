@@ -1,5 +1,7 @@
 package com.parkro.server.domain.parking.service;
 
+import com.parkro.server.domain.parking.dto.GetParkingRes;
+import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
@@ -21,6 +23,27 @@ public class ParkingServiceImpl implements ParkingService {
 
     private final ParkingMapper parkingMapper;
     private final MemberService memberService;
+  
+
+  /**
+   * 주차 정보 조회
+   * @param parkingId
+   * @return
+   */
+  @Override
+  public GetParkingRes findParkingByParkingId(Integer parkingId) {
+    return parkingMapper.selectParkingByParkingId(parkingId);
+  }
+
+  /**
+   * 결제 취소 시, 차량 상태 ENTRANCE로 업데이트
+   * @param parkingId
+   * @return 업데이트된 row
+   */
+  @Override
+  public Integer modifyParkingStatus(Integer parkingId) {
+    return parkingMapper.updateParkingStatus(parkingId);
+  }
 
     // 입차
     @Override
