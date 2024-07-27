@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.controller;
 
+import com.parkro.server.domain.parking.dto.GetParkingReq;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,7 @@ public class ParkingController {
 
     private final ParkingService parkingService;
 
+    private static final int PAGE_SIZE = 10;
 
     // 입차
     @PostMapping("/in")
@@ -57,4 +59,21 @@ public class ParkingController {
     public ResponseEntity<Integer> parkingOutModify(@RequestBody PatchParkingReq req) {
         return ResponseEntity.ok(parkingService.modifyParkingOut(req));
     }
+
+    // 지점별 주차 내역 목록 조회
+    @GetMapping("/list/admin")
+    public ResponseEntity<List<GetParkingPayRes>> storeParkingList(@RequestParam String store,
+                                                                   @RequestParam String date,
+                                                                   @RequestParam(required = false) String car,
+                                                                   @RequestParam Integer page) {
+
+        GetParkingReq req = GetParkingReq.builder()
+                .storeId(store)
+                .date(date)
+                .carNumber(car)
+                .page(page)
+                .pageSize(PAGE_SIZE).build();
+        return ResponseEntity.ok(parkingService.findParkingListByStore(req));
+    }
+
 }
