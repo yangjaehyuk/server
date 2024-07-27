@@ -61,7 +61,7 @@ public class ParkingController {
     }
 
     // 지점별 주차 내역 목록 조회
-    @GetMapping("/list/admin")
+    @GetMapping("/admin/list")
     public ResponseEntity<List<GetParkingPayRes>> storeParkingList(@RequestParam String store,
                                                                    @RequestParam String date,
                                                                    @RequestParam(required = false) String car,
