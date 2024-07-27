@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ErrorCode {
     /* 400 */
     FIND_FAIL_USER_ID(400, "존재하지 않는 유저입니다."),
+    INVALID_PAYMENT_CANCELLATION(400, "결제하지 않은 차량입니다."),
 
 
     /* 404 */
