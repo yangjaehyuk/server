@@ -4,7 +4,7 @@
 <mapper namespace="com.parkro.server.domain.parking.mapper.ParkingMapper">
 
     <!-- 입차 -->
-    <insert id="insertParking" parameterType="com.parkro.server.domain.parking.dto.PostParkingReq">
+    <insert id="insertParking" parameterType="PostParkingReq">
         <selectKey keyProperty="parkingId" resultType="Integer" order="BEFORE">
             <![CDATA[
                 SELECT parking_seq.nextval AS parkingId FROM dual
@@ -18,6 +18,17 @@
         )
         ]]>
     </insert>
+
+    <!-- 출차 -->
+    <update id="updateParkingOut" parameterType="PatchParkingReq">
+        <![CDATA[
+        UPDATE parking
+        SET status = 'EXIT'
+        WHERE parking_lot_id = #{parkingLotId}
+          AND car_number = #{carNumber}
+          AND status = 'PAY'
+        ]]>
+    </update>
   
     <!-- 주차 정산(전) 정보 조회 -->
     <select id="selectParkingPay" parameterType="Integer" resultType="GetParkingPayRes">

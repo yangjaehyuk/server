@@ -2,6 +2,7 @@ package com.parkro.server.domain.parking.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
+import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
@@ -10,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.parkro.server.exception.ErrorCode.INVALID_PARKING_STATUS;
 import java.util.List;
-
 import static com.parkro.server.exception.ErrorCode.FIND_FAIL_PARKING_INFO;
 
 @Service
@@ -37,6 +38,16 @@ public class ParkingServiceImpl implements ParkingService {
         return req.getParkingId();
     }
 
+    // 출차
+    @Override
+    public Integer modifyParkingOut(PatchParkingReq req) {
+        int numRowsUpdated = parkingMapper.updateParkingOut(req);
+        if (numRowsUpdated == 0) {
+            throw new CustomException(INVALID_PARKING_STATUS);
+        }
+        return numRowsUpdated;
+    }
+  
     // 주차 정산(전) 정보 조회
     @Override
     @Transactional(readOnly=true)
