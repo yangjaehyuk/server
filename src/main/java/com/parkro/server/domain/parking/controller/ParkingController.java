@@ -30,7 +30,7 @@ public class ParkingController {
     private final ParkingService parkingService;
 
     // 입차
-    @PostMapping
+    @PostMapping("/in")
     public ResponseEntity<Integer> parkingAdd(@RequestBody PostParkingReq req) {
         return ResponseEntity.ok(parkingService.addParking(req));
     }
