@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.controller;
 
+import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,6 +8,9 @@ import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 import com.parkro.server.domain.parking.service.ParkingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,5 +50,11 @@ public class ParkingController {
     @GetMapping
     public ResponseEntity<List<GetParkingPayRes>> parkingPayDetails(@RequestParam String username) {
         return ResponseEntity.ok(parkingService.findParkingPay(username));
+    }
+
+    // 출차
+    @PatchMapping("/out")
+    public ResponseEntity<Integer> parkingOutModify(@RequestBody PatchParkingReq req) {
+        return ResponseEntity.ok(parkingService.modifyParkingOut(req));
     }
 }
