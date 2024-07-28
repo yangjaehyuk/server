@@ -20,4 +20,10 @@ public interface ParkingService {
 
     // 지점별 주차 내역 목록 조회
     List<GetParkingRes> findParkingListByStore(GetParkingReq req);
+
+    // 나의 주차 내역 목록 조회
+    List<GetParkingRes> findMyParkingList(String username);
+
+    // 주차 내역 삭제
+    Integer removeParking(Integer parkingId);
 }

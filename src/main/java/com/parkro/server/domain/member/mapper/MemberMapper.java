@@ -4,9 +4,11 @@ import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Optional;
+
 @Mapper
 public interface MemberMapper {
-    Integer selectUsername(String username);
+    Optional<PostMemberReq> selectUsername(String username);
     Integer insertMember(PostMemberReq postMemberReq);
     Integer deleteMember(String username);
     GetMemberRes selectUserByUsername(String username);
