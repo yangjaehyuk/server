@@ -16,6 +16,8 @@ public class GetParkingRes {
   private Integer parkingId;
   private Integer parkingLotId;
   private Integer memberId;
+  private String storeName;
+  private String parkingLotName;
   private String carNumber;
 
   @JsonSerialize(using = KSTDateSerializer.class)

@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.controller;
 
+import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,15 +47,21 @@ public class ParkingController {
 
     }
 
+    // 출차
+    @PatchMapping("/out")
+    public ResponseEntity<Integer> parkingOutModify(@RequestBody PatchParkingReq req) {
+        return ResponseEntity.ok(parkingService.modifyParkingOut(req));
+    }
+
     // 주차 정산(전) 정보 조회
     @GetMapping
     public ResponseEntity<List<GetParkingPayRes>> parkingPayDetails(@RequestParam String username) {
         return ResponseEntity.ok(parkingService.findParkingPay(username));
     }
 
-    // 출차
-    @PatchMapping("/out")
-    public ResponseEntity<Integer> parkingOutModify(@RequestBody PatchParkingReq req) {
-        return ResponseEntity.ok(parkingService.modifyParkingOut(req));
+    // 나의 주차 내역 목록 조회
+    @GetMapping("/list")
+    public ResponseEntity<List<GetParkingRes>> myParkingList(@RequestParam String username) {
+        return ResponseEntity.ok(parkingService.findMyParkingList(username));
     }
 }

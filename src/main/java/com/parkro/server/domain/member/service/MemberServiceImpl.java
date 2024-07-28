@@ -74,7 +74,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public GetMemberRes findMember(String username) {
-        return memberMapper.selectUserByUsername(username);
+        GetMemberRes member = memberMapper.selectUserByUsername(username);
+        if (member == null) {
+            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
+        }
+        return member;
     }
   
     @Override

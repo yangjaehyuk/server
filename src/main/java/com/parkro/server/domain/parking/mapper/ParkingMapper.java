@@ -25,4 +25,7 @@ public interface ParkingMapper {
 
     // 주차 정산(전) 정보 조회
     List<GetParkingPayRes> selectParkingPay(Integer memberId);
+
+    // 나의 주차 내역 목록 조회
+    List<GetParkingRes> selectParkingListByMemberId(Integer memberId);
 }
