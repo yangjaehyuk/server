@@ -29,7 +29,7 @@ public interface ParkingMapper {
     List<GetParkingPayRes> selectParkingPay(Integer memberId);
 
     // 나의 주차 내역 목록 조회
-    List<GetParkingRes> selectParkingListByMemberId(Integer memberId);
+    List<GetParkingRes> selectParkingListByMemberId(GetParkingReq req);
 
     // 주차 내역 삭제
     Integer deleteParkingById(Integer parkingId);
