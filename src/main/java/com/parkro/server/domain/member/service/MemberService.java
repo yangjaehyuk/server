@@ -11,4 +11,5 @@ public interface MemberService {
     Integer deleteMember(String username);
     GetMemberRes findMember(String username);
     String signInMember(PostMemberReq postMemberReq);
+    GetMemberRes findMemberByCarNumber(String carNumber);
 }

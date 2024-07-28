@@ -12,4 +12,5 @@ public interface MemberMapper {
     Integer insertMember(PostMemberReq postMemberReq);
     Integer deleteMember(String username);
     GetMemberRes selectUserByUsername(String username);
+    GetMemberRes selectUserByCarNumber(String carNumber);
 }

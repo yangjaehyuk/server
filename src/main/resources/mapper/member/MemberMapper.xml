@@ -39,4 +39,12 @@
         ]]>
     </select>
 
+    <select id="selectUserByCarNumber" parameterType="String" resultType="GetMemberRes">
+        <![CDATA[
+        SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcm_token
+        FROM member
+        WHERE car_number = #{carNumber} AND status = 'ACTIVE'
+        ]]>
+    </select>
+
 </mapper>

@@ -51,6 +51,10 @@ dependencies {
     implementation 'com.oracle.database.security:oraclepki:21.5.0.0'
     implementation 'com.oracle.database.security:osdt_cert:21.5.0.0'
     implementation 'com.oracle.database.security:osdt_core:21.5.0.0'
+
+//    // schedule
+//    implementation 'org.springframework.boot:spring-boot-starter-scheduling'
+//    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 tasks.named('test') {
