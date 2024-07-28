@@ -2,6 +2,7 @@ package com.parkro.server.util;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -29,7 +31,6 @@ public class JwtTokenProvider {
     private long tokenValidMillisecond;
 
     private final UserDetailsService userDetailsService;
-    private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @PostConstruct
     protected void init() {
@@ -101,11 +102,11 @@ public class JwtTokenProvider {
 
             return !claims.getBody().getExpiration().before(new Date());
         } catch (SecurityException | MalformedJwtException | IllegalArgumentException exception) {
-            logger.info("잘못된 Jwt 토큰입니다");
+            log.info("잘못된 Jwt 토큰입니다");
         } catch (ExpiredJwtException exception) {
-            logger.info("만료된 Jwt 토큰입니다");
+            log.info("만료된 Jwt 토큰입니다");
         } catch (UnsupportedJwtException exception) {
-            logger.info("지원하지 않는 Jwt 토큰입니다");
+            log.info("지원하지 않는 Jwt 토큰입니다");
         }
 
         return false;
