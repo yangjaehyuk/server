@@ -1,6 +1,6 @@
 package com.parkro.server.domain.parking.service;
 
-import com.parkro.server.domain.parking.dto.GetParkingRes;
+import com.parkro.server.domain.parking.dto.*;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
@@ -22,7 +22,6 @@ public class ParkingServiceImpl implements ParkingService {
 
     private final ParkingMapper parkingMapper;
     private final MemberService memberService;
-  
 
   /**
    * 주차 정보 조회
@@ -62,6 +61,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     // 출차
     @Override
+    @Transactional
     public Integer modifyParkingOut(PatchParkingReq req) {
         int numRowsUpdated = parkingMapper.updateParkingOut(req);
         if (numRowsUpdated == 0) {
@@ -82,6 +82,13 @@ public class ParkingServiceImpl implements ParkingService {
             throw new CustomException(FIND_FAIL_PARKING_INFO);
         }
         return res;
+    }
+
+    // 지점별 주차 내역 목록 조회
+    @Override
+    @Transactional(readOnly=true)
+    public List<GetParkingRes> findParkingListByStore(GetParkingReq req) {
+      return parkingMapper.selectParkingListByStore(req);
     }
 
     // 나의 주차 내역 목록 조회
