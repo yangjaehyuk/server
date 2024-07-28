@@ -6,7 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Getter
-@Setter
 public class SignInMemberRes {
     private String username;
     private String token;

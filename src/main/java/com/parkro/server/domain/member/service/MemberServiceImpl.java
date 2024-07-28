@@ -64,8 +64,13 @@ public class MemberServiceImpl implements MemberService {
             PostMemberReq member = memberOpt.get();
 
             if (passwordEncoder.matches(postMemberReq.getPassword(), member.getPassword())) {
+
                 String token = jwtTokenProvider.createToken(member.getUsername(), Collections.singletonList(member.getRole()));
-                return new SignInMemberRes(postMemberReq.getUsername(), token);
+                SignInMemberRes signInMemberRes = SignInMemberRes.builder()
+                        .username(postMemberReq.getUsername())
+                        .token(token)
+                        .build();
+                return signInMemberRes;
             }
         }
 
