@@ -1,6 +1,11 @@
 package com.parkro.server.domain.parking.controller;
 
-import com.parkro.server.domain.parking.dto.*;
+import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
+import com.parkro.server.domain.parking.dto.GetParkingRes;
+import com.parkro.server.domain.parking.dto.PatchParkingReq;
+import com.parkro.server.domain.parking.dto.PostParkingReq;
+import com.parkro.server.domain.parking.dto.GetParkingPayRes;
+import com.parkro.server.domain.parking.dto.GetParkingReq;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.parkro.server.domain.parking.dto.GetParkingRes;
@@ -69,7 +74,13 @@ public class ParkingController {
         return ResponseEntity.ok(parkingService.removeParking(parkingId));
     }
 
-    // 지점별 주차 내역 목록 조회
+    // [관리자] 주차 내역 상세 조회
+    @GetMapping("/admin/detail/{parkingId}")
+    public ResponseEntity<GetParkingDetailRes> adminParkingDetails(@PathVariable Integer parkingId) {
+        return ResponseEntity.ok(parkingService.findAdminParkingDetails(parkingId));
+    }
+
+    // [관리자] 지점별 주차 내역 목록 조회
     @GetMapping("/admin/list")
     public ResponseEntity<List<GetParkingRes>> storeParkingList(@RequestParam String store,
                                                                 @RequestParam String date,
