@@ -2,9 +2,13 @@ package com.parkro.server.domain.member.controller;
 
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.service.MemberService;
+import com.parkro.server.domain.member.service.TokenBlacklistService;
+import com.parkro.server.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 /**
  * 회원
@@ -21,21 +25,41 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequiredArgsConstructor
+@Log4j2
 @RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final TokenBlacklistService tokenBlacklistService;
 
-    @GetMapping
-    public ResponseEntity<Integer> usernameDetails(@RequestParam("user") String username) {
-        return ResponseEntity.ok(memberService.findUsername(username));
+    @GetMapping()
+    public ResponseEntity<String> usernameDetails(@RequestParam("user") String username) {
+
+        memberService.findUsername(username);
+
+        return ResponseEntity.ok("사용 가능한 아이디 입니다.");
     }
+
     @PostMapping("/sign-up")
     public ResponseEntity<Integer> memberAdd(@RequestBody PostMemberReq postMemberReq){
+
         return ResponseEntity.ok(memberService.addMember(postMemberReq));
+
     }
+
     @DeleteMapping("/{username}")
-    public ResponseEntity<Integer> usernameRemove(@PathVariable String username){
+    public ResponseEntity<Integer> usernameRemove(@PathVariable String username) {
+
         return ResponseEntity.ok(memberService.deleteMember(username));
+
     }
+
+    @PostMapping("/sign-in")
+    public ResponseEntity memberDetails(@RequestBody PostMemberReq postMemberReq){
+
+        return ResponseEntity.ok("Access Token: " + "Bearer "+memberService.signInMember(postMemberReq));
+
+    }
+
 }

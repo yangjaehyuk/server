@@ -6,33 +6,73 @@ import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import com.parkro.server.util.JwtTokenProvider;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
+@Log4j2
+@Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
     private final MemberMapper memberMapper;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     @Override
-    public Integer findUsername(String username) {
+    public Optional<PostMemberReq> findUsername(String username) {
 
-        int cnt = memberMapper.selectUsername(username);
+        Optional<PostMemberReq> optionalPostMemberReq = memberMapper.selectUsername(username);
 
-        if(cnt >= 1){
+        if (optionalPostMemberReq.isPresent()) {
+
             throw new CustomException(ErrorCode.FIND_DUPLICATED_USERNAME);
+
+
+        } else {
+
+            return Optional.empty();
+
         }
-        return cnt;
     }
 
     @Override
     @Transactional
     public Integer addMember(PostMemberReq postMemberReq) {
-        return memberMapper.insertMember(postMemberReq);
+
+        String hashedPassword = passwordEncoder.encode(postMemberReq.getPassword());
+        PostMemberReq signUpMemberReq = PostMemberReq.builder().username(postMemberReq.getUsername()).password(hashedPassword).nickname(postMemberReq.getNickname()).phoneNumber(postMemberReq.getPhoneNumber()).carNumber(postMemberReq.getCarNumber()).build();
+        return memberMapper.insertMember(signUpMemberReq);
+
     }
 
-    
+    @Override
+    @Transactional
+    public String signInMember(PostMemberReq postMemberReq) {
+
+        Optional<PostMemberReq> memberOpt = memberMapper.selectUsername(postMemberReq.getUsername());
+
+        if (memberOpt.isPresent()) {
+
+            PostMemberReq member = memberOpt.get();
+
+            if (passwordEncoder.matches(postMemberReq.getPassword(), member.getPassword())) {
+                String token = jwtTokenProvider.createToken(member.getUsername(), Collections.singletonList(member.getRole()));
+                return token;
+            }
+        }
+
+        throw new CustomException(ErrorCode.FAIL_SIGN_IN);
+    }
+
+    @Override
     public GetMemberRes findMember(String username) {
         return memberMapper.selectUserByUsername(username);
     }
@@ -48,6 +88,7 @@ public class MemberServiceImpl implements MemberService {
 
         return cnt;
     }
+
 
     @Override
     @Transactional(readOnly=true)
