@@ -2,6 +2,7 @@ package com.parkro.server.domain.member.controller;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.SignInMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class MemberController {
     @DeleteMapping("/{username}")
     public ResponseEntity<Integer> usernameRemove(@PathVariable String username) {
 
-        return ResponseEntity.ok(memberService.deleteMember(username));
+        return ResponseEntity.ok(memberService.removeMember(username));
 
     }
 
@@ -73,6 +74,13 @@ public class MemberController {
     public ResponseEntity<GetMemberRes> memberDetails(@PathVariable String username) {
 
         return ResponseEntity.ok(memberService.findMember(username));
+
+    }
+
+    @PutMapping("/{username}")
+    public ResponseEntity<Integer> memberModify(@RequestBody PutMemberReq putMemberReq) {
+
+        return ResponseEntity.ok(memberService.modifyMemberDetails(putMemberReq));
 
     }
 

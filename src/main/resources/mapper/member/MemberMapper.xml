@@ -46,5 +46,15 @@
         WHERE car_number = #{carNumber} AND status = 'ACTIVE'
         ]]>
     </select>
+
+    <update id="updateUserDetails" parameterType="PutMemberReq">
+    <![CDATA[
+        UPDATE member
+        SET password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber}
+        WHERE username = #{username}
+        AND deleted_date IS NULL
+        AND status = 'ACTIVE'
+        ]]>
+</update>
     
 </mapper>

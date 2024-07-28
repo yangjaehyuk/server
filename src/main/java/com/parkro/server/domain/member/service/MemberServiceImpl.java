@@ -2,6 +2,7 @@ package com.parkro.server.domain.member.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.SignInMemberRes;
 import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.exception.CustomException;
@@ -77,7 +78,7 @@ public class MemberServiceImpl implements MemberService {
     }
   
     @Override
-    public Integer deleteMember(String username) {
+    public Integer removeMember(String username) {
 
         int cnt = memberMapper.deleteUser(username);
 
@@ -92,4 +93,27 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly=true)
     public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectUserByCarNumber(carNumber);}
+
+    @Override
+    public Integer modifyMemberDetails(PutMemberReq putMemberReq) {
+
+        String hashedPassword = passwordEncoder.encode(putMemberReq.getPassword());
+
+        PutMemberReq modifiedReq = PutMemberReq.builder()
+                .username(putMemberReq.getUsername())
+                .password(hashedPassword)
+                .nickname(putMemberReq.getNickname())
+                .phoneNumber(putMemberReq.getPhoneNumber())
+                .build();
+
+        int cnt = memberMapper.updateUserDetails(modifiedReq);
+
+        if (cnt == 0) {
+
+            throw new CustomException(ErrorCode.FAIL_MODIFY_USER_DETIALS);
+
+        }
+
+        return cnt;
+    }
 }
