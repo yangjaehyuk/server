@@ -15,7 +15,7 @@ public interface ParkingMapper {
 
   // parkingId로 주차 정보 조회
   GetParkingRes selectParkingByParkingId(Integer parkingId);
-  
+
   // 결제 취소 후 parking status 업데이트
   Integer updateParkingStatus(Integer parkingId);
   
@@ -39,4 +39,7 @@ public interface ParkingMapper {
   
     // [관리자] 지점별 주차 내역 목록 조회
     List<GetParkingRes> selectParkingListByStore(GetParkingReq req);
+
+    // [관리자] 결제 완료
+    Integer updateParkingOutById(Integer parkingId);
 }

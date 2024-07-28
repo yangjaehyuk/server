@@ -35,4 +35,6 @@ public interface ParkingService {
     // [관리자] 지점별 주차 내역 목록 조회
     List<GetParkingRes> findParkingListByStore(GetParkingReq req);
 
+    // [관리자] 결제 완료
+    Integer modifyParkingOutById(Integer parkingId);
 }
