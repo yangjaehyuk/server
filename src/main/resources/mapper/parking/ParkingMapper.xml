@@ -78,5 +78,32 @@
         FETCH FIRST 1 ROW ONLY
         ]]>
     </select>
-    
+
+    <!-- [관리자] 주차 내역 상세 조회 -->
+    <select id="selectAdminParkingDetails" resultType="GetParkingDetailRes" parameterType="Integer">
+        <![CDATA[
+        SELECT
+            p.car_number AS carNumber,
+            s.name AS storeName,
+            pl.name AS parkingLotName,
+            p.entrance_date AS entranceDate,
+            p.exit_date AS exitDate,
+            p.status AS parkingStatus,
+            py.payment_time AS paymentDate,
+            py.coupon_discount_time AS couponDiscountTime,
+            py.receipt_discount_time AS receiptDiscountTime,
+            py.total_parking_time AS totalParkingTime,
+            py.total_price AS totalPrice
+        FROM
+            parking p
+        INNER JOIN
+            parking_lot pl ON p.parking_lot_id = pl.parking_lot_id
+        INNER JOIN
+            store s ON pl.store_id = s.store_id
+        LEFT JOIN
+            payment py ON py.parking_id = p.parking_id AND py.status = 'COMPLETED'
+        WHERE
+            p.parking_id = #{parkingId}
+        ]]>
+    </select>
 </mapper>

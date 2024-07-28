@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.service;
 
+import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
 import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.domain.member.dto.GetMemberRes;
@@ -83,5 +84,11 @@ public class ParkingServiceImpl implements ParkingService {
             throw new CustomException(FIND_FAIL_PARKING_INFO);
         }
         return res;
+    }
+
+    // [관리자] 주차 내역 상세 조회
+    @Override
+    public GetParkingDetailRes findAdminParkingDetails(Integer parkingId) {
+        return parkingMapper.selectAdminParkingDetails(parkingId);
     }
 }

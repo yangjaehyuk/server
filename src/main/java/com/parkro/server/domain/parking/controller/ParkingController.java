@@ -1,7 +1,10 @@
 package com.parkro.server.domain.parking.controller;
 
+import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
+import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
@@ -57,4 +60,11 @@ public class ParkingController {
     public ResponseEntity<Integer> parkingOutModify(@RequestBody PatchParkingReq req) {
         return ResponseEntity.ok(parkingService.modifyParkingOut(req));
     }
+
+    // [관리자] 주차 내역 상세 조회
+    @GetMapping("/admin/detail/{parkingId}")
+    public ResponseEntity<GetParkingDetailRes> adminParkingDetails(@PathVariable Integer parkingId) {
+        return ResponseEntity.ok(parkingService.findAdminParkingDetails(parkingId));
+    }
+
 }

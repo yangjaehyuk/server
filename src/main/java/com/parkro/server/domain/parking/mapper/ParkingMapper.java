@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.mapper;
 
+import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
 import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
@@ -25,4 +26,7 @@ public interface ParkingMapper {
 
     // 주차 정산(전) 정보 조회
     List<GetParkingPayRes> selectParkingPay(Integer memberId);
+
+    // [관리자] 주차 내역 상세 조회
+    GetParkingDetailRes selectAdminParkingDetails(Integer parkingId);
 }
