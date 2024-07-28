@@ -84,6 +84,7 @@
         INNER JOIN
             store s ON pl.store_id = s.store_id
         WHERE py.parking_id = #{parking_id}
+          AND py.cancelled_date IS NULL
         ]]>
     </select>
 </mapper>
