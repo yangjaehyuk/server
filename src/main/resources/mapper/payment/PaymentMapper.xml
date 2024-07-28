@@ -59,13 +59,14 @@
         )
     </insert>
     
-    <select id="selectPaymentByParkingId">
+    <select id="selectPaymentByParkingId" resultType="GetPaymentRes" parameterType="Integer">
         <![CDATA[
         SELECT
             py.payment_id AS paymentId,
             py.parking_id AS parkingId,
             py.total_parking_time AS totalParkingTime,
-            py.discount_time AS discountTime,
+            py.coupon_discount_time AS couponDiscountTime,
+            py.receipt_discount_time AS receiptDiscountTime,
             py.card,
             py.payment_time AS paymentTime,
             pk.car_number AS carNumber,
