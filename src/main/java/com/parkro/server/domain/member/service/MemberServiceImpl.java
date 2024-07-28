@@ -2,6 +2,7 @@ package com.parkro.server.domain.member.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.SignInMemberRes;
 import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
@@ -55,17 +56,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public String signInMember(PostMemberReq postMemberReq) {
-
+    public SignInMemberRes signInMember(PostMemberReq postMemberReq) {
         Optional<PostMemberReq> memberOpt = memberMapper.selectUsername(postMemberReq.getUsername());
 
         if (memberOpt.isPresent()) {
-
             PostMemberReq member = memberOpt.get();
 
             if (passwordEncoder.matches(postMemberReq.getPassword(), member.getPassword())) {
                 String token = jwtTokenProvider.createToken(member.getUsername(), Collections.singletonList(member.getRole()));
-                return token;
+                return new SignInMemberRes(postMemberReq.getUsername(), token);
             }
         }
 

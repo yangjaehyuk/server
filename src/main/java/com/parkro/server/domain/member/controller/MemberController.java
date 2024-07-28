@@ -1,9 +1,9 @@
 package com.parkro.server.domain.member.controller;
 
+import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.SignInMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
-import com.parkro.server.domain.member.service.TokenBlacklistService;
-import com.parkro.server.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
@@ -32,8 +32,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TokenBlacklistService tokenBlacklistService;
 
     @GetMapping()
     public ResponseEntity<String> usernameDetails(@RequestParam("user") String username) {
@@ -44,7 +42,7 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Integer> memberAdd(@RequestBody PostMemberReq postMemberReq){
+    public ResponseEntity<Integer> memberSignUp(@RequestBody PostMemberReq postMemberReq){
 
         return ResponseEntity.ok(memberService.addMember(postMemberReq));
 
@@ -58,16 +56,23 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity memberDetails(@RequestBody PostMemberReq postMemberReq){
+    public ResponseEntity<String> memberSignIn(@RequestBody PostMemberReq postMemberReq) {
 
-        String token = memberService.signInMember(postMemberReq);
+        SignInMemberRes values = memberService.signInMember(postMemberReq);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + token);
+        httpHeaders.add("Authorization", "Bearer " + values.getToken());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(httpHeaders)
-                .body("로그인 성공");
+                .body(values.getUsername());
+    }
+
+
+    @GetMapping("/{username}")
+    public ResponseEntity<GetMemberRes> memberDetails(@PathVariable String username) {
+
+        return ResponseEntity.ok(memberService.findMember(username));
 
     }
 
