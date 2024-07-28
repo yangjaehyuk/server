@@ -6,6 +6,8 @@ import com.parkro.server.domain.member.service.TokenBlacklistService;
 import com.parkro.server.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +60,14 @@ public class MemberController {
     @PostMapping("/sign-in")
     public ResponseEntity memberDetails(@RequestBody PostMemberReq postMemberReq){
 
-        return ResponseEntity.ok("Access Token: " + "Bearer "+memberService.signInMember(postMemberReq));
+        String token = memberService.signInMember(postMemberReq);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + token);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .headers(httpHeaders)
+                .body("로그인 성공");
 
     }
 
