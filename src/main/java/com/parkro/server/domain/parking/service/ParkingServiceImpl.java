@@ -4,11 +4,9 @@ import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
-import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
-import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -98,5 +96,15 @@ public class ParkingServiceImpl implements ParkingService {
             throw new CustomException(FIND_FAIL_PARKING_LIST);
         }
         return res;
+    }
+
+    // 주차 내역 삭제
+    @Override
+    public Integer removeParking(Integer parkingId) {
+      int numRowsDeleted = parkingMapper.deleteParkingById(parkingId);
+      if (numRowsDeleted == 0) {
+        throw new CustomException(FAIL_DELETE_PARKING_);
+      }
+      return numRowsDeleted;
     }
 }

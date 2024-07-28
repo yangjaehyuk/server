@@ -95,7 +95,17 @@
                 INNER JOIN
             store s ON pl.store_id = s.store_id
         WHERE p.member_id = #{memberId}
+            AND deleted_date IS NULL
         ]]>
     </select>
+
+    <!-- 주차 내역 삭제 -->
+    <update id="deleteParkingById" parameterType="Integer">
+        <![CDATA[
+        UPDATE parking
+        SET deleted_date = CURRENT_TIMESTAMP
+        WHERE parking_id = #{parkingId}
+        ]]>
+    </update>
     
 </mapper>
