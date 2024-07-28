@@ -1,11 +1,16 @@
 package com.parkro.server.domain.member.controller;
 
+import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.PutMemberReq;
+import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
-import com.parkro.server.domain.member.service.TokenBlacklistService;
-import com.parkro.server.util.JwtTokenProvider;
+import com.parkro.server.exception.CustomException;
+import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +35,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TokenBlacklistService tokenBlacklistService;
 
     @GetMapping()
     public ResponseEntity<String> usernameDetails(@RequestParam("user") String username) {
@@ -42,7 +45,7 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Integer> memberAdd(@RequestBody PostMemberReq postMemberReq){
+    public ResponseEntity<Integer> memberSignUp(@RequestBody PostMemberReq postMemberReq){
 
         return ResponseEntity.ok(memberService.addMember(postMemberReq));
 
@@ -51,14 +54,39 @@ public class MemberController {
     @DeleteMapping("/{username}")
     public ResponseEntity<Integer> usernameRemove(@PathVariable String username) {
 
-        return ResponseEntity.ok(memberService.deleteMember(username));
+        return ResponseEntity.ok(memberService.removeMember(username));
 
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity memberDetails(@RequestBody PostMemberReq postMemberReq){
+    public ResponseEntity<String> memberSignIn(@RequestBody PostMemberReq postMemberReq) {
 
-        return ResponseEntity.ok("Access Token: " + "Bearer "+memberService.signInMember(postMemberReq));
+        PostMemberRes values = memberService.signInMember(postMemberReq);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + values.getToken());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .headers(httpHeaders)
+                .body(values.getUsername());
+    }
+
+
+    @GetMapping("/{username}")
+    public ResponseEntity<GetMemberRes> memberDetails(@PathVariable String username) {
+
+        return ResponseEntity.ok(memberService.findMember(username));
+
+    }
+
+    @PutMapping("/{username}")
+    public ResponseEntity memberModify(@PathVariable String username, @RequestBody PutMemberReq putMemberReq) {
+
+        if (!username.equals(putMemberReq.getUsername())) {
+            throw new CustomException(ErrorCode.FAIL_MODIFY_USER_DETIALS);
+        }
+
+        return ResponseEntity.ok(memberService.modifyMemberDetails(putMemberReq));
 
     }
 

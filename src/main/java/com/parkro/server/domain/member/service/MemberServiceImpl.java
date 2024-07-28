@@ -2,6 +2,8 @@ package com.parkro.server.domain.member.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.PutMemberReq;
+import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
@@ -27,9 +29,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public Optional<PostMemberReq> findUsername(String username) {
+    public void findUsername(String username) {
 
-        Optional<PostMemberReq> optionalPostMemberReq = memberMapper.selectUsername(username);
+        Optional<PostMemberReq> optionalPostMemberReq = memberMapper.selectMembername(username);
 
         if (optionalPostMemberReq.isPresent()) {
 
@@ -37,8 +39,6 @@ public class MemberServiceImpl implements MemberService {
 
 
         } else {
-
-            return Optional.empty();
 
         }
     }
@@ -55,17 +55,20 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public String signInMember(PostMemberReq postMemberReq) {
-
-        Optional<PostMemberReq> memberOpt = memberMapper.selectUsername(postMemberReq.getUsername());
+    public PostMemberRes signInMember(PostMemberReq postMemberReq) {
+        Optional<PostMemberReq> memberOpt = memberMapper.selectMembername(postMemberReq.getUsername());
 
         if (memberOpt.isPresent()) {
-
             PostMemberReq member = memberOpt.get();
 
             if (passwordEncoder.matches(postMemberReq.getPassword(), member.getPassword())) {
+
                 String token = jwtTokenProvider.createToken(member.getUsername(), Collections.singletonList(member.getRole()));
-                return token;
+
+                return PostMemberRes.builder()
+                        .username(postMemberReq.getUsername())
+                        .token(token)
+                        .build();
             }
         }
 
@@ -74,7 +77,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public GetMemberRes findMember(String username) {
-        GetMemberRes member = memberMapper.selectUserByUsername(username);
+      
+        GetMemberRes member = memberMapper.selectMemberByUsername(username);
+      
         if (member == null) {
             throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
         }
@@ -82,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
     }
   
     @Override
-    public Integer deleteMember(String username) {
+    public Integer removeMember(String username) {
 
         int cnt = memberMapper.deleteMember(username);
 
@@ -96,5 +101,28 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly=true)
-    public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectUserByCarNumber(carNumber);}
+    public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectMemberByCarNumber(carNumber);}
+
+    @Override
+    public PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq) {
+
+        String hashedPassword = passwordEncoder.encode(putMemberReq.getPassword());
+
+        PutMemberReq modifiedReq = PutMemberReq.builder()
+                .username(putMemberReq.getUsername())
+                .password(hashedPassword)
+                .nickname(putMemberReq.getNickname())
+                .phoneNumber(putMemberReq.getPhoneNumber())
+                .build();
+
+        int cnt = memberMapper.updateMemberDetails(modifiedReq);
+
+        if (cnt == 0) {
+
+            throw new CustomException(ErrorCode.FAIL_MODIFY_USER_DETIALS);
+
+        }
+
+        return putMemberReq;
+    }
 }

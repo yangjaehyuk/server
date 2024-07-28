@@ -1,5 +1,6 @@
 package com.parkro.server.util;
 
+import com.parkro.server.domain.member.service.TokenBlacklistService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,10 +32,11 @@ public class JwtTokenProvider {
     private long tokenValidMillisecond;
 
     private final UserDetailsService userDetailsService;
+    private final TokenBlacklistService tokenBlacklistService;
 
     @PostConstruct
     protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes()); // SecretKey Base64로 인코딩
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
     // JWT 토큰 생성
@@ -46,15 +48,14 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidMillisecond)) // 토큰 만료일 설정
-                .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화
+                .setExpiration(new Date(now.getTime() + tokenValidMillisecond))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserId(token));
-
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
@@ -70,36 +71,21 @@ public class JwtTokenProvider {
     // Request header에서 token 꺼내옴
     public String resolveToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-
-        // 가져온 Authorization Header 가 문자열이고, Bearer 로 시작해야 가져옴
         if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
             return token.substring(7);
         }
-
         return null;
-    }
-
-    // JWT 토큰 만료시키기
-    public String invalidateToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-
-        // 토큰을 현재 시간으로 만료시키기 위해 발급
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date()) // 만료 시간 현재로 설정
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
     }
 
     // JWT 토큰 유효성 체크
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            if (tokenBlacklistService.isTokenBlacklisted(token)) {
+                log.info("블랙리스트에 포함된 Jwt 토큰입니다");
+                return false;
+            }
 
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (SecurityException | MalformedJwtException | IllegalArgumentException exception) {
             log.info("잘못된 Jwt 토큰입니다");
