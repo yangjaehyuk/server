@@ -16,6 +16,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class PostMemberReq implements UserDetails {
 
+    private Integer memberId;
     @NotBlank(message = "아이디는 필수 입력 값입니다.")
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,12}$",
     message = "영문 숫자 포함 6 ~ 12자이어야 합니다.")

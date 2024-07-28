@@ -31,14 +31,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void findUsername(String username) {
 
-        Optional<PostMemberReq> optionalPostMemberReq = memberMapper.selectMembername(username);
+        Optional<PostMemberReq> optionalPostMemberReq = memberMapper.selectMemberName(username);
 
         if (optionalPostMemberReq.isPresent()) {
 
             throw new CustomException(ErrorCode.FIND_DUPLICATED_USERNAME);
 
-
-        } else {
 
         }
     }
@@ -46,17 +44,39 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Integer addMember(PostMemberReq postMemberReq) {
-
         String hashedPassword = passwordEncoder.encode(postMemberReq.getPassword());
-        PostMemberReq signUpMemberReq = PostMemberReq.builder().username(postMemberReq.getUsername()).password(hashedPassword).nickname(postMemberReq.getNickname()).phoneNumber(postMemberReq.getPhoneNumber()).carNumber(postMemberReq.getCarNumber()).build();
-        return memberMapper.insertMember(signUpMemberReq);
+
+        PostMemberReq signUpMemberReq = PostMemberReq.builder()
+                .memberId(postMemberReq.getMemberId())
+                .username(postMemberReq.getUsername())
+                .password(hashedPassword)
+                .nickname(postMemberReq.getNickname())
+                .phoneNumber(postMemberReq.getPhoneNumber())
+                .carNumber(postMemberReq.getCarNumber())
+                .build();
+
+        memberMapper.insertMember(signUpMemberReq);
+
+        return signUpMemberReq.getMemberId();
+
+    }
+
+    @Override
+    public void modifyMemberName(PostMemberReq postMemberReq) {
+        log.info("여기아이디"+postMemberReq.getMemberId());
+        if (postMemberReq.getMemberId() == null) {
+            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
+        }
+
+        PostMemberReq modifiedReq = PostMemberReq.builder().memberId(postMemberReq.getMemberId()).carNumber(postMemberReq.getCarNumber()).build();
+        memberMapper.updateMemberName(modifiedReq);
 
     }
 
     @Override
     @Transactional
     public PostMemberRes signInMember(PostMemberReq postMemberReq) {
-        Optional<PostMemberReq> memberOpt = memberMapper.selectMembername(postMemberReq.getUsername());
+        Optional<PostMemberReq> memberOpt = memberMapper.selectMemberName(postMemberReq.getUsername());
 
         if (memberOpt.isPresent()) {
             PostMemberReq member = memberOpt.get();
@@ -124,4 +144,5 @@ public class MemberServiceImpl implements MemberService {
 
         return putMemberReq;
     }
+
 }

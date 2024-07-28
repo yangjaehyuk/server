@@ -55,6 +55,7 @@ public class MemberController {
     @Validated
     public ResponseEntity memberSignUp(@Valid @RequestBody PostMemberReq postMemberReq, BindingResult bindingResult){
 
+
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getAllErrors()
                     .stream()
@@ -70,8 +71,13 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
         }
 
+        int memberId = memberService.addMember(postMemberReq);
 
-        return ResponseEntity.ok(memberService.addMember(postMemberReq));
+        postMemberReq.setMemberId(memberId);
+
+        memberService.modifyMemberName(postMemberReq);
+
+        return ResponseEntity.ok("회원 가입이 완료되었습니다.");
 
     }
 
