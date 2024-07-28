@@ -47,25 +47,23 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<Integer> memberAdd(@RequestBody PostMemberReq postMemberReq){
+
         return ResponseEntity.ok(memberService.addMember(postMemberReq));
+
     }
 
     @DeleteMapping("/{username}")
     public ResponseEntity<Integer> usernameRemove(@PathVariable String username) {
+
         return ResponseEntity.ok(memberService.deleteMember(username));
+
     }
 
     @PostMapping("/sign-in")
     public ResponseEntity memberDetails(@RequestBody PostMemberReq postMemberReq){
 
-        String token = memberService.signInMember(postMemberReq);
+        return ResponseEntity.ok("Access Token: " + "Bearer "+memberService.signInMember(postMemberReq));
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + token);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .headers(httpHeaders)
-                .body("로그인 성공");
     }
 
 }
