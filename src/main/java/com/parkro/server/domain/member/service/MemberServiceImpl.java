@@ -77,7 +77,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public GetMemberRes findMember(String username) {
-      
         GetMemberRes member = memberMapper.selectMemberByUsername(username);
       
         if (member == null) {

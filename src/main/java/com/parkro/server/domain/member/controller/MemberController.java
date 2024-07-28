@@ -12,7 +12,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -45,7 +52,24 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Integer> memberSignUp(@RequestBody PostMemberReq postMemberReq){
+    @Validated
+    public ResponseEntity memberSignUp(@Valid @RequestBody PostMemberReq postMemberReq, BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()) {
+            List<String> errorMessages = bindingResult.getAllErrors()
+                    .stream()
+                    .map(error -> {
+                        if (error instanceof FieldError) {
+                            return ((FieldError) error).getField() + ": " + error.getDefaultMessage();
+                        } else {
+                            return error.getDefaultMessage();
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
+        }
+
 
         return ResponseEntity.ok(memberService.addMember(postMemberReq));
 
@@ -80,11 +104,28 @@ public class MemberController {
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity memberModify(@PathVariable String username, @RequestBody PutMemberReq putMemberReq) {
+    @Validated
+    public ResponseEntity<?> memberModify(@PathVariable String username, @Valid @RequestBody PutMemberReq putMemberReq, BindingResult bindingResult) {
 
         if (!username.equals(putMemberReq.getUsername())) {
             throw new CustomException(ErrorCode.FAIL_MODIFY_USER_DETIALS);
         }
+
+        if (bindingResult.hasErrors()) {
+            List<String> errorMessages = bindingResult.getAllErrors()
+                    .stream()
+                    .map(error -> {
+                        if (error instanceof FieldError) {
+                            return ((FieldError) error).getField() + ": " + error.getDefaultMessage();
+                        } else {
+                            return error.getDefaultMessage();
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
+        }
+
 
         return ResponseEntity.ok(memberService.modifyMemberDetails(putMemberReq));
 
