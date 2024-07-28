@@ -1,9 +1,11 @@
 package com.parkro.server.domain.parking.mapper;
 
+import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
 import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
+import com.parkro.server.domain.parking.dto.GetParkingReq;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -25,4 +27,16 @@ public interface ParkingMapper {
 
     // 주차 정산(전) 정보 조회
     List<GetParkingPayRes> selectParkingPay(Integer memberId);
+
+    // 나의 주차 내역 목록 조회
+    List<GetParkingRes> selectParkingListByMemberId(Integer memberId);
+
+    // 주차 내역 삭제
+    Integer deleteParkingById(Integer parkingId);
+  
+    // [관리자] 주차 내역 상세 조회
+    GetParkingDetailRes selectAdminParkingDetails(Integer parkingId);
+  
+    // [관리자] 지점별 주차 내역 목록 조회
+    List<GetParkingRes> selectParkingListByStore(GetParkingReq req);
 }

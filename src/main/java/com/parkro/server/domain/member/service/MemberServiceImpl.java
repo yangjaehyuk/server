@@ -77,7 +77,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public GetMemberRes findMember(String username) {
+      
         GetMemberRes member = memberMapper.selectMemberByUsername(username);
+      
         if (member == null) {
             throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
         }
