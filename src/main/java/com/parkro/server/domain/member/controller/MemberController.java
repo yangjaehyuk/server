@@ -3,7 +3,7 @@ package com.parkro.server.domain.member.controller;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PutMemberReq;
-import com.parkro.server.domain.member.dto.SignInMemberRes;
+import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
@@ -61,7 +61,7 @@ public class MemberController {
     @PostMapping("/sign-in")
     public ResponseEntity<String> memberSignIn(@RequestBody PostMemberReq postMemberReq) {
 
-        SignInMemberRes values = memberService.signInMember(postMemberReq);
+        PostMemberRes values = memberService.signInMember(postMemberReq);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + values.getToken());
