@@ -66,11 +66,11 @@ public class MemberServiceImpl implements MemberService {
             if (passwordEncoder.matches(postMemberReq.getPassword(), member.getPassword())) {
 
                 String token = jwtTokenProvider.createToken(member.getUsername(), Collections.singletonList(member.getRole()));
-                PostMemberRes postMemberRes = PostMemberRes.builder()
+
+                return PostMemberRes.builder()
                         .username(postMemberReq.getUsername())
                         .token(token)
                         .build();
-                return postMemberRes;
             }
         }
 
