@@ -14,5 +14,5 @@ public interface MemberService {
     GetMemberRes findMember(String username);
     SignInMemberRes signInMember(PostMemberReq postMemberReq);
     GetMemberRes findMemberByCarNumber(String carNumber);
-    Integer modifyMemberDetails(PutMemberReq putMemberReq);
+    PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq);
 }

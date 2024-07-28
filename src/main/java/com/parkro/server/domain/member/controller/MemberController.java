@@ -5,6 +5,8 @@ import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.SignInMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
+import com.parkro.server.exception.CustomException;
+import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
@@ -78,7 +80,11 @@ public class MemberController {
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<Integer> memberModify(@RequestBody PutMemberReq putMemberReq) {
+    public ResponseEntity memberModify(@PathVariable String username, @RequestBody PutMemberReq putMemberReq) {
+
+        if (!username.equals(putMemberReq.getUsername())) {
+            throw new CustomException(ErrorCode.FAIL_MODIFY_USER_DETIALS);
+        }
 
         return ResponseEntity.ok(memberService.modifyMemberDetails(putMemberReq));
 

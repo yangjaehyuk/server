@@ -95,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
     public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectUserByCarNumber(carNumber);}
 
     @Override
-    public Integer modifyMemberDetails(PutMemberReq putMemberReq) {
+    public PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq) {
 
         String hashedPassword = passwordEncoder.encode(putMemberReq.getPassword());
 
@@ -114,6 +114,6 @@ public class MemberServiceImpl implements MemberService {
 
         }
 
-        return cnt;
+        return putMemberReq;
     }
 }
