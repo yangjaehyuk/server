@@ -29,9 +29,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public Optional<PostMemberReq> findUsername(String username) {
+    public void findUsername(String username) {
 
-        Optional<PostMemberReq> optionalPostMemberReq = memberMapper.selectUsername(username);
+        Optional<PostMemberReq> optionalPostMemberReq = memberMapper.selectMembername(username);
 
         if (optionalPostMemberReq.isPresent()) {
 
@@ -39,8 +39,6 @@ public class MemberServiceImpl implements MemberService {
 
 
         } else {
-
-            return Optional.empty();
 
         }
     }
@@ -51,14 +49,14 @@ public class MemberServiceImpl implements MemberService {
 
         String hashedPassword = passwordEncoder.encode(postMemberReq.getPassword());
         PostMemberReq signUpMemberReq = PostMemberReq.builder().username(postMemberReq.getUsername()).password(hashedPassword).nickname(postMemberReq.getNickname()).phoneNumber(postMemberReq.getPhoneNumber()).carNumber(postMemberReq.getCarNumber()).build();
-        return memberMapper.insertUser(signUpMemberReq);
+        return memberMapper.insertMember(signUpMemberReq);
 
     }
 
     @Override
     @Transactional
     public PostMemberRes signInMember(PostMemberReq postMemberReq) {
-        Optional<PostMemberReq> memberOpt = memberMapper.selectUsername(postMemberReq.getUsername());
+        Optional<PostMemberReq> memberOpt = memberMapper.selectMembername(postMemberReq.getUsername());
 
         if (memberOpt.isPresent()) {
             PostMemberReq member = memberOpt.get();
@@ -79,13 +77,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public GetMemberRes findMember(String username) {
-        return memberMapper.selectUserByUsername(username);
+        return memberMapper.selectMemberByUsername(username);
     }
   
     @Override
     public Integer removeMember(String username) {
 
-        int cnt = memberMapper.deleteUser(username);
+        int cnt = memberMapper.deleteMember(username);
 
         if(cnt == 0){
             throw new CustomException(ErrorCode.FAIL_WITHDRAW);
@@ -97,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly=true)
-    public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectUserByCarNumber(carNumber);}
+    public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectMemberByCarNumber(carNumber);}
 
     @Override
     public PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq) {
@@ -111,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
                 .phoneNumber(putMemberReq.getPhoneNumber())
                 .build();
 
-        int cnt = memberMapper.updateUserDetails(modifiedReq);
+        int cnt = memberMapper.updateMemberDetails(modifiedReq);
 
         if (cnt == 0) {
 
