@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.member.mapper.MemberMapper">
 
-    <select id="selectUsername" parameterType="String" resultType="com.parkro.server.domain.member.dto.PostMemberReq">
+    <select id="selectUsername" parameterType="String" resultType="PostMemberReq">
         <![CDATA[
         SELECT username, password, role
         FROM member
@@ -11,7 +11,7 @@
         ]]>
     </select>
 
-    <insert id="insertMember" parameterType="com.parkro.server.domain.member.dto.PostMemberReq">
+    <insert id="insertMember" parameterType="PostMemberReq">
     <![CDATA[
         INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, fcm_token, role)
         VALUES (member_seq.NEXTVAL, #{username}, #{password}, #{nickname}, #{phoneNumber},
