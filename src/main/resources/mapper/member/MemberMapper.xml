@@ -11,7 +11,7 @@
         ]]>
     </select>
 
-    <insert id="insertMember" parameterType="PostMemberReq">
+    <insert id="insertUser" parameterType="PostMemberReq">
     <![CDATA[
         INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, fcm_token, role)
         VALUES (member_seq.NEXTVAL, #{username}, #{password}, #{nickname}, #{phoneNumber},
@@ -20,7 +20,7 @@
         ]]>
     </insert>
 
-    <delete id="deleteMember" parameterType="String">
+    <delete id="deleteUser" parameterType="String">
     <![CDATA[
         UPDATE member
         SET deleted_date = CURRENT_TIMESTAMP,
@@ -46,5 +46,5 @@
         WHERE car_number = #{carNumber} AND status = 'ACTIVE'
         ]]>
     </select>
-
+    
 </mapper>

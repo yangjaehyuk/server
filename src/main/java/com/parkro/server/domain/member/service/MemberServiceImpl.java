@@ -50,7 +50,7 @@ public class MemberServiceImpl implements MemberService {
 
         String hashedPassword = passwordEncoder.encode(postMemberReq.getPassword());
         PostMemberReq signUpMemberReq = PostMemberReq.builder().username(postMemberReq.getUsername()).password(hashedPassword).nickname(postMemberReq.getNickname()).phoneNumber(postMemberReq.getPhoneNumber()).carNumber(postMemberReq.getCarNumber()).build();
-        return memberMapper.insertMember(signUpMemberReq);
+        return memberMapper.insertUser(signUpMemberReq);
 
     }
 
@@ -79,7 +79,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Integer deleteMember(String username) {
 
-        int cnt = memberMapper.deleteMember(username);
+        int cnt = memberMapper.deleteUser(username);
 
         if(cnt == 0){
             throw new CustomException(ErrorCode.FAIL_WITHDRAW);
