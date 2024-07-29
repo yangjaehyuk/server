@@ -16,6 +16,7 @@ import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -126,6 +127,16 @@ public class ParkingServiceImpl implements ParkingService {
     @Transactional(readOnly=true)
     public List<GetParkingRes> findParkingListByStore(GetParkingReq req) {
       return parkingMapper.selectParkingListByStore(req);
+    }
+
+    @Override
+    public Integer addMemberId(PostMemberReq postMemberReq) {
+        return parkingMapper.updateMemberId(postMemberReq);
+    }
+
+    @Override
+    public Integer removeMemberId(String carNumber) {
+        return parkingMapper.deleteMemberId(carNumber);
     }
 
 

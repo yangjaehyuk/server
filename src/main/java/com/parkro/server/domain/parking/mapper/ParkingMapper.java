@@ -41,7 +41,7 @@ public interface ParkingMapper {
     // [관리자] 지점별 주차 내역 목록 조회
     List<GetParkingRes> selectParkingListByStore(GetParkingReq req);
 
-    void updateMemberId(PostMemberReq postMemberIdReq);
+    Integer updateMemberId(PostMemberReq postMemberIdReq);
 
     Integer deleteMemberId(String carNumber);
 }

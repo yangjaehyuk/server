@@ -28,7 +28,7 @@
         ]]>
     </update>
 
-    <delete id="deleteMember" parameterType="String">
+    <update id="deleteMember" parameterType="String">
     <![CDATA[
         UPDATE member
         SET deleted_date = CURRENT_TIMESTAMP,
@@ -37,7 +37,7 @@
           AND deleted_date IS NULL
           AND status = 'ACTIVE'
         ]]>
-    </delete>
+    </update>
   
     <select id="selectMemberByUsername" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
@@ -65,7 +65,7 @@
         ]]>
 </update>
 
-    <delete id="deleteCarNumber" parameterType="String">
+    <update id="deleteCarNumber" parameterType="String">
         <![CDATA[
         UPDATE member
         SET car_number = NULL
@@ -73,6 +73,6 @@
           AND deleted_date IS NULL
           AND status = 'ACTIVE'
         ]]>
-    </delete>
+    </update>
 
 </mapper>

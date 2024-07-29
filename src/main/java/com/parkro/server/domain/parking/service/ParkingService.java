@@ -36,4 +36,7 @@ public interface ParkingService {
     // [관리자] 지점별 주차 내역 목록 조회
     List<GetParkingRes> findParkingListByStore(GetParkingReq req);
 
+    Integer addMemberId(PostMemberReq postMemberReq);
+
+    Integer removeMemberId(String carNumber);
 }

@@ -177,7 +177,7 @@
         <![CDATA[
         UPDATE parking
         SET member_id = NULL
-        WHERE car_number = #{carNumber,jdbcType=VARCHAR}
+        WHERE car_number = #{carNumber}
         ]]>
     </update>
 </mapper>
