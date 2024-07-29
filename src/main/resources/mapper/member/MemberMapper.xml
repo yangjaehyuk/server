@@ -20,17 +20,6 @@
         ]]>
 </insert>
 
-
-
-<!--    <update id="updateMemberId" parameterType="PostMemberReq">-->
-<!--    <![CDATA[-->
-<!--        UPDATE parking-->
-<!--        SET member_id = #{memberId}-->
-<!--        WHERE member_id IS NULL-->
-<!--          AND car_number = #{carNumber}-->
-<!--        ]]>-->
-<!--</update>-->
-
     <update id="updateCarNumber" parameterType="PostMemberReq">
         <![CDATA[
         UPDATE member
