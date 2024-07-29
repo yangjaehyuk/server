@@ -35,7 +35,10 @@ public class PostMemberReq implements UserDetails {
     @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?& ]{8,12}$",
     message = "영문 대소문자, 숫자, 특수문자 포함 8 ~ 12자이어야 합니다.")
+
+    @Setter
     private String password;
+    
     private String role;
 
     public String getCarNumber() {

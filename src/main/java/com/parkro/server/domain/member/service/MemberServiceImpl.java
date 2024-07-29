@@ -49,20 +49,13 @@ public class MemberServiceImpl implements MemberService {
     public Integer addMember(PostMemberReq postMemberReq) {
         String hashedPassword = passwordEncoder.encode(postMemberReq.getPassword());
 
-        PostMemberReq signUpMemberReq = PostMemberReq.builder()
-                .memberId(postMemberReq.getMemberId())
-                .username(postMemberReq.getUsername())
-                .password(hashedPassword)
-                .nickname(postMemberReq.getNickname())
-                .phoneNumber(postMemberReq.getPhoneNumber())
-                .carNumber(postMemberReq.getCarNumber())
-                .build();
+        postMemberReq.setPassword(hashedPassword);
 
-        memberMapper.insertMember(signUpMemberReq);
+        memberMapper.insertMember(postMemberReq);
 
-        parkingMapper.updateMemberId(signUpMemberReq);
+        parkingMapper.updateMemberId(postMemberReq);
 
-        return signUpMemberReq.getMemberId();
+        return postMemberReq.getMemberId();
 
     }
 
@@ -94,6 +87,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public GetMemberRes findMember(String username) {
+
         GetMemberRes member = memberMapper.selectMemberByUsername(username);
       
         if (member == null) {
@@ -124,14 +118,9 @@ public class MemberServiceImpl implements MemberService {
 
         String hashedPassword = passwordEncoder.encode(putMemberReq.getPassword());
 
-        PutMemberReq modifiedReq = PutMemberReq.builder()
-                .username(putMemberReq.getUsername())
-                .password(hashedPassword)
-                .nickname(putMemberReq.getNickname())
-                .phoneNumber(putMemberReq.getPhoneNumber())
-                .build();
+        putMemberReq.setPassword(hashedPassword);
 
-        int cnt = memberMapper.updateMemberDetails(modifiedReq);
+        int cnt = memberMapper.updateMemberDetails(putMemberReq);
 
         if (cnt == 0) {
 
@@ -145,11 +134,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Integer modifyCarNumber(PostMemberReq postMemberReq) {
 
-        PostMemberReq modifiedReq = PostMemberReq.builder()
-                .memberId(postMemberReq.getMemberId())
-                .carNumber(postMemberReq.getCarNumber()).build();
-
-        int cnt = memberMapper.updateCarNumber(modifiedReq);
+        int cnt = memberMapper.updateCarNumber(postMemberReq);
 
         if(cnt == 0){
 
@@ -159,7 +144,7 @@ public class MemberServiceImpl implements MemberService {
 
         parkingMapper.updateMemberId(postMemberReq);
 
-        return modifiedReq.getMemberId();
+        return postMemberReq.getMemberId();
     }
 
 }
