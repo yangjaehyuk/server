@@ -1,5 +1,6 @@
 package com.parkro.server.config.security;
 
+import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.domain.member.service.TokenBlacklistService;
 import com.parkro.server.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenBlacklistService tokenBlacklistService;
+    private final MemberMapper memberMapper;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -49,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/member/sign-out")
-                .logoutSuccessHandler(new CustomLogoutSuccessHandler(jwtTokenProvider, tokenBlacklistService))
+                .logoutSuccessHandler(new CustomLogoutSuccessHandler(jwtTokenProvider, tokenBlacklistService, memberMapper))
                 .and()
                 .addFilterBefore(new JwtFilter(jwtTokenProvider, tokenBlacklistService), UsernamePasswordAuthenticationFilter.class);
     }

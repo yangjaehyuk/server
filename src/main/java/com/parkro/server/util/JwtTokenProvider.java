@@ -68,6 +68,25 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
+    // JWT 토큰에서 sub 값을 추출하는 메서드
+    public String getSubject(String token) {
+        String[] parts = token.split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid JWT token");
+        }
+        String payload = new String(Base64.getUrlDecoder().decode(parts[1]));
+        return extractSubFromPayload(payload);
+    }
+
+    // Payload JSON 문자열에서 sub 값을 추출하는 메서드
+    private String extractSubFromPayload(String payload) {
+        String subKey = "\"sub\":\"";
+        int startIndex = payload.indexOf(subKey) + subKey.length();
+        int endIndex = payload.indexOf("\"", startIndex);
+        return payload.substring(startIndex, endIndex);
+    }
+
+
     // Request header에서 token 꺼내옴
     public String resolveToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
