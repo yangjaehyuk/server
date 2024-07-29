@@ -65,4 +65,14 @@
         ]]>
 </update>
 
+    <delete id="deleteCarNumber" parameterType="String">
+        <![CDATA[
+        UPDATE member
+        SET car_number = NULL
+        WHERE username = #{username}
+          AND deleted_date IS NULL
+          AND status = 'ACTIVE'
+        ]]>
+    </delete>
+
 </mapper>

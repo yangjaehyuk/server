@@ -147,4 +147,18 @@ public class MemberServiceImpl implements MemberService {
         return postMemberReq.getMemberId();
     }
 
+    @Override
+    public void removeCarNumber(String username) {
+
+        String carNumber = memberMapper.selectMemberByUsername(username).getCarNumber();
+        parkingMapper.deleteMemberId(carNumber);
+
+        if(carNumber == null){
+            throw new CustomException(ErrorCode.INVALID_CAR_STATUS);
+        }
+
+        memberMapper.deleteCarNumber(username);
+
+    }
+
 }

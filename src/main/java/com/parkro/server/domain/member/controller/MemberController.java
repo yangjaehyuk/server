@@ -144,4 +144,10 @@ public class MemberController {
         return ResponseEntity.ok("차량 번호 등록이 완료 되었습니다.");
     }
 
+    @PatchMapping("/{username}/car")
+    public ResponseEntity<String> carNumberRemove(@PathVariable String username){
+        memberService.removeCarNumber(username);
+        return ResponseEntity.ok("차량이 삭제 되었습니다.");
+    }
+
 }
