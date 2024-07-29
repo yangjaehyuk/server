@@ -88,4 +88,15 @@
           AND py.cancelled_date IS NULL
         ]]>
     </select>
+  
+    <update id="updateCancelledDate" parameterType="Integer">
+        <![CDATA[
+            UPDATE payment
+            SET
+            cancelled_date = CURRENT_TIMESTAMP,
+            status = 'CANCELLED'
+            WHERE payment_id = #{paymentId}
+        ]]>
+    </update>
+  
 </mapper>
