@@ -19,7 +19,8 @@ public class GetPaymentRes {
   private Integer paymentId;
   private Integer parkingId;
   private Integer totalParkingTime;
-  private Integer discountTime;
+  private Integer receiptDiscountTime;
+  private Integer couponDiscountTime;
   private String card;
 
   @JsonSerialize(using = KSTDateSerializer.class)

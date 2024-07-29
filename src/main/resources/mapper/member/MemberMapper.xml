@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.member.mapper.MemberMapper">
 
-    <select id="selectUsername" parameterType="String" resultType="PostMemberReq">
+    <select id="selectMemberName" parameterType="String" resultType="PostMemberReq">
         <![CDATA[
         SELECT username, password, role
         FROM member
@@ -11,14 +11,22 @@
         ]]>
     </select>
 
-    <insert id="insertMember" parameterType="PostMemberReq">
+    <insert id="insertMember" parameterType="PostMemberReq" useGeneratedKeys="true" keyProperty="memberId" keyColumn="member_id">
     <![CDATA[
         INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, fcm_token, role)
         VALUES (member_seq.NEXTVAL, #{username}, #{password}, #{nickname}, #{phoneNumber},
                 #{carNumber,jdbcType=VARCHAR},
                 1, '1234', 'ROLE_USER')
         ]]>
-    </insert>
+</insert>
+
+    <update id="updateCarNumber" parameterType="PostMemberReq">
+        <![CDATA[
+        UPDATE member
+        SET car_number = #{carNumber}
+        WHERE car_number IS NULL AND status = 'ACTIVE' AND member_id = #{memberId}
+        ]]>
+    </update>
 
     <delete id="deleteMember" parameterType="String">
     <![CDATA[
@@ -31,7 +39,7 @@
         ]]>
     </delete>
   
-    <select id="selectUserByUsername" parameterType="String" resultType="GetMemberRes">
+    <select id="selectMemberByUsername" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
             SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcm_token
             FROM member
@@ -39,12 +47,22 @@
         ]]>
     </select>
 
-    <select id="selectUserByCarNumber" parameterType="String" resultType="GetMemberRes">
+    <select id="selectMemberByCarNumber" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
         SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcm_token
         FROM member
         WHERE car_number = #{carNumber} AND status = 'ACTIVE'
         ]]>
     </select>
+
+    <update id="updateMemberDetails" parameterType="PutMemberReq">
+    <![CDATA[
+        UPDATE member
+        SET password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber}
+        WHERE username = #{username}
+        AND deleted_date IS NULL
+        AND status = 'ACTIVE'
+        ]]>
+</update>
 
 </mapper>

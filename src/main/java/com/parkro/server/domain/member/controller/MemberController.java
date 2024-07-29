@@ -1,13 +1,26 @@
 package com.parkro.server.domain.member.controller;
 
+import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.PostSignInRes;
+import com.parkro.server.domain.member.dto.PutMemberReq;
+import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
-import com.parkro.server.domain.member.service.TokenBlacklistService;
-import com.parkro.server.util.JwtTokenProvider;
+import com.parkro.server.exception.CustomException;
+import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
@@ -30,8 +43,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TokenBlacklistService tokenBlacklistService;
 
     @GetMapping()
     public ResponseEntity<String> usernameDetails(@RequestParam("user") String username) {
@@ -42,24 +53,95 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Integer> memberAdd(@RequestBody PostMemberReq postMemberReq){
+    @Validated
+    public ResponseEntity memberSignUp(@Valid @RequestBody PostMemberReq postMemberReq, BindingResult bindingResult){
 
-        return ResponseEntity.ok(memberService.addMember(postMemberReq));
+        if (bindingResult.hasErrors()) {
+
+            Map<String, String> errorMessages = new LinkedHashMap<>();
+
+            bindingResult.getAllErrors().forEach(error -> {
+                if (error instanceof FieldError) {
+                    String field = ((FieldError) error).getField();
+                    String message = error.getDefaultMessage();
+                    errorMessages.put(field, message);
+                } else {
+                    errorMessages.put("error", error.getDefaultMessage());
+                }
+            });
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
+        }
+
+        memberService.addMember(postMemberReq);
+
+        return ResponseEntity.ok("회원 가입이 완료되었습니다.");
 
     }
 
     @DeleteMapping("/{username}")
     public ResponseEntity<Integer> usernameRemove(@PathVariable String username) {
 
-        return ResponseEntity.ok(memberService.deleteMember(username));
+        return ResponseEntity.ok(memberService.removeMember(username));
 
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity memberDetails(@RequestBody PostMemberReq postMemberReq){
+    public ResponseEntity<PostSignInRes> memberSignIn(@RequestBody PostMemberReq postMemberReq) {
+        PostMemberRes postMemberRes = memberService.signInMember(postMemberReq);
 
-        return ResponseEntity.ok("Access Token: " + "Bearer "+memberService.signInMember(postMemberReq));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + postMemberRes.getToken());
 
+        return ResponseEntity.status(HttpStatus.OK)
+                .headers(httpHeaders)
+                .body(postMemberRes.getPostSignInRes());
+    }
+
+
+    @GetMapping("/{username}")
+    public ResponseEntity<GetMemberRes> memberDetails(@PathVariable String username) {
+
+        return ResponseEntity.ok(memberService.findMember(username));
+
+    }
+
+    @PutMapping("/{username}")
+    @Validated
+    public ResponseEntity memberModify(@PathVariable String username, @Valid @RequestBody PutMemberReq putMemberReq, BindingResult bindingResult) {
+
+        if (!username.equals(putMemberReq.getUsername())) {
+            throw new CustomException(ErrorCode.FAIL_MODIFY_USER_DETIALS);
+        }
+
+        if (bindingResult.hasErrors()) {
+
+            Map<String, String> errorMessages = new LinkedHashMap<>();
+
+            bindingResult.getAllErrors().forEach(error -> {
+                if (error instanceof FieldError) {
+                    String field = ((FieldError) error).getField();
+                    String message = error.getDefaultMessage();
+                    errorMessages.put(field, message);
+                } else {
+                    errorMessages.put("error", error.getDefaultMessage());
+                }
+            });
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
+        }
+
+
+        return ResponseEntity.ok(memberService.modifyMemberDetails(putMemberReq));
+
+    }
+
+    @PatchMapping("/car")
+    public ResponseEntity<String> carNumberModify(@RequestBody PostMemberReq postMemberReq) {
+
+        memberService.modifyCarNumber(postMemberReq);
+
+        return ResponseEntity.ok("차량 번호 등록이 완료 되었습니다.");
     }
 
 }

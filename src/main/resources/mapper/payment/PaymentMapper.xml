@@ -58,6 +58,37 @@
         DEFAULT
         )
     </insert>
+    
+    <select id="selectPaymentByParkingId" resultType="GetPaymentRes" parameterType="Integer">
+        <![CDATA[
+        SELECT
+            py.payment_id AS paymentId,
+            py.parking_id AS parkingId,
+            py.total_parking_time AS totalParkingTime,
+            py.coupon_discount_time AS couponDiscountTime,
+            py.receipt_discount_time AS receiptDiscountTime,
+            py.card,
+            py.payment_time AS paymentTime,
+            pk.car_number AS carNumber,
+            pk.entrance_date AS entranceDate,
+            pk.exit_date AS exitDate,
+            pk.status AS parkingStatus,
+            pl.parking_lot_id AS parkingLotId,
+            pl.store_id AS storeId,
+            pl.name AS parkingLotName,
+            s.name AS storeName
+        FROM payment py
+        INNER JOIN
+            parking pk ON py.parking_id = pk.parking_id
+        INNER JOIN
+            parking_lot pl ON pk.parking_lot_id = pl.parking_lot_id
+        INNER JOIN
+            store s ON pl.store_id = s.store_id
+        WHERE py.parking_id = #{parking_id}
+          AND py.cancelled_date IS NULL
+        ]]>
+    </select>
+  
     <update id="updateCancelledDate" parameterType="Integer">
         <![CDATA[
             UPDATE payment
@@ -67,4 +98,5 @@
             WHERE payment_id = #{paymentId}
         ]]>
     </update>
+  
 </mapper>

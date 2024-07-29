@@ -10,6 +10,7 @@ public enum ErrorCode {
     FIND_FAIL_USER_ID(400, "존재하지 않는 유저입니다."),
     FAIL_SIGN_IN(400, "로그인에 실패했습니다."),
     INVALID_PAYMENT_CANCELLATION(400, "결제하지 않은 차량입니다."),
+    FAIL_MODIFY_USER_DETIALS(400, "누락 되거나 유효성 검사를 통과 하지 못한 항목이 있습니다."),
 
     /* 404 */
     FAIL_WITHDRAW(404, "회원 탈퇴에 실패했습니다."),
@@ -21,6 +22,7 @@ public enum ErrorCode {
     INVALID_PARKING_STATUS(409, "정산되지 않거나, 이미 출차한 차량입니다."),
     FIND_FAIL_PARKING_INFO(409, "현재 주차된 차량이 없습니다."),
     FIND_FAIL_PARKING_LIST(409, "주차 내역이 없습니다."),
+    FIND_DUPLICATED_CARNUMBER(409,"이미 차량이 등록되었거나 중복된 차량이 있습니다."),
 
     /* 500 */
     DATABASE_ERROR(500, "데이터베이스 오류가 발생했습니다."),
