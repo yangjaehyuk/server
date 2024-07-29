@@ -129,15 +129,4 @@ public class ParkingServiceImpl implements ParkingService {
       return parkingMapper.selectParkingListByStore(req);
     }
 
-    @Override
-    public Integer addMemberId(PostMemberReq postMemberReq) {
-        return parkingMapper.updateMemberId(postMemberReq);
-    }
-
-    @Override
-    public Integer removeMemberId(String carNumber) {
-        return parkingMapper.deleteMemberId(carNumber);
-    }
-
-
 }

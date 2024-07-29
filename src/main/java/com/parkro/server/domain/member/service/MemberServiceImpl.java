@@ -8,7 +8,6 @@ import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.domain.parking.service.ParkingService;
-import com.parkro.server.domain.parking.service.ParkingServiceImpl;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,6 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final ParkingMapper parkingMapper;
-    private final ParkingService parkingService;
 
     @Transactional
     @Override
@@ -146,8 +144,7 @@ public class MemberServiceImpl implements MemberService {
 
         }
 
-//        parkingMapper.updateMemberId(postMemberReq);
-        parkingService.addMemberId(postMemberReq);
+        parkingMapper.updateMemberId(postMemberReq);
 
         return postMemberReq.getMemberId();
     }
@@ -157,12 +154,12 @@ public class MemberServiceImpl implements MemberService {
     public void removeCarNumber(String username) {
 
         String carNumber = memberMapper.selectMemberByUsername(username).getCarNumber();
-//        parkingMapper.deleteMemberId(carNumber);
-        parkingService.removeMemberId(carNumber);
 
         if(carNumber == null){
             throw new CustomException(ErrorCode.INVALID_CAR_STATUS);
         }
+
+        parkingMapper.deleteMemberId(carNumber);
 
         memberMapper.deleteCarNumber(username);
 
