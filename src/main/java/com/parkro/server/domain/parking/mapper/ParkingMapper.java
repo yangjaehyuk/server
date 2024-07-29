@@ -46,4 +46,5 @@ public interface ParkingMapper {
   
     void updateMemberId(PostMemberReq postMemberIdReq);
 
+    void deleteMemberId(String carNumber);
 }
