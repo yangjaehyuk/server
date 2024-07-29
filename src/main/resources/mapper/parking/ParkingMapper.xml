@@ -180,6 +180,15 @@
         WHERE member_id IS NULL
           AND car_number = #{carNumber}
         ]]>
+</update>
+
+    <!-- parking 내 memberId null로 변경 -->
+    <update id="deleteMemberId" parameterType="String">
+        <![CDATA[
+        UPDATE parking
+        SET member_id = NULL
+        WHERE car_number = #{carNumber}
+        ]]>
     </update>
 
 </mapper>

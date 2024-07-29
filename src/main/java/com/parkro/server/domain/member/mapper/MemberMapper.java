@@ -16,4 +16,5 @@ public interface MemberMapper {
     GetMemberRes selectMemberByCarNumber(String carNumber);
     Integer updateMemberDetails(PutMemberReq putMemberReq);
     Integer updateCarNumber(PostMemberReq postMemberReq);
+    void deleteCarNumber(String username);
 }
