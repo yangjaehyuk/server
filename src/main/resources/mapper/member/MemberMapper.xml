@@ -68,6 +68,15 @@
         ]]>
 </update>
 
+    <update id="updateCarNumber" parameterType="PostCarNumberReq">
+        <![CDATA[
+        UPDATE member
+        SET car_number = #{carNumber}
+        WHERE car_number IS NULL AND status = 'ACTIVE' AND username = #{username}
+        ]]>
+    </update>
+
+
 
 
 </mapper>

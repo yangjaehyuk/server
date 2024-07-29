@@ -1,6 +1,7 @@
 package com.parkro.server.domain.member.controller;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
+import com.parkro.server.domain.member.dto.PostCarNumberReq;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
@@ -135,6 +136,11 @@ public class MemberController {
 
         return ResponseEntity.ok(memberService.modifyMemberDetails(putMemberReq));
 
+    }
+
+    @PostMapping("/car")
+    public ResponseEntity<Integer> carNumberModify(@RequestBody PostCarNumberReq postCarNumberReq) {
+        return ResponseEntity.ok(memberService.modifyCarNumber(postCarNumberReq));
     }
 
 }
