@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.service;
 
+import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
 import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
@@ -34,5 +35,8 @@ public interface ParkingService {
   
     // [관리자] 지점별 주차 내역 목록 조회
     List<GetParkingRes> findParkingListByStore(GetParkingReq req);
+
+    void modifyMemberId(PostMemberReq postMemberReq);
+
 
 }

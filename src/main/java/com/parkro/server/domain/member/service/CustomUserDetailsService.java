@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return memberMapper.selectMembername(String.valueOf(username))
+        return memberMapper.selectMemberName(String.valueOf(username))
                 .map(this::addAuthorities)
                 .orElseThrow(() -> new CustomException(ErrorCode.FIND_FAIL_USER_ID));
     }

@@ -7,6 +7,6 @@ import lombok.*;
 @Builder
 @Getter
 public class PostMemberRes {
-    private String username;
+    private PostSignInRes postSignInRes;
     private String token;
 }
