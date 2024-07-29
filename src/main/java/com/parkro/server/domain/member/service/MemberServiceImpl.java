@@ -1,7 +1,6 @@
 package com.parkro.server.domain.member.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
-import com.parkro.server.domain.member.dto.PostCarNumberReq;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
@@ -68,10 +67,17 @@ public class MemberServiceImpl implements MemberService {
             throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
         }
 
-        PostMemberReq modifiedReq = PostMemberReq.builder().memberId(postMemberReq.getMemberId()).carNumber(postMemberReq.getCarNumber()).build();
-        memberMapper.updateMemberName(modifiedReq);
+        if (postMemberReq.getCarNumber() == null) {
+            return;
+        }
 
+        PostMemberReq modifiedReq = PostMemberReq.builder()
+                .memberId(postMemberReq.getMemberId())
+                .carNumber(postMemberReq.getCarNumber())
+                .build();
+        memberMapper.updateMemberName(modifiedReq);
     }
+
 
     @Override
     @Transactional
@@ -146,15 +152,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Integer modifyCarNumber(PostCarNumberReq postCarNumberReq) {
+    public Integer modifyCarNumber(PostMemberReq postMemberReq) {
 
-        int cnt = memberMapper.updateCarNumber(postCarNumberReq);
+        PostMemberReq modifiedReq = PostMemberReq.builder()
+                .memberId(postMemberReq.getMemberId())
+                .carNumber(postMemberReq.getCarNumber()).build();
+        int cnt = memberMapper.updateCarNumber(modifiedReq);
 
         if(cnt == 0){
             throw new CustomException(ErrorCode.FIND_DUPLICATED_CARNUMBER);
         }
 
-        return cnt;
+        return modifiedReq.getMemberId();
     }
 
 }

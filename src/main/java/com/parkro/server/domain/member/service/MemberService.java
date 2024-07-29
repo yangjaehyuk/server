@@ -1,7 +1,6 @@
 package com.parkro.server.domain.member.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
-import com.parkro.server.domain.member.dto.PostCarNumberReq;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
@@ -15,5 +14,5 @@ public interface MemberService {
     GetMemberRes findMemberByCarNumber(String carNumber);
     PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq);
     void modifyMemberName(PostMemberReq postMemberReq);
-    Integer modifyCarNumber(PostCarNumberReq postCarNumberReq);
+    Integer modifyCarNumber(PostMemberReq postMemberReq);
 }

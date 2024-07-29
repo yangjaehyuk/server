@@ -1,7 +1,6 @@
 package com.parkro.server.domain.member.mapper;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
-import com.parkro.server.domain.member.dto.PostCarNumberReq;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,5 +16,5 @@ public interface MemberMapper {
     GetMemberRes selectMemberByCarNumber(String carNumber);
     Integer updateMemberDetails(PutMemberReq putMemberReq);
     void updateMemberName(PostMemberReq postMemberIdReq);
-    Integer updateCarNumber(PostCarNumberReq postCarNumberReq);
+    Integer updateCarNumber(PostMemberReq postMemberReq);
 }

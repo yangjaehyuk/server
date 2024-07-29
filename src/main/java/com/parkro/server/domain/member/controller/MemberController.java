@@ -1,7 +1,6 @@
 package com.parkro.server.domain.member.controller;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
-import com.parkro.server.domain.member.dto.PostCarNumberReq;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
@@ -54,7 +53,7 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     @Validated
-    public ResponseEntity memberSignUp(@Valid @RequestBody PostMemberReq postMemberReq, BindingResult bindingResult){
+    public ResponseEntity<String> memberSignUp(@Valid @RequestBody PostMemberReq postMemberReq, BindingResult bindingResult){
 
 
         if (bindingResult.hasErrors()) {
@@ -69,7 +68,7 @@ public class MemberController {
                     })
                     .collect(Collectors.toList());
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages.toString());
         }
 
         int memberId = memberService.addMember(postMemberReq);
@@ -139,8 +138,15 @@ public class MemberController {
     }
 
     @PostMapping("/car")
-    public ResponseEntity<Integer> carNumberModify(@RequestBody PostCarNumberReq postCarNumberReq) {
-        return ResponseEntity.ok(memberService.modifyCarNumber(postCarNumberReq));
+    public ResponseEntity<String> carNumberModify(@RequestBody PostMemberReq postMemberReq) {
+
+        int memberId = memberService.modifyCarNumber(postMemberReq);
+
+        postMemberReq.setMemberId(memberId);
+
+        memberService.modifyMemberName(postMemberReq);
+
+        return ResponseEntity.ok("회원 가입이 완료되었습니다.");
     }
 
 }
