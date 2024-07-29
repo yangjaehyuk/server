@@ -41,7 +41,7 @@
   
     <select id="selectMemberByUsername" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
-            SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcm_token
+            SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcmToken
             FROM member
             where username = #{username} AND status = 'ACTIVE'
         ]]>
@@ -49,7 +49,7 @@
 
     <select id="selectMemberByCarNumber" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
-        SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcm_token
+        SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcmToken
         FROM member
         WHERE car_number = #{carNumber} AND status = 'ACTIVE'
         ]]>
