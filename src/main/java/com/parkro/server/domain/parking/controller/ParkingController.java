@@ -75,7 +75,7 @@ public class ParkingController {
 
     // [관리자] 지점별 주차 내역 목록 조회
     @GetMapping("/admin/parking/list")
-    public ResponseEntity<List<GetParkingRes>> storeParkingList(@RequestParam String store,
+    public ResponseEntity<List<GetParkingRes>> adminParkingList(@RequestParam String store,
                                                                 @RequestParam String date,
                                                                 @RequestParam(required = false) String car,
                                                                 @RequestParam Integer page) {
@@ -87,6 +87,12 @@ public class ParkingController {
                 .page(page)
                 .pageSize(PAGE_SIZE).build();
         return ResponseEntity.ok(parkingService.findParkingListByStore(req));
+    }
+
+    // [관리자] 결제 완료
+    @PatchMapping("/admin/parking/out/{parkingId}")
+    public ResponseEntity<Integer> adminParkingOutModify(@PathVariable Integer parkingId) {
+        return ResponseEntity.ok(parkingService.modifyParkingOutById(parkingId));
     }
 
 }
