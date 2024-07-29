@@ -5,9 +5,13 @@ import com.parkro.server.domain.payment.dto.GetPaymentRes;
 import com.parkro.server.domain.payment.dto.PostPaymentReq;
 import com.parkro.server.domain.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -27,6 +31,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/payment")
+@Log4j2
 public class PaymentController {
 
   private final PaymentService paymentService;
@@ -44,5 +49,20 @@ public class PaymentController {
   @GetMapping
   public ResponseEntity<GetPaymentRes> paymentDetails(@RequestParam("parking") Integer parkingId) {
     return ResponseEntity.ok(paymentService.findPaymentByParkingId(parkingId));
+  }
+
+  @GetMapping("/success")
+  public ResponseEntity<String> paymentSuccess(@RequestParam String paymentKey, @RequestParam String orderId, @RequestParam String amount) {
+
+    // 결제 승인 API 호출
+    log.info("[Payment success] paymentKey: {}, orderId: {}, amount: {}", paymentKey, orderId, amount);
+
+    // 여기서 결제 승인 로직을 처리 및 결제 내역을 저장
+
+    HttpHeaders headers = new HttpHeaders();
+
+    // 안드로이드로 리다이렉트
+    headers.setLocation(URI.create("parkro://payment/success?orderId=" + orderId + "&amount=" + amount));
+    return new ResponseEntity<>(headers, HttpStatus.FOUND);
   }
 }
