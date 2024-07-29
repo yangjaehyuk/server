@@ -2,6 +2,7 @@ package com.parkro.server.domain.member.controller;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.PostSignInRes;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
@@ -18,8 +19,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
@@ -53,29 +54,26 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     @Validated
-    public ResponseEntity<String> memberSignUp(@Valid @RequestBody PostMemberReq postMemberReq, BindingResult bindingResult){
-
+    public ResponseEntity memberSignUp(@Valid @RequestBody PostMemberReq postMemberReq, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
-            List<String> errorMessages = bindingResult.getAllErrors()
-                    .stream()
-                    .map(error -> {
-                        if (error instanceof FieldError) {
-                            return ((FieldError) error).getField() + ": " + error.getDefaultMessage();
-                        } else {
-                            return error.getDefaultMessage();
-                        }
-                    })
-                    .collect(Collectors.toList());
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages.toString());
+            Map<String, String> errorMessages = new LinkedHashMap<>();
+
+            bindingResult.getAllErrors().forEach(error -> {
+                if (error instanceof FieldError) {
+                    String field = ((FieldError) error).getField();
+                    String message = error.getDefaultMessage();
+                    errorMessages.put(field, message);
+                } else {
+                    errorMessages.put("error", error.getDefaultMessage());
+                }
+            });
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
         }
 
-        int memberId = memberService.addMember(postMemberReq);
-
-        postMemberReq.setMemberId(memberId);
-
-        memberService.modifyMemberName(postMemberReq);
+        memberService.addMember(postMemberReq);
 
         return ResponseEntity.ok("회원 가입이 완료되었습니다.");
 
@@ -89,16 +87,15 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<String> memberSignIn(@RequestBody PostMemberReq postMemberReq) {
-
-        PostMemberRes values = memberService.signInMember(postMemberReq);
+    public ResponseEntity<PostSignInRes> memberSignIn(@RequestBody PostMemberReq postMemberReq) {
+        PostMemberRes postMemberRes = memberService.signInMember(postMemberReq);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + values.getToken());
+        httpHeaders.add("Authorization", "Bearer " + postMemberRes.getToken());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(httpHeaders)
-                .body(values.getUsername());
+                .body(postMemberRes.getPostSignInRes());
     }
 
 
@@ -111,23 +108,25 @@ public class MemberController {
 
     @PutMapping("/{username}")
     @Validated
-    public ResponseEntity<?> memberModify(@PathVariable String username, @Valid @RequestBody PutMemberReq putMemberReq, BindingResult bindingResult) {
+    public ResponseEntity memberModify(@PathVariable String username, @Valid @RequestBody PutMemberReq putMemberReq, BindingResult bindingResult) {
 
         if (!username.equals(putMemberReq.getUsername())) {
             throw new CustomException(ErrorCode.FAIL_MODIFY_USER_DETIALS);
         }
 
         if (bindingResult.hasErrors()) {
-            List<String> errorMessages = bindingResult.getAllErrors()
-                    .stream()
-                    .map(error -> {
-                        if (error instanceof FieldError) {
-                            return ((FieldError) error).getField() + ": " + error.getDefaultMessage();
-                        } else {
-                            return error.getDefaultMessage();
-                        }
-                    })
-                    .collect(Collectors.toList());
+
+            Map<String, String> errorMessages = new LinkedHashMap<>();
+
+            bindingResult.getAllErrors().forEach(error -> {
+                if (error instanceof FieldError) {
+                    String field = ((FieldError) error).getField();
+                    String message = error.getDefaultMessage();
+                    errorMessages.put(field, message);
+                } else {
+                    errorMessages.put("error", error.getDefaultMessage());
+                }
+            });
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
         }
@@ -137,16 +136,12 @@ public class MemberController {
 
     }
 
-    @PostMapping("/car")
+    @PatchMapping("/car")
     public ResponseEntity<String> carNumberModify(@RequestBody PostMemberReq postMemberReq) {
 
-        int memberId = memberService.modifyCarNumber(postMemberReq);
+        memberService.modifyCarNumber(postMemberReq);
 
-        postMemberReq.setMemberId(memberId);
-
-        memberService.modifyMemberName(postMemberReq);
-
-        return ResponseEntity.ok("회원 가입이 완료되었습니다.");
+        return ResponseEntity.ok("차량 번호 등록이 완료 되었습니다.");
     }
 
 }

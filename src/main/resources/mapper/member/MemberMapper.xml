@@ -22,14 +22,22 @@
 
 
 
-    <update id="updateMemberName" parameterType="PostMemberReq">
-    <![CDATA[
-        UPDATE parking
-        SET member_id = #{memberId}
-        WHERE member_id IS NULL
-          AND car_number = #{carNumber}
+<!--    <update id="updateMemberId" parameterType="PostMemberReq">-->
+<!--    <![CDATA[-->
+<!--        UPDATE parking-->
+<!--        SET member_id = #{memberId}-->
+<!--        WHERE member_id IS NULL-->
+<!--          AND car_number = #{carNumber}-->
+<!--        ]]>-->
+<!--</update>-->
+
+    <update id="updateCarNumber" parameterType="PostMemberReq">
+        <![CDATA[
+        UPDATE member
+        SET car_number = #{carNumber}
+        WHERE car_number IS NULL AND status = 'ACTIVE' AND member_id = #{memberId}
         ]]>
-</update>
+    </update>
 
     <delete id="deleteMember" parameterType="String">
     <![CDATA[
@@ -67,16 +75,5 @@
         AND status = 'ACTIVE'
         ]]>
 </update>
-
-    <update id="updateCarNumber" parameterType="PostMemberReq">
-        <![CDATA[
-        UPDATE member
-        SET car_number = #{carNumber}
-        WHERE car_number IS NULL AND status = 'ACTIVE' AND member_id = #{memberId}
-        ]]>
-    </update>
-
-
-
 
 </mapper>

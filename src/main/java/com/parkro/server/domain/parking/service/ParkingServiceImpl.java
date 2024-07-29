@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.service;
 
+import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
 import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
@@ -13,6 +14,7 @@ import com.parkro.server.domain.parking.dto.PatchParkingReq;
 import com.parkro.server.domain.parking.dto.PostParkingReq;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 import com.parkro.server.exception.CustomException;
+import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,4 +127,22 @@ public class ParkingServiceImpl implements ParkingService {
     public List<GetParkingRes> findParkingListByStore(GetParkingReq req) {
       return parkingMapper.selectParkingListByStore(req);
     }
+
+    @Override
+    public void modifyMemberId(PostMemberReq postMemberReq) {
+        if (postMemberReq.getMemberId() == null) {
+            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
+        }
+
+        if (postMemberReq.getCarNumber() == null) {
+            return;
+        }
+
+        if (postMemberReq.getCarNumber() != null) {
+
+            parkingMapper.updateMemberId(postMemberReq);
+
+        }
+    }
+
 }

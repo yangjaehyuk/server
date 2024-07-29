@@ -2,9 +2,11 @@ package com.parkro.server.domain.member.service;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.PostSignInRes;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.mapper.MemberMapper;
+import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final ParkingMapper parkingMapper;
 
     @Transactional
     @Override
@@ -57,49 +60,37 @@ public class MemberServiceImpl implements MemberService {
 
         memberMapper.insertMember(signUpMemberReq);
 
+        parkingMapper.updateMemberId(signUpMemberReq);
+
         return signUpMemberReq.getMemberId();
 
-    }
-
-    @Override
-    public void modifyMemberName(PostMemberReq postMemberReq) {
-        if (postMemberReq.getMemberId() == null) {
-            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
-        }
-
-        if (postMemberReq.getCarNumber() == null) {
-            return;
-        }
-
-        PostMemberReq modifiedReq = PostMemberReq.builder()
-                .memberId(postMemberReq.getMemberId())
-                .carNumber(postMemberReq.getCarNumber())
-                .build();
-        memberMapper.updateMemberName(modifiedReq);
     }
 
 
     @Override
     @Transactional
     public PostMemberRes signInMember(PostMemberReq postMemberReq) {
-        Optional<PostMemberReq> memberOpt = memberMapper.selectMemberName(postMemberReq.getUsername());
 
-        if (memberOpt.isPresent()) {
-            PostMemberReq member = memberOpt.get();
+        GetMemberRes member = memberMapper.selectMemberByUsername(postMemberReq.getUsername());
 
-            if (passwordEncoder.matches(postMemberReq.getPassword(), member.getPassword())) {
-
-                String token = jwtTokenProvider.createToken(member.getUsername(), Collections.singletonList(member.getRole()));
-
-                return PostMemberRes.builder()
-                        .username(postMemberReq.getUsername())
-                        .token(token)
-                        .build();
-            }
+        if (member == null) {
+            throw new CustomException(ErrorCode.FAIL_SIGN_IN);
         }
 
-        throw new CustomException(ErrorCode.FAIL_SIGN_IN);
+        if (!passwordEncoder.matches(postMemberReq.getPassword(), member.getPassword())) {
+            throw new CustomException(ErrorCode.FAIL_SIGN_IN);
+        }
+
+        String token = jwtTokenProvider.createToken(member.getUsername(), Collections.singletonList(member.getROLE()));
+
+        PostSignInRes postSignInRes = PostSignInRes.builder()
+                .memberId(member.getMemberId())
+                .username(member.getUsername())
+                .build();
+
+        return new PostMemberRes(postSignInRes, token);
     }
+
 
     @Override
     public GetMemberRes findMember(String username) {
@@ -157,11 +148,16 @@ public class MemberServiceImpl implements MemberService {
         PostMemberReq modifiedReq = PostMemberReq.builder()
                 .memberId(postMemberReq.getMemberId())
                 .carNumber(postMemberReq.getCarNumber()).build();
+
         int cnt = memberMapper.updateCarNumber(modifiedReq);
 
         if(cnt == 0){
+
             throw new CustomException(ErrorCode.FIND_DUPLICATED_CARNUMBER);
+
         }
+
+        parkingMapper.updateMemberId(postMemberReq);
 
         return modifiedReq.getMemberId();
     }
