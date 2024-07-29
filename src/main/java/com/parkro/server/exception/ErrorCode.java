@@ -22,6 +22,7 @@ public enum ErrorCode {
     INVALID_PARKING_STATUS(409, "정산되지 않거나, 이미 출차한 차량입니다."),
     FIND_FAIL_PARKING_INFO(409, "현재 주차된 차량이 없습니다."),
     FIND_FAIL_PARKING_LIST(409, "주차 내역이 없습니다."),
+    FIND_DUPLICATED_CARNUMBER(409,"이미 차량이 등록되었거나 중복된 차량이 있습니다."),
 
     /* 500 */
     DATABASE_ERROR(500, "데이터베이스 오류가 발생했습니다."),

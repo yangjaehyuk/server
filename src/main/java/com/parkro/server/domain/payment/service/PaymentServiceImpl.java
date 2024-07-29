@@ -4,6 +4,7 @@ import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
 import com.parkro.server.domain.parking.service.ParkingService;
 import com.parkro.server.domain.payment.dto.GetPaymentCouponRes;
+import com.parkro.server.domain.payment.dto.GetPaymentRes;
 import com.parkro.server.domain.payment.mapper.PaymentMapper;
 import com.parkro.server.domain.payment.dto.PostPaymentReq;
 import com.parkro.server.exception.CustomException;
@@ -35,6 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
    * @return 사용자가 보유한 쿠폰 리스트 {@link List<GetPaymentCouponRes>}
    */
   @Override
+  @Transactional(readOnly = true)
   public List<GetPaymentCouponRes> findPaymentCoupon(String username) {
     GetMemberRes member = memberService.findMember(username);
     return paymentMapper.selectMemberCoupons(member.getMemberId());
@@ -53,5 +55,16 @@ public class PaymentServiceImpl implements PaymentService {
     // 결제 취소 스케쥴러 호출
     paymentSchedulerService.schedulerModifyCancelledDate(req.getParkingId(), req.getPaymentId());
     return req.getPaymentId();
+  }
+
+  /**
+   * 정산(결제) 상세 정보 조회
+   * @param parkingId
+   * @return 주차 정산(걸제) 후 상세 내역 조회
+   */
+  @Override
+  @Transactional(readOnly = true)
+  public GetPaymentRes findPaymentByParkingId(Integer parkingId) {
+    return paymentMapper.selectPaymentByParkingId(parkingId);
   }
 }

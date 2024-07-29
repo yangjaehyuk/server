@@ -9,10 +9,11 @@ import java.util.Optional;
 
 @Mapper
 public interface MemberMapper {
-    Optional<PostMemberReq> selectMembername(String username);
-    Integer insertMember(PostMemberReq postMemberReq);
+    Optional<PostMemberReq> selectMemberName(String username);
+    void insertMember(PostMemberReq postMemberReq);
     Integer deleteMember(String username);
     GetMemberRes selectMemberByUsername(String username);
     GetMemberRes selectMemberByCarNumber(String carNumber);
     Integer updateMemberDetails(PutMemberReq putMemberReq);
+    Integer updateCarNumber(PostMemberReq postMemberReq);
 }

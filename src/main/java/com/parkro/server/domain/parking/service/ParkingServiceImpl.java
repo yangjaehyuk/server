@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.service;
 
+import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
 import com.parkro.server.domain.parking.dto.GetParkingRes;
 import com.parkro.server.domain.parking.dto.PatchParkingReq;
@@ -9,10 +10,8 @@ import com.parkro.server.domain.parking.dto.GetParkingReq;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
-import com.parkro.server.domain.parking.dto.PatchParkingReq;
-import com.parkro.server.domain.parking.dto.PostParkingReq;
-import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 import com.parkro.server.exception.CustomException;
+import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,6 +104,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     // 주차 내역 삭제
     @Override
+    @Transactional
     public Integer removeParking(Integer parkingId) {
       int numRowsDeleted = parkingMapper.deleteParkingById(parkingId);
       if (numRowsDeleted == 0) {
@@ -115,6 +115,7 @@ public class ParkingServiceImpl implements ParkingService {
   
     // [관리자] 주차 내역 상세 조회
     @Override
+    @Transactional(readOnly=true)
     public GetParkingDetailRes findAdminParkingDetails(Integer parkingId) {
         return parkingMapper.selectAdminParkingDetails(parkingId);
     }
@@ -125,4 +126,29 @@ public class ParkingServiceImpl implements ParkingService {
     public List<GetParkingRes> findParkingListByStore(GetParkingReq req) {
       return parkingMapper.selectParkingListByStore(req);
     }
+
+    // [관리자] 결제 완료
+    @Override
+    @Transactional
+    public Integer modifyParkingOutById(Integer parkingId) {
+      return parkingMapper.updateParkingOutById(parkingId);
+    }
+
+    @Override
+    public void modifyMemberId(PostMemberReq postMemberReq) {
+        if (postMemberReq.getMemberId() == null) {
+            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
+        }
+
+        if (postMemberReq.getCarNumber() == null) {
+            return;
+        }
+
+        if (postMemberReq.getCarNumber() != null) {
+
+            parkingMapper.updateMemberId(postMemberReq);
+
+        }
+    }
+
 }
