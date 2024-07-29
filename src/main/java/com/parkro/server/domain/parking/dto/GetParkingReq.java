@@ -4,15 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 public class GetParkingReq {
+
+  @Setter
+  private Integer memberId;
   private String storeId;
   private String date;
   private String carNumber;
   private Integer page;
-  private Integer pageSize;
+
+  @Builder.Default
+  private Integer pageSize = 10;
 }

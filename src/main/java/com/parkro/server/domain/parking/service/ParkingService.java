@@ -25,7 +25,7 @@ public interface ParkingService {
     List<GetParkingPayRes> findParkingPay(String username);
 
     // 나의 주차 내역 목록 조회
-    List<GetParkingRes> findMyParkingList(String username);
+    List<GetParkingRes> findMyParkingList(String username, GetParkingReq req);
 
     // 주차 내역 삭제
     Integer removeParking(Integer parkingId);

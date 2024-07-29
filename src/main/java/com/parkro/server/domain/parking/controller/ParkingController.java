@@ -34,8 +34,6 @@ public class ParkingController {
 
     private final ParkingService parkingService;
 
-    private static final int PAGE_SIZE = 10;
-
     // 입차
     @PostMapping("/parking/in")
     public ResponseEntity<Integer> parkingAdd(@RequestBody PostParkingReq req) {
@@ -57,8 +55,9 @@ public class ParkingController {
 
     // 나의 주차 내역 목록 조회
     @GetMapping("/parking/list")
-    public ResponseEntity<List<GetParkingRes>> myParkingList(@RequestParam String username) {
-        return ResponseEntity.ok(parkingService.findMyParkingList(username));
+    public ResponseEntity<List<GetParkingRes>> myParkingList(@RequestParam String username, @RequestParam Integer page) {
+        GetParkingReq req = GetParkingReq.builder().page(page).build();
+        return ResponseEntity.ok(parkingService.findMyParkingList(username, req));
     }
 
     // 주차 내역 삭제
@@ -84,8 +83,7 @@ public class ParkingController {
                 .storeId(store)
                 .date(date)
                 .carNumber(car)
-                .page(page)
-                .pageSize(PAGE_SIZE).build();
+                .page(page).build();
         return ResponseEntity.ok(parkingService.findParkingListByStore(req));
     }
 

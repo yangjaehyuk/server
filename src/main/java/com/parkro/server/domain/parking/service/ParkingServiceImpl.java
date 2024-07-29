@@ -91,10 +91,10 @@ public class ParkingServiceImpl implements ParkingService {
     // 나의 주차 내역 목록 조회
     @Override
     @Transactional(readOnly=true)
-    public List<GetParkingRes> findMyParkingList(String username) {
+    public List<GetParkingRes> findMyParkingList(String username, GetParkingReq req) {
         GetMemberRes member = memberService.findMember(username);
-
-        List<GetParkingRes> res = parkingMapper.selectParkingListByMemberId(member.getMemberId());
+        req.setMemberId(member.getMemberId());
+        List<GetParkingRes> res = parkingMapper.selectParkingListByMemberId(req);
 
         if (res.isEmpty()) {
             throw new CustomException(FIND_FAIL_PARKING_LIST);
