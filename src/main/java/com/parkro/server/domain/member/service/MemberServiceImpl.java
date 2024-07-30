@@ -7,7 +7,6 @@ import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.mapper.MemberMapper;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
-import com.parkro.server.domain.parking.service.ParkingService;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +46,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Integer addMember(PostMemberReq postMemberReq) {
+    public void addMember(PostMemberReq postMemberReq) {
+
         String hashedPassword = passwordEncoder.encode(postMemberReq.getPassword());
 
         postMemberReq.setPassword(hashedPassword);
@@ -55,8 +55,6 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.insertMember(postMemberReq);
 
         parkingMapper.updateMemberId(postMemberReq);
-
-        return postMemberReq.getMemberId();
 
     }
 
@@ -134,7 +132,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Integer modifyCarNumber(PostMemberReq postMemberReq) {
+    public void modifyCarNumber(PostMemberReq postMemberReq) {
 
         int cnt = memberMapper.updateCarNumber(postMemberReq);
 
@@ -146,7 +144,6 @@ public class MemberServiceImpl implements MemberService {
 
         parkingMapper.updateMemberId(postMemberReq);
 
-        return postMemberReq.getMemberId();
     }
 
     @Override
@@ -163,6 +160,18 @@ public class MemberServiceImpl implements MemberService {
 
         memberMapper.deleteCarNumber(username);
 
+    }
+
+    @Override
+    public void modifyFCM(PostMemberReq postMemberReq) {
+        PostMemberReq modifiedReq = PostMemberReq.builder()
+                .fcmToken(postMemberReq.getFcmToken())
+                .username(postMemberReq.getUsername())
+                .build();
+        int cnt = memberMapper.updateFCM(modifiedReq);
+        if(cnt == 0){
+            throw new CustomException(ErrorCode.FAIL_UPDATE_TOKEN);
+        }
     }
 
 }

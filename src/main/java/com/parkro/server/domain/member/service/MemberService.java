@@ -7,12 +7,13 @@ import com.parkro.server.domain.member.dto.PostMemberRes;
 
 public interface MemberService {
     void findUsername(String username);
-    Integer addMember(PostMemberReq postMemberReq);
+    void addMember(PostMemberReq postMemberReq);
     Integer removeMember(String username);
     GetMemberRes findMember(String username);
     PostMemberRes signInMember(PostMemberReq postMemberReq);
     GetMemberRes findMemberByCarNumber(String carNumber);
     PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq);
-    Integer modifyCarNumber(PostMemberReq postMemberReq);
+    void modifyCarNumber(PostMemberReq postMemberReq);
     void removeCarNumber(String username);
+    void modifyFCM(PostMemberReq postMemberReq);
 }

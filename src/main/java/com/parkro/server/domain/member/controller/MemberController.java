@@ -87,11 +87,16 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<PostSignInRes> memberSignIn(@RequestBody PostMemberReq postMemberReq) {
+    public ResponseEntity<PostSignInRes> memberSignIn(@RequestHeader(value = "FCM-TOKEN") String fcmToken, @RequestBody PostMemberReq postMemberReq) {
+
         PostMemberRes postMemberRes = memberService.signInMember(postMemberReq);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + postMemberRes.getToken());
+
+        postMemberReq.setFcmToken(fcmToken);
+
+        memberService.modifyFCM(postMemberReq);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(httpHeaders)

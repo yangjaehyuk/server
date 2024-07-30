@@ -17,4 +17,5 @@ public interface MemberMapper {
     Integer updateMemberDetails(PutMemberReq putMemberReq);
     Integer updateCarNumber(PostMemberReq postMemberReq);
     void deleteCarNumber(String username);
+    Integer updateFCM(PostMemberReq postMemberReq);
 }
