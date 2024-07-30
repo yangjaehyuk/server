@@ -12,7 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Setter
 public class PostMemberCouponReq {
     private Long memberCouponId;
     private Long couponId;
