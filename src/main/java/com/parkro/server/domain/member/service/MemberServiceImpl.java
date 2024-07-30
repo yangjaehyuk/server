@@ -1,5 +1,7 @@
 package com.parkro.server.domain.member.service;
 
+import com.parkro.server.domain.coupon.dto.PostMemberCouponReq;
+import com.parkro.server.domain.coupon.service.CouponService;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PostSignInRes;
@@ -29,6 +31,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final ParkingMapper parkingMapper;
+    private final CouponService couponService;
 
     @Transactional
     @Override
@@ -56,6 +59,17 @@ public class MemberServiceImpl implements MemberService {
 
         parkingMapper.updateMemberId(postMemberReq);
 
+        GetMemberRes getMemberRes = findMember(postMemberReq.getUsername());
+        long couponId = -1;
+        couponId = couponService.findCouponIdByDate(getMemberRes.getCreatedDate());
+        if(couponId == -1){
+            throw new CustomException(ErrorCode.INVALID_COUPON_ID);
+        }
+        PostMemberCouponReq modifiedReq = PostMemberCouponReq.builder()
+                .memberId(getMemberRes.getMemberId())
+                .couponId(couponId)
+                .build();
+        couponService.addCoupons(modifiedReq);
     }
 
 
@@ -97,12 +111,14 @@ public class MemberServiceImpl implements MemberService {
   
     @Override
     public Integer removeMember(String username) {
+        GetMemberRes getMemberRes = findMember(username);
 
+        couponService.removeCoupons(getMemberRes.getMemberId());
         int cnt = memberMapper.deleteMember(username);
-
         if(cnt == 0){
             throw new CustomException(ErrorCode.FAIL_WITHDRAW);
         }
+
 
         return cnt;
     }
