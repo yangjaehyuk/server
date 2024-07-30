@@ -57,7 +57,6 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     @Validated
-    @Transactional
     public ResponseEntity memberSignUp(@Valid @RequestBody PostMemberReq postMemberReq, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
