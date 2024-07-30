@@ -28,6 +28,8 @@ public enum ErrorCode {
 
     /* 500 */
     DATABASE_ERROR(500, "데이터베이스 오류가 발생했습니다."),
+    FCM_TOKEN_NOT_VALID(500, "FCM 토큰이 유효하지 않습니다."),
+
     ;
 
     private final int status;

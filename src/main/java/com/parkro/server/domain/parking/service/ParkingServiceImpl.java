@@ -1,5 +1,6 @@
 package com.parkro.server.domain.parking.service;
 
+import com.parkro.server.domain.alarm.dto.ParkingEntryDTO;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.parking.dto.GetParkingDetailRes;
 import com.parkro.server.domain.parking.dto.GetParkingRes;
@@ -13,6 +14,7 @@ import com.parkro.server.domain.member.service.MemberService;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     private final ParkingMapper parkingMapper;
     private final MemberService memberService;
+    private final ApplicationEventPublisher eventPublisher;
 
   /**
    * 주차 정보 조회
@@ -59,6 +62,8 @@ public class ParkingServiceImpl implements ParkingService {
             req.setMemberId(null);
         } else {
             req.setMemberId(member.getMemberId());
+            // FCM 알림 - 입차
+            eventPublisher.publishEvent(new ParkingEntryDTO(member.getFcmToken(), req.getCarNumber()));
         }
         parkingMapper.insertParking(req);
         return req.getParkingId();

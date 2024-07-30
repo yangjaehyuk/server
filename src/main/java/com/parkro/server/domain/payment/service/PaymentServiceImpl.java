@@ -53,7 +53,7 @@ public class PaymentServiceImpl implements PaymentService {
     GetMemberRes member = memberService.findMember(req.getUsername());
     paymentMapper.insertPayment(req, member.getMemberId());
     // 결제 취소 스케쥴러 호출
-    paymentSchedulerService.schedulerModifyCancelledDate(req.getParkingId(), req.getPaymentId());
+    paymentSchedulerService.schedulerModifyCancelledDate(req.getParkingId(), req.getPaymentId(), member.getFcmToken());
     return req.getPaymentId();
   }
 

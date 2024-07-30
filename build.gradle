@@ -55,6 +55,10 @@ dependencies {
     // validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-admin:8.1.0'
+//    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+
 //    // schedule
 //    implementation 'org.springframework.boot:spring-boot-starter-scheduling'
 //    implementation 'org.springframework.boot:spring-boot-starter-aop'
