@@ -26,7 +26,7 @@ public class PostMemberReq implements UserDetails {
     private String nickname;
 
     @NotBlank(message = "핸드폰 번호는 필수 입력 값입니다.")
-    @Pattern(regexp = "\\d{3,}-\\d{4,}-\\d{4,}",
+    @Pattern(regexp = "^(010|011|016|017|018|019)-\\d{3,4}-\\d{4}$",
     message = "-를 붙여야 합니다.")
     private String phoneNumber;
 
