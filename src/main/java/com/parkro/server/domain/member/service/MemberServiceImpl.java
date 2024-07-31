@@ -50,6 +50,20 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void addMember(PostMemberReq postMemberReq) {
 
+        boolean carNumberExists = findCarNumber(postMemberReq.getCarNumber());
+        boolean phoneNumberExists = findPhoneNumber(postMemberReq.getPhoneNumber());
+
+        if (carNumberExists && phoneNumberExists) {
+            // 둘 다 존재하는 경우
+            throw new CustomException(ErrorCode.CAR_NUMBER_AND_PHONE_NUMBER_ALREADY_EXISTS);
+        } else if (carNumberExists) {
+            // 차량 번호만 존재하는 경우
+            throw new CustomException(ErrorCode.FIND_DUPLICATED_CARNUMBER);
+        } else if (phoneNumberExists) {
+            // 전화번호만 존재하는 경우
+            throw new CustomException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
+        }
+
         String hashedPassword = passwordEncoder.encode(postMemberReq.getPassword());
 
         postMemberReq.setPassword(hashedPassword);
@@ -187,6 +201,18 @@ public class MemberServiceImpl implements MemberService {
         if(cnt == 0){
             throw new CustomException(ErrorCode.FAIL_UPDATE_TOKEN);
         }
+    }
+
+    @Override
+    public boolean findCarNumber(String carNumber) {
+        int cnt = memberMapper.selectCarNumber(carNumber);
+        return cnt > 0;
+    }
+
+    @Override
+    public boolean findPhoneNumber(String phoneNumber) {
+        int cnt = memberMapper.selectPhoneNumber(phoneNumber);
+        return cnt > 0;
     }
 
 }

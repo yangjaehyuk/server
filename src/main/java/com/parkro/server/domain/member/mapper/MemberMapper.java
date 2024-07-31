@@ -18,4 +18,6 @@ public interface MemberMapper {
     Integer updateCarNumber(PostMemberReq postMemberReq);
     void deleteCarNumber(String username);
     Integer updateFCM(PostMemberReq postMemberReq);
+    Integer selectCarNumber(String carNumber);
+    Integer selectPhoneNumber(String phoneNumber);
 }

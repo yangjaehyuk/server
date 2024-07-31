@@ -84,5 +84,13 @@
           AND status = 'ACTIVE'
         ]]>
 </update>
+    
+    <select id="selectPhoneNumber" parameterType="String" resultType="Integer">
+        SELECT COUNT(phone_number) FROM member WHERE phone_number = #{phoneNumber}
+    </select>
+
+    <select id="selectCarNumber" parameterType="String" resultType="Integer">
+        SELECT COUNT(car_number) FROM member WHERE car_number = #{carNumber}
+    </select>
 
 </mapper>

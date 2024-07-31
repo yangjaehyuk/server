@@ -16,4 +16,6 @@ public interface MemberService {
     void modifyCarNumber(PostMemberReq postMemberReq);
     void removeCarNumber(String username);
     void modifyFCM(PostMemberReq postMemberReq);
+    boolean findCarNumber(String carNumber);
+    boolean findPhoneNumber(String phoneNumber);
 }
