@@ -4,7 +4,6 @@ import com.parkro.server.domain.coupon.dto.PostMemberCouponReq;
 import com.parkro.server.domain.coupon.service.CouponService;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
-import com.parkro.server.domain.member.dto.PostSignInRes;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.mapper.MemberMapper;
@@ -89,12 +88,12 @@ public class MemberServiceImpl implements MemberService {
 
         String token = jwtTokenProvider.createToken(member.getUsername(), Collections.singletonList(member.getROLE()));
 
-        PostSignInRes postSignInRes = PostSignInRes.builder()
-                .memberId(member.getMemberId())
+        PostMemberRes postMemberRes = PostMemberRes.builder()
+                .token(token)
                 .username(member.getUsername())
                 .build();
 
-        return new PostMemberRes(postSignInRes, token);
+        return postMemberRes;
     }
 
 
