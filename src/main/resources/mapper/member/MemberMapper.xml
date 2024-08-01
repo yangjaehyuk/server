@@ -90,7 +90,7 @@
     </select>
 
     <select id="countCarNumber" parameterType="String" resultType="Integer">
-        SELECT COUNT(car_number) FROM member WHERE car_number = #{carNumber}
+        SELECT COUNT(car_number) FROM member WHERE car_number = #{carNumber, jdbcType = VARCHAR}
     </select>
 
 </mapper>
