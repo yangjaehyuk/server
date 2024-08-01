@@ -70,7 +70,11 @@ public class MemberServiceImpl implements MemberService {
 
         memberMapper.insertMember(postMemberReq);
 
-        parkingMapper.updateMemberId(postMemberReq);
+        if(postMemberReq.getCarNumber() != null){
+
+            parkingMapper.updateMemberId(postMemberReq);
+
+        }
 
         GetMemberRes getMemberRes = findMember(postMemberReq.getUsername());
         long couponId = -1;

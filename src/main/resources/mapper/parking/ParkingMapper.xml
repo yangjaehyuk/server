@@ -178,7 +178,7 @@
         UPDATE parking
         SET member_id = #{memberId}
         WHERE member_id IS NULL
-          AND car_number = #{carNumber}
+          AND car_number = #{carNumber, jdbcType=VARCHAR}
         ]]>
 </update>
 
