@@ -205,13 +205,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean findCarNumber(String carNumber) {
-        int cnt = memberMapper.selectCarNumber(carNumber);
+        int cnt = memberMapper.countCarNumber(carNumber);
         return cnt > 0;
     }
 
     @Override
     public boolean findPhoneNumber(String phoneNumber) {
-        int cnt = memberMapper.selectPhoneNumber(phoneNumber);
+        int cnt = memberMapper.countPhoneNumber(phoneNumber);
         return cnt > 0;
     }
 

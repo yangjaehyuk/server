@@ -85,11 +85,11 @@
         ]]>
 </update>
     
-    <select id="selectPhoneNumber" parameterType="String" resultType="Integer">
+    <select id="countPhoneNumber" parameterType="String" resultType="Integer">
         SELECT COUNT(phone_number) FROM member WHERE phone_number = #{phoneNumber}
     </select>
 
-    <select id="selectCarNumber" parameterType="String" resultType="Integer">
+    <select id="countCarNumber" parameterType="String" resultType="Integer">
         SELECT COUNT(car_number) FROM member WHERE car_number = #{carNumber}
     </select>
 
