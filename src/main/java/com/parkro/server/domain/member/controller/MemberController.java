@@ -2,6 +2,7 @@ package com.parkro.server.domain.member.controller;
 
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
+import com.parkro.server.domain.member.dto.PostSignInRes;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
@@ -86,20 +87,21 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<String> memberSignIn(@RequestHeader(value = "FCM-TOKEN") String fcmToken, @RequestBody PostMemberReq postMemberReq) {
+    public ResponseEntity<PostSignInRes> memberSignIn(@RequestHeader(value = "FCM-TOKEN") String fcmToken, @RequestBody PostMemberReq postMemberReq) {
 
         PostMemberRes postMemberRes = memberService.signInMember(postMemberReq);
+
+        PostSignInRes postSignInRes = postMemberRes.getPostSignInRes();
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + postMemberRes.getToken());
 
         postMemberReq.setFcmToken(fcmToken);
-
         memberService.modifyFCM(postMemberReq);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(httpHeaders)
-                .body(postMemberRes.getUsername());
+                .body(postSignInRes);
     }
 
 
