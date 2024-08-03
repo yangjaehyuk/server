@@ -138,7 +138,7 @@ public class MemberController {
         }
 
 
-        return ResponseEntity.ok(memberService.modifyMemberDetails(putMemberReq));
+        return ResponseEntity.ok(putMemberReq.getCarProfile());
 
     }
 
