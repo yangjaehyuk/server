@@ -22,6 +22,7 @@ public enum ErrorCode {
     INVALID_COUPON_ID(404,"해당 하는 쿠폰 아이디가 없습니다."),
 
     /* 409 */
+    USED_RECEIPT(409, "이미 사용한 영수증 정보입니다."),
     FIND_DUPLICATED_USERNAME(409, "중복된 유저 아이디 입니다."),
     INVALID_PARKING_STATUS(409, "정산되지 않거나, 이미 출차한 차량입니다."),
     FIND_FAIL_PARKING_INFO(409, "현재 주차된 차량이 없습니다."),
