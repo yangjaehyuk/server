@@ -153,6 +153,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq) {
 
+
         String hashedPassword = passwordEncoder.encode(putMemberReq.getPassword());
 
         putMemberReq.setPassword(hashedPassword);

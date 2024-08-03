@@ -58,7 +58,7 @@
     <update id="updateMemberDetails" parameterType="PutMemberReq">
     <![CDATA[
         UPDATE member
-        SET password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber}
+        SET password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber}, profile_car = #{carProfile}
         WHERE username = #{username}
         AND deleted_date IS NULL
         AND status = 'ACTIVE'
