@@ -16,6 +16,8 @@ import java.util.Date;
 public class GetParkingPayRes {
 
     private String carNumber;
+    private Integer parkingId;
+    private String status;
     private String storeName;
     private String parkingLotName;
     @JsonSerialize(using = KSTDateSerializer.class)

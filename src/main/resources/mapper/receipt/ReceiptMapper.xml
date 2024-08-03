@@ -17,4 +17,14 @@
             WHERE receipt_id = #{receiptId} AND status = 'ACTIVE'
         ]]>
     </select>
+
+    <update id="updateReceiptStatus" parameterType="Integer">
+        <![CDATA[
+            UPDATE
+                receipt
+            SET
+                status = 'USED'
+            WHERE receipt_id = #{receiptId}
+        ]]>
+    </update>
 </mapper>

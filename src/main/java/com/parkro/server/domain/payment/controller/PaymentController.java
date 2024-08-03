@@ -62,7 +62,8 @@ public class PaymentController {
     HttpHeaders headers = new HttpHeaders();
 
     // 안드로이드로 리다이렉트
-    headers.setLocation(URI.create("parkro://payment/success?orderId=" + orderId + "&amount=" + amount));
+    String redirectUrl = String.format("parkro://payment/success?orderId=%s&amount=%s&paymentKey=%s", orderId, amount, paymentKey);
+    headers.setLocation(URI.create(redirectUrl));
     return new ResponseEntity<>(headers, HttpStatus.FOUND);
   }
 }

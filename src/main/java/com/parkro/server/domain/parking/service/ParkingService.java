@@ -13,8 +13,10 @@ import java.util.List;
 public interface ParkingService {
 
   GetParkingRes findParkingByParkingId(Integer parkingId);
-  Integer modifyParkingStatus(Integer parkingId);
-  
+  Integer modifyParkingStatusEnter(Integer parkingId);
+
+  Integer modifyParkingStatusPay(Integer parkingId);
+
     // 입차
     Integer addParking(PostParkingReq req);
 
@@ -22,7 +24,7 @@ public interface ParkingService {
     Integer modifyParkingOut(PatchParkingReq req);
 
     // 주차 정산(전) 정보 조회
-    List<GetParkingPayRes> findParkingPay(String username);
+    GetParkingPayRes findParkingPay(String username);
 
     // 나의 주차 내역 목록 조회
     List<GetParkingRes> findMyParkingList(String username, GetParkingReq req);

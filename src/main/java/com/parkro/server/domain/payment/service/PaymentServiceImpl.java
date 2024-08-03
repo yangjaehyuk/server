@@ -1,5 +1,6 @@
 package com.parkro.server.domain.payment.service;
 
+import com.parkro.server.domain.coupon.service.CouponService;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
 import com.parkro.server.domain.parking.service.ParkingService;
@@ -7,6 +8,7 @@ import com.parkro.server.domain.payment.dto.GetPaymentCouponRes;
 import com.parkro.server.domain.payment.dto.GetPaymentRes;
 import com.parkro.server.domain.payment.mapper.PaymentMapper;
 import com.parkro.server.domain.payment.dto.PostPaymentReq;
+import com.parkro.server.domain.receipt.service.ReceiptService;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,9 @@ public class PaymentServiceImpl implements PaymentService {
   private final MemberService memberService;
   private final PaymentSchedulerService paymentSchedulerService;
   private final PaymentMapper paymentMapper;
+  private final ParkingService parkingService;
+  private final CouponService couponService;
+  private final ReceiptService receiptService;
 
   /**
    * 사용자 보유 쿠폰 조회
@@ -52,6 +57,15 @@ public class PaymentServiceImpl implements PaymentService {
   public Integer addPayment(PostPaymentReq req) {
     GetMemberRes member = memberService.findMember(req.getUsername());
     paymentMapper.insertPayment(req, member.getMemberId());
+
+    // 쿠폰 사용 상태로 변경
+    if (req.getMemberCouponId() != null) couponService.modifyCouponStatusUse(req.getMemberCouponId());
+
+    // 영수증 사용 상태로 변경
+    if (req.getReceiptId() != null) receiptService.modifyReceiptStatus(req.getReceiptId());
+
+    // 주차 상태 변경 (입차 -> 결차)
+    parkingService.modifyParkingStatusPay(req.getParkingId());
     // 결제 취소 스케쥴러 호출
     paymentSchedulerService.schedulerModifyCancelledDate(req.getParkingId(), req.getPaymentId(), member.getFcmToken());
     return req.getPaymentId();
