@@ -14,7 +14,7 @@ public class GetParkingReq {
 
   @Setter
   private Integer memberId;
-  private String storeId;
+  private Integer storeId;
   private String date;
   private String carNumber;
   private Integer page;
