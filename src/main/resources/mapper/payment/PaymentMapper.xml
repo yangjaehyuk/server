@@ -84,14 +84,16 @@
             pl.name AS parkingLotName,
             s.name AS storeName
         FROM payment py
-        INNER JOIN
-            parking pk ON py.parking_id = pk.parking_id
-        INNER JOIN
-            parking_lot pl ON pk.parking_lot_id = pl.parking_lot_id
-        INNER JOIN
-            store s ON pl.store_id = s.store_id
+                 INNER JOIN
+             parking pk ON py.parking_id = pk.parking_id
+                 INNER JOIN
+             parking_lot pl ON pk.parking_lot_id = pl.parking_lot_id
+                 INNER JOIN
+             store s ON pl.store_id = s.store_id
         WHERE py.parking_id = #{parking_id}
           AND py.cancelled_date IS NULL
+        ORDER BY py.payment_time DESC
+        FETCH FIRST 1 ROW ONLY
         ]]>
     </select>
   
