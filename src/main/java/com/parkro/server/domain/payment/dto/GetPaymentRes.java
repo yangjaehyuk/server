@@ -19,6 +19,9 @@ public class GetPaymentRes {
   private Integer paymentId;
   private Integer parkingId;
   private Integer totalParkingTime;
+  private Integer totalPrice;
+  private Integer parkingTimeHour;
+  private Integer parkingTimeMinute;
   private Integer receiptDiscountTime;
   private Integer couponDiscountTime;
   private String card;
