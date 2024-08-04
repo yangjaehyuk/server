@@ -114,14 +114,12 @@ public class MemberController {
 
     @PutMapping("/{username}")
     @Validated
-    public ResponseEntity memberModify(@PathVariable String username, @Valid @RequestBody PutMemberReq putMemberReq, BindingResult bindingResult) {
-
+    public ResponseEntity<?> memberModify(@PathVariable String username, @Valid @RequestBody PutMemberReq putMemberReq, BindingResult bindingResult) {
         if (!username.equals(putMemberReq.getUsername())) {
-            throw new CustomException(ErrorCode.FAIL_MODIFY_USER_DETIALS);
+            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
         }
 
         if (bindingResult.hasErrors()) {
-
             Map<String, String> errorMessages = new LinkedHashMap<>();
 
             bindingResult.getAllErrors().forEach(error -> {
@@ -137,9 +135,9 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
         }
 
+        PutMemberReq updatedMemberReq = memberService.modifyMemberDetails(putMemberReq);
 
-        return ResponseEntity.ok(putMemberReq.getCarProfile());
-
+        return ResponseEntity.ok(updatedMemberReq.getCarProfile());
     }
 
     @PatchMapping("/car")
