@@ -68,9 +68,9 @@
             py.parking_id AS parkingId,
             py.total_parking_time AS totalParkingTime,
             py.total_price AS totalPrice,
-            EXTRACT(DAY FROM pk.exit_date - pk.entrance_date) * 24 +
-            EXTRACT(HOUR FROM pk.exit_date - pk.entrance_date) AS parkingTimeHour,
-            EXTRACT(MINUTE FROM pk.exit_date - pk.entrance_date) AS parkingTimeMinute,
+            EXTRACT(DAY FROM py.payment_time - pk.entrance_date) * 24 +
+            EXTRACT(HOUR FROM py.payment_time - pk.entrance_date) AS parkingTimeHour,
+            EXTRACT(MINUTE FROM py.payment_time - pk.entrance_date) AS parkingTimeMinute,
             py.coupon_discount_time AS couponDiscountTime,
             py.receipt_discount_time AS receiptDiscountTime,
             py.card,
