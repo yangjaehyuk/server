@@ -8,6 +8,7 @@ import com.parkro.server.domain.parking.dto.PostParkingReq;
 import com.parkro.server.domain.parking.dto.GetParkingPayRes;
 import com.parkro.server.domain.parking.dto.GetParkingReq;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface ParkingMapper {
   GetParkingRes selectParkingByParkingId(Integer parkingId);
 
   // 결제 취소 후 parking status 업데이트
-  Integer updateParkingStatus(Integer parkingId);
+  Integer updateParkingStatus(@Param("parkingId") Integer parkingId, @Param("status") String status);
   
     // 입차
     void insertParking(PostParkingReq req);
@@ -27,7 +28,7 @@ public interface ParkingMapper {
     Integer updateParkingOut(PatchParkingReq req);
 
     // 주차 정산(전) 정보 조회
-    List<GetParkingPayRes> selectParkingPay(Integer memberId);
+    GetParkingPayRes selectParkingPay(Integer memberId);
 
     // 나의 주차 내역 목록 조회
     List<GetParkingRes> selectParkingListByMemberId(GetParkingReq req);

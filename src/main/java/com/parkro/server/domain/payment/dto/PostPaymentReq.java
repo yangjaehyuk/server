@@ -17,7 +17,8 @@ public class PostPaymentReq {
   private Integer parkingId;
   private Integer memberCouponId;
   private Integer receiptId;
-  private Integer discountTime;
+  private Integer couponDiscountTime;
+  private Integer receiptDiscountTime;
   private Integer totalParkingTime;
   private Integer totalPrice;
   private String card;

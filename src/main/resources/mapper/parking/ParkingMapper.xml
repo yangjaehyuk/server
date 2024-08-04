@@ -15,11 +15,11 @@
             WHERE parking_id = #{parkingId}
         ]]>
     </select>
-    <update id="updateParkingStatus" parameterType="Integer">
+    <update id="updateParkingStatus" parameterType="Map">
         <![CDATA[
         UPDATE parking
         SET
-            status = 'ENTRANCE'
+            status = #{status}
         WHERE parking_id = #{parkingId}
         ]]>
     </update>
@@ -56,6 +56,8 @@
         <![CDATA[
         SELECT
             p.car_number AS carNumber,
+            p.parking_id AS parkingId,
+            p.status,
             s.name AS storeName,
             pl.name AS parkingLotName,
             p.entrance_date AS entranceDate,

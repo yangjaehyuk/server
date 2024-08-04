@@ -7,4 +7,5 @@ public interface ReceiptService {
 
   Integer addReceipt(PostReceiptReq req);
   GetReceiptRes findReceipt(Integer receiptId);
+  Integer modifyReceiptStatus(Integer receiptId);
 }

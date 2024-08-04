@@ -47,11 +47,16 @@ public class ParkingServiceImpl implements ParkingService {
    * @return 업데이트된 row
    */
   @Override
-  public Integer modifyParkingStatus(Integer parkingId) {
-    return parkingMapper.updateParkingStatus(parkingId);
+  public Integer modifyParkingStatusEnter(Integer parkingId) {
+    return parkingMapper.updateParkingStatus(parkingId, "ENTRANCE");
   }
 
-    // 입차
+  @Override
+  public Integer modifyParkingStatusPay(Integer parkingId) {
+    return parkingMapper.updateParkingStatus(parkingId, "PAY");
+  }
+
+  // 입차
     @Override
     @Transactional
     public Integer addParking(PostParkingReq req) {
@@ -83,12 +88,12 @@ public class ParkingServiceImpl implements ParkingService {
     // 주차 정산(전) 정보 조회
     @Override
     @Transactional(readOnly=true)
-    public List<GetParkingPayRes> findParkingPay(String username) {
+    public GetParkingPayRes findParkingPay(String username) {
         GetMemberRes member = memberService.findMember(username);
 
-        List<GetParkingPayRes> res = parkingMapper.selectParkingPay(member.getMemberId());
+      GetParkingPayRes res = parkingMapper.selectParkingPay(member.getMemberId());
 
-        if (res.isEmpty()) {
+        if (res == null) {
             throw new CustomException(FIND_FAIL_PARKING_INFO);
         }
         return res;

@@ -9,4 +9,5 @@ public interface CouponService {
     Integer findCouponIdByDate(Date date);
     void addCoupons(PostMemberCouponReq postMemberCouponReq);
     void removeCoupons(Integer memberId);
+    void modifyCouponStatusUse(Integer memberCouponId);
 }

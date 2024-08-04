@@ -10,4 +10,5 @@ public interface CouponMapper {
     Integer selectCouponIdByDate(Date date);
     void insertCoupons(PostMemberCouponReq postMemberCouponReq);
     Integer deleteCoupons(Integer memberId);
+    Integer updateCouponStatus(Integer memberCouponId);
 }

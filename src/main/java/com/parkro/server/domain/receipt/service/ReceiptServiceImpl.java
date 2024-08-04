@@ -7,8 +7,10 @@ import com.parkro.server.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.parkro.server.exception.ErrorCode.RECEIPT_NOT_FOUND;
+import static com.parkro.server.exception.ErrorCode.USED_RECEIPT;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,14 @@ public class ReceiptServiceImpl implements ReceiptService {
   public GetReceiptRes findReceipt(Integer receiptId) {
     GetReceiptRes result = receiptMapper.selectReceipt(receiptId);
     if (result == null) throw new CustomException(RECEIPT_NOT_FOUND);
+    if (result.getStatus().equals("USED")) throw new CustomException(USED_RECEIPT);
+    // result.getStatus().equals("INACTIVE")
     return result;
+  }
+
+  @Override
+  @Transactional
+  public Integer modifyReceiptStatus(Integer receiptId) {
+    return receiptMapper.updateReceiptStatus(receiptId);
   }
 }

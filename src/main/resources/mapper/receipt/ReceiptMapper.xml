@@ -14,7 +14,17 @@
         <![CDATA[
             SELECT receipt_id AS receiptId, store_id AS storeId, total_price AS totalPrice, status, created_date AS createdDate
             FROM receipt
-            WHERE receipt_id = #{receiptId} AND status = 'ACTIVE'
+            WHERE receipt_id = #{receiptId}
         ]]>
     </select>
+
+    <update id="updateReceiptStatus" parameterType="Integer">
+        <![CDATA[
+            UPDATE
+                receipt
+            SET
+                status = 'USED'
+            WHERE receipt_id = #{receiptId}
+        ]]>
+    </update>
 </mapper>

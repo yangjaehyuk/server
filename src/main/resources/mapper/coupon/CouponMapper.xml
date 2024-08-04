@@ -4,6 +4,16 @@
 
 <mapper namespace="com.parkro.server.domain.coupon.mapper.CouponMapper">
 
+    <update id="updateCouponStatus" parameterType="Integer">
+        <![CDATA[
+            UPDATE
+                member_coupon
+            SET
+                status = 'USED'
+            WHERE member_coupon_id = #{memberCouponId, jdbcType=INTEGER}
+        ]]>
+    </update>
+
     <select id="selectCouponIdByDate" parameterType="java.util.Date" resultType="Integer">
        <![CDATA[
             SELECT coupon_id

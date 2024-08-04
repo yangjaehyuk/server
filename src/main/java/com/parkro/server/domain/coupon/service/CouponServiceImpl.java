@@ -7,6 +7,7 @@ import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -15,7 +16,9 @@ import java.util.Date;
 @Log4j2
 public class CouponServiceImpl implements CouponService {
     private final CouponMapper couponMapper;
+
     @Override
+    @Transactional(readOnly = true)
     public Integer findCouponIdByDate(Date date) {
 
         int couponId = 0;
@@ -28,6 +31,7 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    @Transactional
     public void addCoupons(PostMemberCouponReq postMemberCouponReq) {
         PostMemberCouponReq modifiedMemberCouponReq = PostMemberCouponReq.builder()
                 .memberId(postMemberCouponReq.getMemberId())
@@ -38,7 +42,14 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    @Transactional
     public void removeCoupons(Integer memberId) {
         couponMapper.deleteCoupons(memberId);
+    }
+
+    @Override
+    @Transactional
+    public void modifyCouponStatusUse(Integer memberCouponId) {
+        couponMapper.updateCouponStatus(memberCouponId);
     }
 }

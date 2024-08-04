@@ -9,4 +9,5 @@ public interface ReceiptMapper {
 
   int insertReceipt(PostReceiptReq req);
   GetReceiptRes selectReceipt(Integer receiptId);
+  Integer updateReceiptStatus(Integer receiptId);
 }

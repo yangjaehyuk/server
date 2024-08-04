@@ -61,7 +61,7 @@ public class PaymentSchedulerServiceImpl implements PaymentSchedulerService {
     paymentMapper.updateCancelledDate(paymentId);
 
     // 주차된 차량의 상태 업데이트
-    parkingService.modifyParkingStatus(parkingId);
+    parkingService.modifyParkingStatusEnter(parkingId);
 
     // FCM 알림 - 결제 취소
     eventPublisher.publishEvent(new PaymentCancelDTO(fcmToken));
