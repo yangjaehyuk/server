@@ -66,4 +66,15 @@ public class PaymentController {
     headers.setLocation(URI.create(redirectUrl));
     return new ResponseEntity<>(headers, HttpStatus.FOUND);
   }
+
+  @GetMapping("/fail")
+  public ResponseEntity<String> paymentFail(@RequestParam String orderId, @RequestParam String amount) {
+    HttpHeaders headers = new HttpHeaders();
+
+    String redirectUrl = String.format("parkro://payment/fail?orderId=%s&amount=%s", orderId, amount);
+    headers.setLocation(URI.create(redirectUrl));
+
+    log.info("payment fail fail! !!!!");
+    return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+  }
 }
