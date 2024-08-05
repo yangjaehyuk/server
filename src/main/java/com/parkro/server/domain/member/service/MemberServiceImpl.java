@@ -1,5 +1,6 @@
 package com.parkro.server.domain.member.service;
 
+import com.parkro.server.domain.alarm.service.AlarmService;
 import com.parkro.server.domain.coupon.dto.PostMemberCouponReq;
 import com.parkro.server.domain.coupon.service.CouponService;
 import com.parkro.server.domain.member.dto.GetMemberRes;
@@ -32,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final ParkingMapper parkingMapper;
     private final CouponService couponService;
+    private final AlarmService alarmService;
 
     @Transactional
     @Override
@@ -211,6 +213,9 @@ public class MemberServiceImpl implements MemberService {
         if(cnt == 0){
             throw new CustomException(ErrorCode.FAIL_UPDATE_TOKEN);
         }
+
+        // 주제 구독
+        alarmService.subscribeToTopic(postMemberReq.getFcmToken(), "allUsers");
     }
 
     @Override
