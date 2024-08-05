@@ -29,5 +29,7 @@ public class GetParkingDetailRes {
     private Integer couponDiscountTime;
     private Integer receiptDiscountTime;
     private Integer totalParkingTime;
+    private Integer parkingTimeHour;
+    private Integer parkingTimeMinute;
     private Integer totalPrice;
 }

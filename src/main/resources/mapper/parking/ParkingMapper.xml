@@ -125,6 +125,9 @@
             py.coupon_discount_time AS couponDiscountTime,
             py.receipt_discount_time AS receiptDiscountTime,
             py.total_parking_time AS totalParkingTime,
+            EXTRACT(DAY FROM (py.payment_time - p.entrance_date)) * 24 +
+            EXTRACT(HOUR FROM (py.payment_time - p.entrance_date)) AS parkingTimeHour,
+            EXTRACT(MINUTE FROM py.payment_time - p.entrance_date) AS parkingTimeMinute,
             py.total_price AS totalPrice
         FROM
             parking p
