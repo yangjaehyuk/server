@@ -6,4 +6,6 @@ public interface AlarmService {
 
     void sendParkingEntryNotification(ParkingEntryDTO dto);
     void sendPayCancelNotification(String fcmToken);
+    void subscribeToTopic(String fcmToken, String topic);
+    void sendCouponIssueNotification(String topic);
 }
