@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ParkingLotService {
     List<GetParkingLotRes> findParkingLots(Integer storeId);
+    int modifyUsedSpaces(Integer parkingLotId, Integer cnt);
 }

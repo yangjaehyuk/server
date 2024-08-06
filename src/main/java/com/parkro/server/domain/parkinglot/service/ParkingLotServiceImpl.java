@@ -20,4 +20,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public List<GetParkingLotRes> findParkingLots(Integer storeId) {
         return parkingLotMapper.selectParkingLots(storeId);
     }
+
+    // 주차장 잔여 좌석 수 조절
+    @Override
+    @Transactional
+    public int modifyUsedSpaces(Integer parkingLotId, Integer cnt) {
+        return parkingLotMapper.updateUsedSpaces(parkingLotId, cnt);
+    }
 }

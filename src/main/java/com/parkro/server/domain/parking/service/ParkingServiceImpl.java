@@ -11,11 +11,11 @@ import com.parkro.server.domain.parking.dto.GetParkingReq;
 import com.parkro.server.domain.parking.mapper.ParkingMapper;
 import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.service.MemberService;
+import com.parkro.server.domain.parkinglot.service.ParkingLotService;
 import com.parkro.server.exception.CustomException;
 import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +29,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     private final ParkingMapper parkingMapper;
     private final MemberService memberService;
+    private final ParkingLotService parkingLotService;
     private final ApplicationEventPublisher eventPublisher;
 
   /**
@@ -71,6 +72,7 @@ public class ParkingServiceImpl implements ParkingService {
             eventPublisher.publishEvent(new ParkingEntryDTO(member.getFcmToken(), req.getCarNumber()));
         }
         parkingMapper.insertParking(req);
+        parkingLotService.modifyUsedSpaces(req.getParkingLotId(), 1);
         return req.getParkingId();
     }
 
@@ -82,6 +84,7 @@ public class ParkingServiceImpl implements ParkingService {
         if (numRowsUpdated == 0) {
             throw new CustomException(INVALID_PARKING_STATUS);
         }
+        parkingLotService.modifyUsedSpaces(req.getParkingLotId(), -1);
         return numRowsUpdated;
     }
   
