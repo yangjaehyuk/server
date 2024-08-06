@@ -18,4 +18,13 @@
             store_id = #{store}
         ]]>
     </select>
+
+    <!-- 주차장 잔여 좌석 수 조절 -->
+    <update id="updateUsedSpaces" parameterType="Map">
+        <![CDATA[
+        UPDATE parking_lot
+        SET used_spaces = used_spaces + #{cnt}
+        WHERE parking_lot_id = #{parkingLotId}
+        ]]>
+    </update>
 </mapper>
