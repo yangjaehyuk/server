@@ -11,11 +11,11 @@ public interface MemberService {
     void addMember(PostMemberReq postMemberReq);
     /* 회원 탈퇴 */
     Integer removeMember(String username);
-
+    /* username으로 멤버 정보 조회 */
     GetMemberRes findMember(String username);
     /* 로그인 */
     PostMemberRes signInMember(PostMemberReq postMemberReq);
-
+    /* carNumber로 멤버 정보 조회 */
     GetMemberRes findMemberByCarNumber(String carNumber);
     /* 회원 정보 수정 */
     PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq);

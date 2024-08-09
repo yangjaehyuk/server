@@ -114,7 +114,7 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 로그인
      * @param postMemberReq
-     * @return postMemberRes
+     * @return 로그인 정보 {@link PostMemberRes}
      */
     @Override
     @Transactional
@@ -144,6 +144,11 @@ public class MemberServiceImpl implements MemberService {
         return postMemberRes;
     }
 
+    /**
+     * username 으로 멤버 정보 조회
+     * @param username
+     * @return 멤버 정보 {@link GetMemberRes}
+     */
     @Override
     public GetMemberRes findMember(String username) {
 
@@ -174,7 +179,11 @@ public class MemberServiceImpl implements MemberService {
         return cnt;
     }
 
-
+    /**
+     * 차량번호로 멤버 정보 조회
+     * @param carNumber
+     * @return GetMemberRes
+     */
     @Override
     @Transactional(readOnly=true)
     public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectMemberByCarNumber(carNumber);}
@@ -182,7 +191,7 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 회원 정보 수정
      * @param putMemberReq
-     * @return putMemberReq
+     * @return 회원 수정 정보 {@link PutMemberReq}
      */
     @Override
     public PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq) {
