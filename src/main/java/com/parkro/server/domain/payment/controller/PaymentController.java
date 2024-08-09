@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -68,13 +70,20 @@ public class PaymentController {
   }
 
   @GetMapping("/fail")
-  public ResponseEntity<String> paymentFail(@RequestParam String orderId, @RequestParam String amount) {
+  public ResponseEntity<String> paymentFail(@RequestParam String orderId, @RequestParam String amount, @RequestParam String code, @RequestParam String message) {
     HttpHeaders headers = new HttpHeaders();
 
-    String redirectUrl = String.format("parkro://payment/fail?orderId=%s&amount=%s", orderId, amount);
-    headers.setLocation(URI.create(redirectUrl));
+    try {
+      // 인코딩된 값으로 리디렉션 URL 생성
+      String redirectUrl = String.format("parkro://payment/fail?orderId=%s&amount=%s&code=%s&message=%s",
+              orderId, amount, code, URLEncoder.encode(message, StandardCharsets.UTF_8));
+      headers.setLocation(URI.create(redirectUrl));
+    } catch (Exception e) {
+      // 예외 처리 (예: URLEncoder.encode()에서 발생하는 예외)
+      return new ResponseEntity<>("Error encoding URL", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     log.info("payment fail fail! !!!!");
-    return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(headers, HttpStatus.FOUND);
   }
 }
