@@ -17,18 +17,15 @@
     <!-- 지점별 주차장 목록 조회 -->
     <select id="selectParkingLots" parameterType="Integer" resultType="GetParkingLotRes">
         <![CDATA[
-        SELECT
-            name AS name,
-            address AS address,
-            latitude AS latitude,
-            longitude AS longitude,
-            is_internal AS isInternal,
-            total_spaces AS totalSpaces,
-            used_spaces AS usedSpaces
-        FROM
-            parking_lot
-        WHERE
-            store_id = #{store}
+        SELECT name         AS name,
+               address      AS address,
+               latitude     AS latitude,
+               longitude    AS longitude,
+               is_internal  AS isInternal,
+               total_spaces AS totalSpaces,
+               used_spaces  AS usedSpaces
+        FROM parking_lot
+        WHERE store_id = #{store}
         ]]>
     </select>
 

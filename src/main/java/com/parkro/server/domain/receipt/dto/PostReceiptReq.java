@@ -1,6 +1,9 @@
 package com.parkro.server.domain.receipt.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 영수증 등록 DTO

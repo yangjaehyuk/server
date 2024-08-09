@@ -24,23 +24,23 @@ import java.util.TimeZone;
  */
 public class KSTDateSerializer extends StdSerializer<Date> {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    static {
-        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-    }
+  static {
+    dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+  }
 
-    public KSTDateSerializer() {
-        this(null);
-    }
+  public KSTDateSerializer() {
+    this(null);
+  }
 
-    public KSTDateSerializer(Class<Date> t) {
-        super(t);
-    }
+  public KSTDateSerializer(Class<Date> t) {
+    super(t);
+  }
 
-    @Override
-    public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        String formattedDate = dateFormat.format(date);
-        gen.writeString(formattedDate);
-    }
+  @Override
+  public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    String formattedDate = dateFormat.format(date);
+    gen.writeString(formattedDate);
+  }
 }

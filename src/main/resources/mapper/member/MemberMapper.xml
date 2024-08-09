@@ -33,9 +33,11 @@
     </select>
 
     <!-- 회원 가입 -->
-    <insert id="insertMember" parameterType="PostMemberReq" useGeneratedKeys="true" keyProperty="memberId" keyColumn="member_id">
+    <insert id="insertMember" parameterType="PostMemberReq" useGeneratedKeys="true" keyProperty="memberId"
+            keyColumn="member_id">
     <![CDATA[
-        INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, created_date, role)
+        INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car,
+                            created_date, role)
         VALUES (member_seq.NEXTVAL, #{username}, #{password}, #{nickname}, #{phoneNumber},
                 #{carNumber,jdbcType=VARCHAR},
                 1, CURRENT_TIMESTAMP, 'ROLE_ADMIN')
@@ -46,7 +48,9 @@
         <![CDATA[
         UPDATE member
         SET car_number = #{carNumber}
-        WHERE car_number IS NULL AND status = 'ACTIVE' AND member_id = #{memberId}
+        WHERE car_number IS NULL
+          AND status = 'ACTIVE'
+          AND member_id = #{memberId}
         ]]>
     </update>
 
@@ -55,7 +59,7 @@
     <![CDATA[
         UPDATE member
         SET deleted_date = CURRENT_TIMESTAMP,
-            status = 'INACTIVE'
+            status       = 'INACTIVE'
         WHERE username = #{username}
           AND deleted_date IS NULL
           AND status = 'ACTIVE'
@@ -64,28 +68,55 @@
     <!-- username 으로 멤버 정보 조회 -->
     <select id="selectMemberByUsername" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
-            SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcmToken
-            FROM member
-            where username = #{username} AND status = 'ACTIVE'
+        SELECT member_id    AS memberId,
+               username,
+               password,
+               nickname,
+               phone_number AS phoneNumber,
+               role,
+               car_number   AS carNumber,
+               profile_car  AS profileCar,
+               status,
+               created_date AS createdDate,
+               deleted_date AS deletedDate,
+               fcm_token    AS fcmToken
+        FROM member
+        where username = #{username}
+          AND status = 'ACTIVE'
         ]]>
     </select>
 
     <!-- carNumber로 멤버 정보 조회 -->
     <select id="selectMemberByCarNumber" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
-        SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcmToken
+        SELECT member_id    AS memberId,
+               username,
+               password,
+               nickname,
+               phone_number AS phoneNumber,
+               role,
+               car_number   AS carNumber,
+               profile_car  AS profileCar,
+               status,
+               created_date AS createdDate,
+               deleted_date AS deletedDate,
+               fcm_token    AS fcmToken
         FROM member
-        WHERE car_number = #{carNumber} AND status = 'ACTIVE'
+        WHERE car_number = #{carNumber}
+          AND status = 'ACTIVE'
         ]]>
     </select>
     <!-- PutMemberReq 으로 멤버 정보 수정 -->
     <update id="updateMemberDetails" parameterType="PutMemberReq">
     <![CDATA[
         UPDATE member
-        SET password = #{password}, nickname = #{nickname}, phone_number = #{phoneNumber}, profile_car = #{carProfile}
+        SET password     = #{password},
+            nickname     = #{nickname},
+            phone_number = #{phoneNumber},
+            profile_car  = #{carProfile}
         WHERE username = #{username}
-        AND deleted_date IS NULL
-        AND status = 'ACTIVE'
+          AND deleted_date IS NULL
+          AND status = 'ACTIVE'
         ]]>
 </update>
 
@@ -113,11 +144,15 @@
 
     <!-- 전화 번호 중복 확인 -->
     <select id="countPhoneNumber" parameterType="String" resultType="Integer">
-        SELECT COUNT(phone_number) FROM member WHERE phone_number = #{phoneNumber}
+        SELECT COUNT(phone_number)
+        FROM member
+        WHERE phone_number = #{phoneNumber}
     </select>
     <!-- 차량 중복 확인 -->
     <select id="countCarNumber" parameterType="String" resultType="Integer">
-        SELECT COUNT(car_number) FROM member WHERE car_number = #{carNumber, jdbcType = VARCHAR}
+        SELECT COUNT(car_number)
+        FROM member
+        WHERE car_number = #{carNumber, jdbcType = VARCHAR}
     </select>
 
 </mapper>

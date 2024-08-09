@@ -20,7 +20,6 @@ import java.util.List;
  * 정산
  *
  * @author 김지수
- * @since 2024.07.25
  * @version 1.0
  *
  * <pre>
@@ -29,6 +28,7 @@ import java.util.List;
  * 2024.07.25  김지수      최초 생성
  * 2024.07.26  김지수      쿠폰 조회 API
  * </pre>
+ * @since 2024.07.25
  */
 @RestController
 @RequiredArgsConstructor

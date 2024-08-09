@@ -1,7 +1,9 @@
 package com.parkro.server.domain.parking.dto;
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.parkro.server.util.KSTDateSerializer;
 import lombok.*;
+
 import java.util.Date;
 
 /**

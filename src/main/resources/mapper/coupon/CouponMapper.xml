@@ -20,20 +20,20 @@
     <!-- 쿠폰 상태 변경 (ACTIVE -> USED) -->
     <update id="updateCouponStatus" parameterType="Integer">
         <![CDATA[
-            UPDATE
-                member_coupon
-            SET
-                status = 'USED'
-            WHERE member_coupon_id = #{memberCouponId, jdbcType=INTEGER}
+        UPDATE
+            member_coupon
+        SET status = 'USED'
+        WHERE member_coupon_id = #{memberCouponId, jdbcType=INTEGER}
         ]]>
     </update>
 
     <!-- 현재 발급 가능한 쿠폰 리스트 조회 -->
     <select id="selectCouponIdByDate" parameterType="java.util.Date" resultType="Integer">
        <![CDATA[
-            SELECT coupon_id
-            FROM coupon
-            WHERE end_date >= #{now} AND created_date <= #{now}
+        SELECT coupon_id
+        FROM coupon
+        WHERE end_date >= #{now}
+          AND created_date <= #{now}
         ]]>
     </select>
 
@@ -41,10 +41,13 @@
     <insert id="insertCoupons" parameterType="PostMemberCouponReq">
     <![CDATA[
         BEGIN
-        FOR I IN 1..2 LOOP
-            INSERT INTO member_coupon (member_coupon_id, member_id, coupon_id, parking_lot_id, status, created_date, used_date)
-            VALUES (member_coupon_seq.nextval, #{memberId}, #{couponId}, NULL, 'ACTIVE', CURRENT_TIMESTAMP, NULL);
-        END LOOP;
+            FOR I IN 1..2
+                LOOP
+                    INSERT INTO member_coupon (member_coupon_id, member_id, coupon_id, parking_lot_id, status,
+                                               created_date, used_date)
+                    VALUES (member_coupon_seq.nextval, #{memberId}, #{couponId}, NULL, 'ACTIVE', CURRENT_TIMESTAMP,
+                            NULL);
+                END LOOP;
         END;
         ]]>
 </insert>
@@ -54,7 +57,8 @@
     <![CDATA[
         UPDATE member_coupon
         SET status = 'INACTIVE'
-        WHERE #{memberId} = member_id AND status = 'ACTIVE'
+        WHERE #{memberId} = member_id
+          AND status = 'ACTIVE'
         ]]>
 
     </update>

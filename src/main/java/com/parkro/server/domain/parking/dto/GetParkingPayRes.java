@@ -27,14 +27,14 @@ import java.util.Date;
 @Getter
 public class GetParkingPayRes {
 
-    private String carNumber;
-    private Integer parkingId;
-    private String status;
-    private String storeName;
-    private String parkingLotName;
-    @JsonSerialize(using = KSTDateSerializer.class)
-    private Date entranceDate;
-    private Integer parkingTimeHour;
-    private Integer parkingTimeMinute;
-    private Integer perPrice;
+  private String carNumber;
+  private Integer parkingId;
+  private String status;
+  private String storeName;
+  private String parkingLotName;
+  @JsonSerialize(using = KSTDateSerializer.class)
+  private Date entranceDate;
+  private Integer parkingTimeHour;
+  private Integer parkingTimeMinute;
+  private Integer perPrice;
 }

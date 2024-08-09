@@ -23,6 +23,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ParkingEntryDTO {
 
-    private String fcmToken;
-    private String carNumber;
+  private String fcmToken;
+  private String carNumber;
 }

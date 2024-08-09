@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 /**
  * 로그아웃 커스텀 핸들러
  *
@@ -29,29 +30,30 @@ import java.io.IOException;
 @Log4j2
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TokenBlacklistService tokenBlacklistService;
-    private final MemberMapper memberMapper;
-    public CustomLogoutSuccessHandler(JwtTokenProvider jwtTokenProvider, TokenBlacklistService tokenBlacklistService, MemberMapper memberMapper) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.tokenBlacklistService = tokenBlacklistService;
-        this.memberMapper = memberMapper;
-    }
+  private final JwtTokenProvider jwtTokenProvider;
+  private final TokenBlacklistService tokenBlacklistService;
+  private final MemberMapper memberMapper;
 
-    @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
-        String token = jwtTokenProvider.resolveToken(request);
-        if (token != null) {
-            String username = jwtTokenProvider.getSubject(token);
-            memberMapper.updateFCM(PostMemberReq.builder()
-                            .fcmToken(null)
-                            .username(username)
-                    .build());
-            tokenBlacklistService.addToken(token);
-        }
-        SecurityContextHolder.clearContext();
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().flush();
+  public CustomLogoutSuccessHandler(JwtTokenProvider jwtTokenProvider, TokenBlacklistService tokenBlacklistService, MemberMapper memberMapper) {
+    this.jwtTokenProvider = jwtTokenProvider;
+    this.tokenBlacklistService = tokenBlacklistService;
+    this.memberMapper = memberMapper;
+  }
+
+  @Override
+  public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+          throws IOException, ServletException {
+    String token = jwtTokenProvider.resolveToken(request);
+    if (token != null) {
+      String username = jwtTokenProvider.getSubject(token);
+      memberMapper.updateFCM(PostMemberReq.builder()
+              .fcmToken(null)
+              .username(username)
+              .build());
+      tokenBlacklistService.addToken(token);
     }
+    SecurityContextHolder.clearContext();
+    response.setStatus(HttpServletResponse.SC_OK);
+    response.getWriter().flush();
+  }
 }

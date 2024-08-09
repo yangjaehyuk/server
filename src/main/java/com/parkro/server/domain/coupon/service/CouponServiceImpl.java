@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+
 /**
  * 쿠폰 도메인
  *
@@ -26,58 +27,62 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Log4j2
 public class CouponServiceImpl implements CouponService {
-    private final CouponMapper couponMapper;
+  private final CouponMapper couponMapper;
 
-    /**
-     * 날짜 기준 쿠폰(coupon_id) 목록 조회
-     * @param date
-     * @return Integer 쿠폰 아이디
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Integer findCouponIdByDate(Date date) {
+  /**
+   * 날짜 기준 쿠폰(coupon_id) 목록 조회
+   *
+   * @param date
+   * @return Integer 쿠폰 아이디
+   */
+  @Override
+  @Transactional(readOnly = true)
+  public Integer findCouponIdByDate(Date date) {
 
-        int couponId = 0;
-        couponId = couponMapper.selectCouponIdByDate(date);
+    int couponId = 0;
+    couponId = couponMapper.selectCouponIdByDate(date);
 
-        if(couponId == 0) {
-            throw new CustomException(ErrorCode.INVALID_COUPON_ID);
-        }
-        return couponId;
+    if (couponId == 0) {
+      throw new CustomException(ErrorCode.INVALID_COUPON_ID);
     }
+    return couponId;
+  }
 
-    /**
-     * 쿠폰 등록
-     * @param postMemberCouponReq
-     */
-    @Override
-    @Transactional
-    public void addCoupons(PostMemberCouponReq postMemberCouponReq) {
-        PostMemberCouponReq modifiedMemberCouponReq = PostMemberCouponReq.builder()
-                .memberId(postMemberCouponReq.getMemberId())
-                .couponId(postMemberCouponReq.getCouponId())
-                .build();
+  /**
+   * 쿠폰 등록
+   *
+   * @param postMemberCouponReq
+   */
+  @Override
+  @Transactional
+  public void addCoupons(PostMemberCouponReq postMemberCouponReq) {
+    PostMemberCouponReq modifiedMemberCouponReq = PostMemberCouponReq.builder()
+            .memberId(postMemberCouponReq.getMemberId())
+            .couponId(postMemberCouponReq.getCouponId())
+            .build();
 
-        couponMapper.insertCoupons(modifiedMemberCouponReq);
-    }
+    couponMapper.insertCoupons(modifiedMemberCouponReq);
+  }
 
-    /**
-     * 쿠폰 삭제
-     * @param memberId
-     */
-    @Override
-    @Transactional
-    public void removeCoupons(Integer memberId) {
-        couponMapper.deleteCoupons(memberId);
-    }
+  /**
+   * 쿠폰 삭제
+   *
+   * @param memberId
+   */
+  @Override
+  @Transactional
+  public void removeCoupons(Integer memberId) {
+    couponMapper.deleteCoupons(memberId);
+  }
 
-    /**
-     * 쿠폰 상태 업데이트 (ACTIVE -> USED)
-     * @param memberCouponId
-     */
-    @Override
-    @Transactional
-    public void modifyCouponStatusUse(Integer memberCouponId) {
-        couponMapper.updateCouponStatus(memberCouponId);
-    }
+  /**
+   * 쿠폰 상태 업데이트 (ACTIVE -> USED)
+   *
+   * @param memberCouponId
+   */
+  @Override
+  @Transactional
+  public void modifyCouponStatusUse(Integer memberCouponId) {
+    couponMapper.updateCouponStatus(memberCouponId);
+  }
 }

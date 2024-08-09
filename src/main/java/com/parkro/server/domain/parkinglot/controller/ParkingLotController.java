@@ -29,12 +29,12 @@ import java.util.List;
 @RequestMapping("/parking-lot")
 public class ParkingLotController {
 
-    private final ParkingLotService parkingLotService;
+  private final ParkingLotService parkingLotService;
 
-    // 백화점 지점별 외부 주차장 조회
-    @GetMapping
-    public ResponseEntity<List<GetParkingLotRes>> parkingLotList(@RequestParam Integer store) {
-        return ResponseEntity.ok(parkingLotService.findParkingLots(store));
-    }
+  // 백화점 지점별 외부 주차장 조회
+  @GetMapping
+  public ResponseEntity<List<GetParkingLotRes>> parkingLotList(@RequestParam Integer store) {
+    return ResponseEntity.ok(parkingLotService.findParkingLots(store));
+  }
 
 }

@@ -40,6 +40,7 @@ public class PaymentSchedulerServiceImpl implements PaymentSchedulerService {
 
   /**
    * 비동기로 수행하는 결제 취소 작업(modifyCancelledDate) 호출 메서드
+   *
    * @param parkingId
    * @param paymentId
    * @return 작업 완료를 나타내는 {@link CompletableFuture<Void>}
@@ -60,6 +61,7 @@ public class PaymentSchedulerServiceImpl implements PaymentSchedulerService {
 
   /**
    * 결제 취소
+   *
    * @param parkingId
    * @param paymentId
    */

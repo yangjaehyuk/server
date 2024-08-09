@@ -1,15 +1,11 @@
 package com.parkro.server.domain.receipt.controller;
 
+import com.parkro.server.domain.receipt.dto.GetReceiptRes;
 import com.parkro.server.domain.receipt.dto.PostReceiptReq;
 import com.parkro.server.domain.receipt.service.ReceiptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.parkro.server.domain.receipt.dto.GetReceiptRes;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 영수증

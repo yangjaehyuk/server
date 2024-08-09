@@ -1,8 +1,8 @@
 package com.parkro.server.domain.receipt.service;
 
+import com.parkro.server.domain.receipt.dto.GetReceiptRes;
 import com.parkro.server.domain.receipt.dto.PostReceiptReq;
 import com.parkro.server.domain.receipt.mapper.ReceiptMapper;
-import com.parkro.server.domain.receipt.dto.GetReceiptRes;
 import com.parkro.server.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -36,6 +36,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
   /**
    * 영수증 등록
+   *
    * @param req
    * @return 업데이트된 row 수
    */
@@ -48,6 +49,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
   /**
    * 영수증 조회
+   *
    * @param receiptId
    * @return receipt_id로 조회한 금액 정보, 상태 등을 포함한 영수증 정보{@link GetReceiptRes}
    */
@@ -61,6 +63,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
   /**
    * 영수증 상태 변경 (ACTIVE -> USED)
+   *
    * @param receiptId
    * @return 업데이트된 row 수
    */

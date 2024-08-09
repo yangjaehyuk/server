@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 /**
  * 회원 수정 성공 시 전달되는 응답에 담을 데이터 클래스
  *
@@ -21,6 +22,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class PostSignInRes {
-    private String username;
-    private Integer carProfile;
+  private String username;
+  private Integer carProfile;
 }

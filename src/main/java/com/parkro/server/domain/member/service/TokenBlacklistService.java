@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
+
 /**
  * 토큰 관리 도메인
  *
@@ -22,24 +23,26 @@ import java.util.Set;
 @Service
 public class TokenBlacklistService {
 
-    private final Set<String> blacklist = new HashSet<>();
+  private final Set<String> blacklist = new HashSet<>();
 
-    /**
-     * 블랙리스트 내 토큰 등록
-     * @param token
-     */
-    public void addToken(String token) {
+  /**
+   * 블랙리스트 내 토큰 등록
+   *
+   * @param token
+   */
+  public void addToken(String token) {
 
-        blacklist.add(token);
+    blacklist.add(token);
 
-    }
+  }
 
-    /**
-     * 블랙리스트 내 토큰 여부 확인
-     * @param token
-     * @return Boolean 블랙리스트 내 토큰 등록 여부
-     */
-    public boolean isTokenBlacklisted(String token) {
-        return blacklist.contains(token);
-    }
+  /**
+   * 블랙리스트 내 토큰 여부 확인
+   *
+   * @param token
+   * @return Boolean 블랙리스트 내 토큰 등록 여부
+   */
+  public boolean isTokenBlacklisted(String token) {
+    return blacklist.contains(token);
+  }
 }

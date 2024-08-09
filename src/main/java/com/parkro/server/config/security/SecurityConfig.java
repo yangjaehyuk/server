@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 /**
  * 인증/인가 설정
  *
@@ -31,48 +32,47 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TokenBlacklistService tokenBlacklistService;
-    private final MemberMapper memberMapper;
+  private final JwtTokenProvider jwtTokenProvider;
+  private final TokenBlacklistService tokenBlacklistService;
+  private final MemberMapper memberMapper;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("*").permitAll()
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+            .httpBasic().disable()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests()
+            .antMatchers("*").permitAll()
 //                .anyRequest().hasAnyRole("USER", "ADMIN")
-                .and()
-                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
-                .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and()
-                .logout()
-                .logoutUrl("/member/sign-out")
-                .logoutSuccessHandler(new CustomLogoutSuccessHandler(jwtTokenProvider, tokenBlacklistService, memberMapper))
-                .and()
-                .addFilterBefore(new JwtFilter(jwtTokenProvider, tokenBlacklistService), UsernamePasswordAuthenticationFilter.class);
-    }
+            .and()
+            .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+            .and()
+            .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+            .and()
+            .logout()
+            .logoutUrl("/member/sign-out")
+            .logoutSuccessHandler(new CustomLogoutSuccessHandler(jwtTokenProvider, tokenBlacklistService, memberMapper))
+            .and()
+            .addFilterBefore(new JwtFilter(jwtTokenProvider, tokenBlacklistService), UsernamePasswordAuthenticationFilter.class);
+  }
 
 
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring();
-    }
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web
+            .ignoring();
+  }
 }

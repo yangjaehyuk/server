@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Date;
+
 /**
  * 쿠폰 등록 클래스
  *
@@ -24,10 +24,10 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class PostMemberCouponReq {
-    private Long memberCouponId;
-    private Long couponId;
-    private Integer memberId;
-    private String status;
-    private Date createdDate;
-    private Date endDate;
+  private Long memberCouponId;
+  private Long couponId;
+  private Integer memberId;
+  private String status;
+  private Date createdDate;
+  private Date endDate;
 }

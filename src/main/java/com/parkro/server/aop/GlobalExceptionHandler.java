@@ -24,25 +24,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Log4j2
 public class GlobalExceptionHandler {
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ErrorResponse> handleCustomException(CustomException ex) {
-        log.error(ex.getMessage(), ex);
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .status(ex.getErrorCode().getStatus())
-                .errorCode(ex.getErrorCode().name())
-                .message(ex.getErrorCode().getMessage())
-                .build();
-        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
-    }
+  @ExceptionHandler(CustomException.class)
+  public ResponseEntity<ErrorResponse> handleCustomException(CustomException ex) {
+    log.error(ex.getMessage(), ex);
+    ErrorResponse errorResponse = ErrorResponse.builder()
+            .status(ex.getErrorCode().getStatus())
+            .errorCode(ex.getErrorCode().name())
+            .message(ex.getErrorCode().getMessage())
+            .build();
+    return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+  }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
-        log.error(ex.getMessage(), ex);
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .errorCode("INTERNAL_SERVER_ERROR")
-                .message(ex.getMessage())
-                .build();
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+    log.error(ex.getMessage(), ex);
+    ErrorResponse errorResponse = ErrorResponse.builder()
+            .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .errorCode("INTERNAL_SERVER_ERROR")
+            .message(ex.getMessage())
+            .build();
+    return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
 }

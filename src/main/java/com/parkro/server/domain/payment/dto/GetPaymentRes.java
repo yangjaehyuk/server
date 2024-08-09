@@ -1,6 +1,5 @@
 package com.parkro.server.domain.payment.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.parkro.server.util.KSTDateSerializer;
 import lombok.AllArgsConstructor;

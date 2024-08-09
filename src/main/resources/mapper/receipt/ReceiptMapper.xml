@@ -19,28 +19,31 @@
     <!-- 백화점 결제 정보 삽입 -->
     <insert id="insertReceipt" parameterType="PostReceiptReq">
         <![CDATA[
-            INSERT INTO receipt(receipt_id, store_id, total_price, created_date)
-            VALUES (#{receiptId}, #{storeId}, #{totalPrice}, CURRENT_TIMESTAMP)
+        INSERT INTO receipt(receipt_id, store_id, total_price, created_date)
+        VALUES (#{receiptId}, #{storeId}, #{totalPrice}, CURRENT_TIMESTAMP)
         ]]>
     </insert>
 
     <!-- 백화점 결제 정보 조회 -->
     <select id="selectReceipt" parameterType="Integer" resultType="GetReceiptRes">
         <![CDATA[
-            SELECT receipt_id AS receiptId, store_id AS storeId, total_price AS totalPrice, status, created_date AS createdDate
-            FROM receipt
-            WHERE receipt_id = #{receiptId}
+        SELECT receipt_id   AS receiptId,
+               store_id     AS storeId,
+               total_price  AS totalPrice,
+               status,
+               created_date AS createdDate
+        FROM receipt
+        WHERE receipt_id = #{receiptId}
         ]]>
     </select>
 
     <!-- 영수증 상태 변경 (ACTIVE -> USED) -->
     <update id="updateReceiptStatus" parameterType="Integer">
         <![CDATA[
-            UPDATE
-                receipt
-            SET
-                status = 'USED'
-            WHERE receipt_id = #{receiptId}
+        UPDATE
+            receipt
+        SET status = 'USED'
+        WHERE receipt_id = #{receiptId}
         ]]>
     </update>
 </mapper>

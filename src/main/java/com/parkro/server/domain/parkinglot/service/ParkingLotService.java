@@ -18,8 +18,9 @@ import java.util.List;
  * </pre>
  */
 public interface ParkingLotService {
-    // 지점별 외부 주차장 목록 조회
-    List<GetParkingLotRes> findParkingLots(Integer storeId);
-    // 주차장 잔여 좌석 수 조절
-    int modifyUsedSpaces(Integer parkingLotId, Integer cnt);
+  // 지점별 외부 주차장 목록 조회
+  List<GetParkingLotRes> findParkingLots(Integer storeId);
+
+  // 주차장 잔여 좌석 수 조절
+  int modifyUsedSpaces(Integer parkingLotId, Integer cnt);
 }

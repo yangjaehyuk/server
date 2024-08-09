@@ -2,7 +2,10 @@ package com.parkro.server.domain.receipt.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.parkro.server.util.KSTDateSerializer;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 

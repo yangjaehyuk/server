@@ -19,7 +19,7 @@ public interface PaymentMapper {
 
   // parkingId로 결제 정보 조회
   GetPaymentRes selectPaymentByParkingId(Integer parkingId);
-  
+
   // 결제 취소 상태로 업데이트
   void updateCancelledDate(Integer paymentId);
 }

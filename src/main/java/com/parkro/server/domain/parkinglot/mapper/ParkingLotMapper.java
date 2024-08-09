@@ -21,10 +21,10 @@ import java.util.List;
  */
 @Mapper
 public interface ParkingLotMapper {
-    // storeId(지점 아이디)로 주차장 목록 조회
-    List<GetParkingLotRes> selectParkingLots(Integer storeId);
+  // storeId(지점 아이디)로 주차장 목록 조회
+  List<GetParkingLotRes> selectParkingLots(Integer storeId);
 
-    // parkingLotId(주차장 아이디)로 잔여 좌석 수 조절
-    int updateUsedSpaces(@Param("parkingLotId")Integer parkingLotId,
-                         @Param("cnt")Integer cnt);
+  // parkingLotId(주차장 아이디)로 잔여 좌석 수 조절
+  int updateUsedSpaces(@Param("parkingLotId") Integer parkingLotId,
+                       @Param("cnt") Integer cnt);
 }

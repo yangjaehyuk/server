@@ -28,21 +28,21 @@ import java.util.Date;
 @Getter
 public class GetParkingDetailRes {
 
-    private String carNumber;
-    private String storeName;
-    private String parkingLotName;
-    @JsonSerialize(using = KSTDateSerializer.class)
-    private Date entranceDate;
-    @JsonSerialize(using = KSTDateSerializer.class)
-    private Date exitDate;
-    private String parkingStatus;
+  private String carNumber;
+  private String storeName;
+  private String parkingLotName;
+  @JsonSerialize(using = KSTDateSerializer.class)
+  private Date entranceDate;
+  @JsonSerialize(using = KSTDateSerializer.class)
+  private Date exitDate;
+  private String parkingStatus;
 
-    @JsonSerialize(using = KSTDateSerializer.class)
-    private Date paymentDate;
-    private Integer couponDiscountTime;
-    private Integer receiptDiscountTime;
-    private Integer totalParkingTime;
-    private Integer parkingTimeHour;
-    private Integer parkingTimeMinute;
-    private Integer totalPrice;
+  @JsonSerialize(using = KSTDateSerializer.class)
+  private Date paymentDate;
+  private Integer couponDiscountTime;
+  private Integer receiptDiscountTime;
+  private Integer totalParkingTime;
+  private Integer parkingTimeHour;
+  private Integer parkingTimeMinute;
+  private Integer totalPrice;
 }

@@ -29,31 +29,31 @@ import java.util.List;
 @Configuration
 public class FCMConfig {
 
-    @Value("${firebase.resource.url}")
-    private String keyPath;
+  @Value("${firebase.resource.url}")
+  private String keyPath;
 
-    @Bean
-    FirebaseMessaging firebaseMessaging() throws IOException {
+  @Bean
+  FirebaseMessaging firebaseMessaging() throws IOException {
 
-        ClassPathResource resource = new ClassPathResource(keyPath);
+    ClassPathResource resource = new ClassPathResource(keyPath);
 
-        InputStream refreshToken = resource.getInputStream();
+    InputStream refreshToken = resource.getInputStream();
 
-        FirebaseApp firebaseApp = null;
-        List<FirebaseApp> firebaseAppList = FirebaseApp.getApps();
+    FirebaseApp firebaseApp = null;
+    List<FirebaseApp> firebaseAppList = FirebaseApp.getApps();
 
-        if(firebaseAppList != null && !firebaseAppList.isEmpty()) {
-            for (FirebaseApp app : firebaseAppList){
-                if (app.getName().equals(FirebaseApp.DEFAULT_APP_NAME)) {
-                    firebaseApp = app;
-                }
-            }
-        } else {
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(refreshToken))
-                    .build();
-            firebaseApp = FirebaseApp.initializeApp(options);
+    if (firebaseAppList != null && !firebaseAppList.isEmpty()) {
+      for (FirebaseApp app : firebaseAppList) {
+        if (app.getName().equals(FirebaseApp.DEFAULT_APP_NAME)) {
+          firebaseApp = app;
         }
-        return FirebaseMessaging.getInstance(firebaseApp);
+      }
+    } else {
+      FirebaseOptions options = FirebaseOptions.builder()
+              .setCredentials(GoogleCredentials.fromStream(refreshToken))
+              .build();
+      firebaseApp = FirebaseApp.initializeApp(options);
     }
+    return FirebaseMessaging.getInstance(firebaseApp);
+  }
 }

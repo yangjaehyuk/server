@@ -23,6 +23,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AlarmDTO {
 
-    private String title;
-    private String body;
+  private String title;
+  private String body;
 }

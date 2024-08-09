@@ -1,10 +1,6 @@
 package com.parkro.server.domain.parking.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * 주차 내역 조회 요청 DTO

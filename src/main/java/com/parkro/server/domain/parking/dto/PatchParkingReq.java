@@ -23,6 +23,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PatchParkingReq {
 
-    private Integer parkingLotId;
-    private String carNumber;
+  private Integer parkingLotId;
+  private String carNumber;
 }

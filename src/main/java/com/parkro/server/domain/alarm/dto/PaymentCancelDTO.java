@@ -23,5 +23,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PaymentCancelDTO {
 
-    private String fcmToken;
+  private String fcmToken;
 }

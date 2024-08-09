@@ -20,21 +20,18 @@
     <!-- member_id로 유저가 갖고있는 모든 쿠폰 조회 -->
     <select id="selectMemberCoupons" parameterType="Integer" resultType="GetPaymentCouponRes">
         <![CDATA[
-            SELECT
-                mc.member_coupon_id AS memberCouponId,
-                mc.coupon_id AS couponId,
-                mc.parking_lot_id AS parkingLotId,
-                mc.status AS status,
-                mc.created_date AS createdDate,
-                c.discount_hour AS discountHour,
-                c.end_date AS endDate
-            FROM
-                member_coupon mc
-                    INNER JOIN coupon c ON mc.coupon_id = c.coupon_id
-            WHERE
-                mc.member_id = #{memberId}
-              AND mc.used_date IS NULL
-              AND mc.status = 'ACTIVE'
+        SELECT mc.member_coupon_id AS memberCouponId,
+               mc.coupon_id        AS couponId,
+               mc.parking_lot_id   AS parkingLotId,
+               mc.status           AS status,
+               mc.created_date     AS createdDate,
+               c.discount_hour     AS discountHour,
+               c.end_date          AS endDate
+        FROM member_coupon mc
+                 INNER JOIN coupon c ON mc.coupon_id = c.coupon_id
+        WHERE mc.member_id = #{memberId}
+          AND mc.used_date IS NULL
+          AND mc.status = 'ACTIVE'
         ]]>
     </select>
 
@@ -82,26 +79,25 @@
     <!-- parking_id로 취소되지 않은 정산 내역 조회 -->
     <select id="selectPaymentByParkingId" resultType="GetPaymentRes" parameterType="Integer">
         <![CDATA[
-        SELECT
-            py.payment_id AS paymentId,
-            py.parking_id AS parkingId,
-            py.total_parking_time AS totalParkingTime,
-            py.total_price AS totalPrice,
-            EXTRACT(DAY FROM py.payment_time - pk.entrance_date) * 24 +
-            EXTRACT(HOUR FROM py.payment_time - pk.entrance_date) AS parkingTimeHour,
-            EXTRACT(MINUTE FROM py.payment_time - pk.entrance_date) AS parkingTimeMinute,
-            py.coupon_discount_time AS couponDiscountTime,
-            py.receipt_discount_time AS receiptDiscountTime,
-            py.card,
-            py.payment_time AS paymentTime,
-            pk.car_number AS carNumber,
-            pk.entrance_date AS entranceDate,
-            pk.exit_date AS exitDate,
-            pk.status AS parkingStatus,
-            pl.parking_lot_id AS parkingLotId,
-            pl.store_id AS storeId,
-            pl.name AS parkingLotName,
-            s.name AS storeName
+        SELECT py.payment_id                                           AS paymentId,
+               py.parking_id                                           AS parkingId,
+               py.total_parking_time                                   AS totalParkingTime,
+               py.total_price                                          AS totalPrice,
+               EXTRACT(DAY FROM py.payment_time - pk.entrance_date) * 24 +
+               EXTRACT(HOUR FROM py.payment_time - pk.entrance_date)   AS parkingTimeHour,
+               EXTRACT(MINUTE FROM py.payment_time - pk.entrance_date) AS parkingTimeMinute,
+               py.coupon_discount_time                                 AS couponDiscountTime,
+               py.receipt_discount_time                                AS receiptDiscountTime,
+               py.card,
+               py.payment_time                                         AS paymentTime,
+               pk.car_number                                           AS carNumber,
+               pk.entrance_date                                        AS entranceDate,
+               pk.exit_date                                            AS exitDate,
+               pk.status                                               AS parkingStatus,
+               pl.parking_lot_id                                       AS parkingLotId,
+               pl.store_id                                             AS storeId,
+               pl.name                                                 AS parkingLotName,
+               s.name                                                  AS storeName
         FROM payment py
                  INNER JOIN
              parking pk ON py.parking_id = pk.parking_id
@@ -112,19 +108,18 @@
         WHERE py.parking_id = #{parking_id}
           AND py.cancelled_date IS NULL
         ORDER BY py.payment_time DESC
-        FETCH FIRST 1 ROW ONLY
+            FETCH FIRST 1 ROW ONLY
         ]]>
     </select>
 
     <!-- 결제 취소 시각 업데이트 -->
     <update id="updateCancelledDate" parameterType="Integer">
         <![CDATA[
-            UPDATE payment
-            SET
-            cancelled_date = CURRENT_TIMESTAMP,
-            status = 'CANCELLED'
-            WHERE payment_id = #{paymentId}
+        UPDATE payment
+        SET cancelled_date = CURRENT_TIMESTAMP,
+            status         = 'CANCELLED'
+        WHERE payment_id = #{paymentId}
         ]]>
     </update>
-  
+
 </mapper>

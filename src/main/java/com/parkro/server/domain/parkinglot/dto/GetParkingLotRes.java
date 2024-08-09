@@ -23,11 +23,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public class GetParkingLotRes {
 
-    private String name;
-    private String address;
-    private Double latitude;
-    private Double longitude;
-    private String isInternal;
-    private Long totalSpaces;
-    private Long usedSpaces;
+  private String name;
+  private String address;
+  private Double latitude;
+  private Double longitude;
+  private String isInternal;
+  private Long totalSpaces;
+  private Long usedSpaces;
 }
