@@ -9,10 +9,21 @@
     수정일           수정자    수정내용
     ===========     =======  ================================
     2024.07.25      양재혁    최초 생성
+    2024.07.25      양재혁    username으로 중복 조회
+    2024.07.25      양재혁    회원 가입
+    2024.07.26      양재혁    username 으로 멤버 정보 삭제
+    2024.07.28      김지수    username 으로 멤버 정보 조회
+    2024.07.28      김민정    carNumber로 멤버 정보 조회
+    2024.07.28      양재혁    PutMemberReq 으로 멤버 정보 수정
+    2024.07.29      양재혁    차량 등록
+    2024.07.29      양재혁    username 으로 차량 삭제
+    2024.08.01      양재혁    FCM Token 업데이트
+    2024.08.01      양재혁    전화 번호 중복 확인
+    2024.08.01      양재혁    차량 중복 확인
 -->
 <mapper namespace="com.parkro.server.domain.member.mapper.MemberMapper">
 
-    <!-- username으로 중복 체크 -->
+    <!-- username으로 중복 조회 -->
     <select id="selectMemberName" parameterType="String" resultType="PostMemberReq">
         <![CDATA[
         SELECT username, password, role
