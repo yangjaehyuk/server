@@ -20,9 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author 양재혁
  *
  * <pre>
- * 수정자        수정내용
- * --------    ---------------------------
- * 양재혁      최초 생성
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.29  양재혁       최초 생성
  * </pre>
  */
 
