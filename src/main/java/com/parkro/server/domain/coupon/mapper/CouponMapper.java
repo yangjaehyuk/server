@@ -8,7 +8,7 @@ import java.util.Date;
 @Mapper
 public interface CouponMapper {
 
-    // 날짜기준 쿠폰(coupon_id) 목록 조회
+    // 날짜 기준 쿠폰(coupon_id) 목록 조회
     Integer selectCouponIdByDate(Date date);
 
     // 쿠폰 등록
