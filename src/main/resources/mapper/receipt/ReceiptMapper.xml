@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parkro.server.domain.receipt.mapper.ReceiptMapper">
 
+    <!-- 백화점 결제 정보 삽입 -->
     <insert id="insertReceipt" parameterType="PostReceiptReq">
         <![CDATA[
             INSERT INTO receipt(receipt_id, store_id, total_price, created_date)
@@ -10,6 +11,7 @@
         ]]>
     </insert>
 
+    <!-- 영수증 정보 조회 -->
     <select id="selectReceipt" parameterType="Integer" resultType="GetReceiptRes">
         <![CDATA[
             SELECT receipt_id AS receiptId, store_id AS storeId, total_price AS totalPrice, status, created_date AS createdDate
@@ -18,6 +20,7 @@
         ]]>
     </select>
 
+    <!-- 영수증 상태 변경 (ACTIVE -> USED) -->
     <update id="updateReceiptStatus" parameterType="Integer">
         <![CDATA[
             UPDATE

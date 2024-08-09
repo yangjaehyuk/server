@@ -4,6 +4,7 @@
 
 <mapper namespace="com.parkro.server.domain.coupon.mapper.CouponMapper">
 
+    <!-- 쿠폰 상태 USED(사용됨)로 변경 -->
     <update id="updateCouponStatus" parameterType="Integer">
         <![CDATA[
             UPDATE

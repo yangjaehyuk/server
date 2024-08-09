@@ -47,6 +47,10 @@ public class CouponServiceImpl implements CouponService {
         couponMapper.deleteCoupons(memberId);
     }
 
+    /**
+     * 쿠폰 상태 업데이트 (ACTIVE -> USED)
+     * @param memberCouponId
+     */
     @Override
     @Transactional
     public void modifyCouponStatusUse(Integer memberCouponId) {

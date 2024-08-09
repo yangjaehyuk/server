@@ -15,6 +15,20 @@ import java.util.concurrent.TimeUnit;
 
 import static com.parkro.server.exception.ErrorCode.INVALID_PAYMENT_CANCELLATION;
 
+/**
+ * 결제 취소를 위한 지연 작업 관련 로직
+ *
+ * @author 김지수
+ * @since 2024.07.26
+ *
+ * <pre>
+ * 수정일자       수정자        수정내용
+ * ------------ --------    ---------------------------
+ * 2024.07.26   김지수      최초 생성
+ * 2024.07.26   김지수      비동기로 수행하는 결제 취소 작업(modifyCancelledDate) 호출 API
+ * 2024.07.26   김지수      결제 취소 API
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -25,7 +39,7 @@ public class PaymentSchedulerServiceImpl implements PaymentSchedulerService {
   private final ApplicationEventPublisher eventPublisher;
 
   /**
-   * 비동기로 수행하는 결제 취소 스케쥴러 호출 메서드
+   * 비동기로 수행하는 결제 취소 작업(modifyCancelledDate) 호출 메서드
    * @param parkingId
    * @param paymentId
    * @return 작업 완료를 나타내는 {@link CompletableFuture<Void>}

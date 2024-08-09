@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author 김지수
  * @since 2024.07.25
- * @version 1.0
  *
  * <pre>
  * 수정일        수정자        수정내용
