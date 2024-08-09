@@ -16,7 +16,8 @@ public interface PaymentMapper {
 
   // 결제 정보 삽입
   void insertPayment(@Param("req") PostPaymentReq req, @Param("memberId") Integer memberId);
-  
+
+  // parkingId로 결제 정보 조회
   GetPaymentRes selectPaymentByParkingId(Integer parkingId);
   
   // 결제 취소 상태로 업데이트

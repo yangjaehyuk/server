@@ -12,6 +12,8 @@
     2024.07.29    양재혁     parking 내 memberId null로 변경
 -->
 <mapper namespace="com.parkro.server.domain.parking.mapper.ParkingMapper">
+
+    <!-- parking_id로 주차 정보 조회 -->
     <select id="selectParkingByParkingId" resultType="GetParkingRes" parameterType="Integer">
         <![CDATA[
             SELECT parking_id AS parkingId,
@@ -25,6 +27,8 @@
             WHERE parking_id = #{parkingId}
         ]]>
     </select>
+
+    <!-- 주차 상태 (@Param status)로 변경 -->
     <update id="updateParkingStatus" parameterType="Map">
         <![CDATA[
         UPDATE parking

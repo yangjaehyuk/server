@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    파일명 : ReceiptMapper.xml
+    설  명 : 백화점 영수증
+
+    == 개정이력 ========================================
+    수정일         수정자     수정내용
+    ==========   =======   ================================
+    2024.07.25   김지수      최초 생성
+    2024.07.25   김지수      백화점 결제 정보 삽입
+    2024.07.25   김지수      백화점 결제 정보 조회
+    2024.08.03   김지수      영수증 상태 변경 (ACTIVE -> USED)
+-->
 <mapper namespace="com.parkro.server.domain.receipt.mapper.ReceiptMapper">
 
+    <!-- 백화점 결제 정보 삽입 -->
     <insert id="insertReceipt" parameterType="PostReceiptReq">
         <![CDATA[
             INSERT INTO receipt(receipt_id, store_id, total_price, created_date)
@@ -10,6 +24,7 @@
         ]]>
     </insert>
 
+    <!-- 백화점 결제 정보 조회 -->
     <select id="selectReceipt" parameterType="Integer" resultType="GetReceiptRes">
         <![CDATA[
             SELECT receipt_id AS receiptId, store_id AS storeId, total_price AS totalPrice, status, created_date AS createdDate
@@ -18,6 +33,7 @@
         ]]>
     </select>
 
+    <!-- 영수증 상태 변경 (ACTIVE -> USED) -->
     <update id="updateReceiptStatus" parameterType="Integer">
         <![CDATA[
             UPDATE

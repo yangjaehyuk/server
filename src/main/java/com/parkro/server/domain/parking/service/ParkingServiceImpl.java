@@ -52,6 +52,11 @@ public class ParkingServiceImpl implements ParkingService {
     return parkingMapper.updateParkingStatus(parkingId, "ENTRANCE");
   }
 
+  /**
+   * 결제 후 차량 상태 변경 (ENTRANCE -> PAY)
+   * @param parkingId
+   * @return 업데이트된 row
+   */
   @Override
   public Integer modifyParkingStatusPay(Integer parkingId) {
     return parkingMapper.updateParkingStatus(parkingId, "PAY");

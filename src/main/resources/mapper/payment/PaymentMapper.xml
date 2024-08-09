@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    파일명 : PaymentMapper.xml
+    설  명 : 정산
+
+    == 개정이력 ========================================
+    수정일         수정자     수정내용
+    ==========   =======   ================================
+    2024.07.26   김지수      최초 생성
+    2024.07.26   김지수      결제 정보 등록
+    2024.07.26   김지수      member_id로 유저가 갖고있는 모든 쿠폰 조회
+    2024.07.28   김지수      parking_id로 취소되지 않은 정산 내역 조회
+    2024.08.03   김지수      결제 취소 시각 업데이트
+-->
 <mapper namespace="com.parkro.server.domain.payment.mapper.PaymentMapper">
+
+    <!-- member_id로 유저가 갖고있는 모든 쿠폰 조회 -->
     <select id="selectMemberCoupons" parameterType="Integer" resultType="GetPaymentCouponRes">
         <![CDATA[
             SELECT
@@ -21,6 +37,8 @@
               AND mc.status = 'ACTIVE'
         ]]>
     </select>
+
+    <!-- 결제 정보 등록 -->
     <insert id="insertPayment" parameterType="Map">
         <selectKey keyProperty="req.paymentId" resultType="Integer" order="BEFORE">
             <![CDATA[
@@ -60,7 +78,8 @@
         DEFAULT
         )
     </insert>
-    
+
+    <!-- parking_id로 취소되지 않은 정산 내역 조회 -->
     <select id="selectPaymentByParkingId" resultType="GetPaymentRes" parameterType="Integer">
         <![CDATA[
         SELECT
@@ -96,7 +115,8 @@
         FETCH FIRST 1 ROW ONLY
         ]]>
     </select>
-  
+
+    <!-- 결제 취소 시각 업데이트 -->
     <update id="updateCancelledDate" parameterType="Integer">
         <![CDATA[
             UPDATE payment

@@ -12,9 +12,13 @@ import java.util.List;
 
 public interface ParkingService {
 
+  // parking_id로 주차 정보 조회
   GetParkingRes findParkingByParkingId(Integer parkingId);
+
+  // 결제 취소 후 차량 상태 변경
   Integer modifyParkingStatusEnter(Integer parkingId);
 
+  // 결제 후 차량 상태 변경
   Integer modifyParkingStatusPay(Integer parkingId);
 
     // 입차
