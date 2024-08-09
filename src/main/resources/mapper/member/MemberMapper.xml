@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    파일명 : MemberMapper.xml
+    설  명 : 사용자
+
+    == 개정이력 ========================================
+    수정자    수정내용
+    ======= ================================
+    양재혁   최초 생성
+-->
 <mapper namespace="com.parkro.server.domain.member.mapper.MemberMapper">
 
     <select id="selectMemberName" parameterType="String" resultType="PostMemberReq">
@@ -16,7 +25,7 @@
         INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, created_date, role)
         VALUES (member_seq.NEXTVAL, #{username}, #{password}, #{nickname}, #{phoneNumber},
                 #{carNumber,jdbcType=VARCHAR},
-                1, CURRENT_TIMESTAMP, 'ROLE_USER')
+                1, CURRENT_TIMESTAMP, 'ROLE_ADMIN')
         ]]>
 </insert>
 

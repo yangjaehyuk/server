@@ -41,6 +41,4 @@ public interface ParkingService {
     // [관리자] 결제 완료
     Integer modifyParkingOutById(Integer parkingId);
 
-    void modifyMemberId(PostMemberReq postMemberReq);
-
 }

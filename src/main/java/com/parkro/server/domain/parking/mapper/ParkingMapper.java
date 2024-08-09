@@ -44,8 +44,9 @@ public interface ParkingMapper {
 
     // [관리자] 결제 완료
     Integer updateParkingOutById(Integer parkingId);
-  
-    void updateMemberId(PostMemberReq postMemberIdReq);
 
+    // 멤버 아이디 업데이트
+    void updateMemberId(PostMemberReq postMemberIdReq);
+    // 멤버 아이디 삭제
     void deleteMemberId(String carNumber);
 }

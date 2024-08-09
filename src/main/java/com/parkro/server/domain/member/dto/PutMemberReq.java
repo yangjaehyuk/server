@@ -4,7 +4,17 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-
+/**
+ * 회원 정보 변경 변경 클래스
+ *
+ * @author 양재혁
+ *
+ * <pre>
+ * 수정자       수정내용
+ * ----------  --------  
+ * 양재혁       최초 생성
+ * </pre>
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

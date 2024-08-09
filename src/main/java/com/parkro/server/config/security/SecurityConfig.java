@@ -14,6 +14,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+/**
+ * 인증/인가 설정
+ *
+ * @author 양재혁
+ *
+ * <pre>
+ * 수정자        수정내용
+ * --------    ---------------------------
+ * 양재혁      최초 생성
+ * </pre>
+ */
 
 @EnableWebSecurity
 @RequiredArgsConstructor

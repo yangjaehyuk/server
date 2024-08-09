@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    파일명 : ParkingMapper.xml
+    설  명 : 주차
+
+    == 개정이력 ========================================
+    수정자    수정내용
+    ======= ================================
+    양재혁   updateMemberId 생성
+    양재혁   deleteMemberId 생성
+-->
 <mapper namespace="com.parkro.server.domain.parking.mapper.ParkingMapper">
     <select id="selectParkingByParkingId" resultType="GetParkingRes" parameterType="Integer">
         <![CDATA[
