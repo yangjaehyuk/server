@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    파일명 : MemberMapper.xml
+    설  명 : 사용자
+
+    == 개정이력 ========================================
+    수정일           수정자    수정내용
+    ===========     =======  ================================
+    2024.07.25      양재혁    최초 생성
+    2024.07.25      양재혁    username으로 중복 조회
+    2024.07.25      양재혁    회원 가입
+    2024.07.26      양재혁    username 으로 멤버 정보 삭제
+    2024.07.28      김지수    username 으로 멤버 정보 조회
+    2024.07.28      김민정    carNumber로 멤버 정보 조회
+    2024.07.28      양재혁    PutMemberReq 으로 멤버 정보 수정
+    2024.07.29      양재혁    차량 등록
+    2024.07.29      양재혁    username 으로 차량 삭제
+    2024.08.01      양재혁    FCM Token 업데이트
+    2024.08.01      양재혁    전화 번호 중복 확인
+    2024.08.01      양재혁    차량 중복 확인
+-->
 <mapper namespace="com.parkro.server.domain.member.mapper.MemberMapper">
 
+    <!-- username으로 중복 조회 -->
     <select id="selectMemberName" parameterType="String" resultType="PostMemberReq">
         <![CDATA[
         SELECT username, password, role
@@ -11,15 +32,16 @@
         ]]>
     </select>
 
+    <!-- 회원 가입 -->
     <insert id="insertMember" parameterType="PostMemberReq" useGeneratedKeys="true" keyProperty="memberId" keyColumn="member_id">
     <![CDATA[
         INSERT INTO member (member_id, username, password, nickname, phone_number, car_number, profile_car, created_date, role)
         VALUES (member_seq.NEXTVAL, #{username}, #{password}, #{nickname}, #{phoneNumber},
                 #{carNumber,jdbcType=VARCHAR},
-                1, CURRENT_TIMESTAMP, 'ROLE_USER')
+                1, CURRENT_TIMESTAMP, 'ROLE_ADMIN')
         ]]>
 </insert>
-
+    <!-- 차량 등록 -->
     <update id="updateCarNumber" parameterType="PostMemberReq">
         <![CDATA[
         UPDATE member
@@ -28,6 +50,7 @@
         ]]>
     </update>
 
+    <!-- username 으로 멤버 정보 삭제 -->
     <update id="deleteMember" parameterType="String">
     <![CDATA[
         UPDATE member
@@ -38,7 +61,7 @@
           AND status = 'ACTIVE'
         ]]>
     </update>
-
+    <!-- username 으로 멤버 정보 조회 -->
     <select id="selectMemberByUsername" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
             SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcmToken
@@ -47,6 +70,7 @@
         ]]>
     </select>
 
+    <!-- carNumber로 멤버 정보 조회 -->
     <select id="selectMemberByCarNumber" parameterType="String" resultType="GetMemberRes">
         <![CDATA[
         SELECT member_id AS memberId, username, password, nickname, phone_number AS phoneNumber, role, car_number AS carNumber, profile_car AS profileCar, status, created_date AS createdDate, deleted_date AS deletedDate, fcm_token AS fcmToken
@@ -54,7 +78,7 @@
         WHERE car_number = #{carNumber} AND status = 'ACTIVE'
         ]]>
     </select>
-
+    <!-- PutMemberReq 으로 멤버 정보 수정 -->
     <update id="updateMemberDetails" parameterType="PutMemberReq">
     <![CDATA[
         UPDATE member
@@ -65,6 +89,7 @@
         ]]>
 </update>
 
+    <!-- username 으로 차량 삭제 -->
     <update id="deleteCarNumber" parameterType="String">
         <![CDATA[
         UPDATE member
@@ -75,6 +100,7 @@
         ]]>
     </update>
 
+    <!-- FCM Token 업데이트 -->
     <update id="updateFCM" parameterType="PostMemberReq">
     <![CDATA[
         UPDATE member
@@ -84,11 +110,12 @@
           AND status = 'ACTIVE'
         ]]>
 </update>
-    
+
+    <!-- 전화 번호 중복 확인 -->
     <select id="countPhoneNumber" parameterType="String" resultType="Integer">
         SELECT COUNT(phone_number) FROM member WHERE phone_number = #{phoneNumber}
     </select>
-
+    <!-- 차량 중복 확인 -->
     <select id="countCarNumber" parameterType="String" resultType="Integer">
         SELECT COUNT(car_number) FROM member WHERE car_number = #{carNumber, jdbcType = VARCHAR}
     </select>

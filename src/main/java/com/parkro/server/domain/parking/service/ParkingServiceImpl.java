@@ -148,21 +148,4 @@ public class ParkingServiceImpl implements ParkingService {
       return parkingMapper.updateParkingOutById(parkingId);
     }
 
-    @Override
-    public void modifyMemberId(PostMemberReq postMemberReq) {
-        if (postMemberReq.getMemberId() == null) {
-            throw new CustomException(ErrorCode.FIND_FAIL_USER_ID);
-        }
-
-        if (postMemberReq.getCarNumber() == null) {
-            return;
-        }
-
-        if (postMemberReq.getCarNumber() != null) {
-
-            parkingMapper.updateMemberId(postMemberReq);
-
-        }
-    }
-
 }

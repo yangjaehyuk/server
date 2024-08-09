@@ -19,6 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+/**
+ * Jwt Token 생성
+ *
+ * @author 양재혁
+ * @since 2024.07.29
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.29  양재혁       최초 생성
+ * </pre>
+ */
 
 @Log4j2
 @Component

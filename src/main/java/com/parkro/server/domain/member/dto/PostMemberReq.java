@@ -9,6 +9,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 
+/**
+ * 회원 가입 클래스
+ *
+ * @author 양재혁
+ * @since 2024.07.25
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.25  양재혁       최초 생성
+ * </pre>
+ */
 @Getter
 @Setter
 @Builder
