@@ -2,9 +2,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--
+    파일명 : CouponMapper.xml
+    설  명 : 사용자 쿠폰
+
+    == 개정이력 ========================================
+    수정일         수정자     수정내용
+    ==========   =======   ================================
+    2024.07.30   양재혁      최초 생성
+    2024.07.30   양재혁      현재 발급 가능한 쿠폰 리스트 조회
+    2024.07.30   양재혁      쿠폰 등록
+    2024.07.30   양재혁      활성화된 멤버 쿠폰 모두 비활성화로 업데이트
+    2024.08.03   김지수      쿠폰 상태 변경 (ACTIVE -> USED)
+-->
 <mapper namespace="com.parkro.server.domain.coupon.mapper.CouponMapper">
 
-    <!-- 쿠폰 상태 USED(사용됨)로 변경 -->
+    <!-- 쿠폰 상태 변경 (ACTIVE -> USED) -->
     <update id="updateCouponStatus" parameterType="Integer">
         <![CDATA[
             UPDATE
@@ -15,6 +28,7 @@
         ]]>
     </update>
 
+    <!-- 현재 발급 가능한 쿠폰 리스트 조회 -->
     <select id="selectCouponIdByDate" parameterType="java.util.Date" resultType="Integer">
        <![CDATA[
             SELECT coupon_id
@@ -23,6 +37,7 @@
         ]]>
     </select>
 
+    <!-- 쿠폰 등록 -->
     <insert id="insertCoupons" parameterType="PostMemberCouponReq">
     <![CDATA[
         BEGIN
@@ -34,6 +49,7 @@
         ]]>
 </insert>
 
+    <!-- 활성화된 멤버 쿠폰 모두 비활성화로 업데이트 -->
     <update id="deleteCoupons" parameterType="Integer">
     <![CDATA[
         UPDATE member_coupon
