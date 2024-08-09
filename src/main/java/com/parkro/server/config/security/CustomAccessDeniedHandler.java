@@ -12,6 +12,7 @@ import java.io.IOException;
  * 접근 권한이 없는 경우 발생 하는 예외에 대한 처리
  *
  * @author 양재혁
+ * @since 2024.07.29
  *
  * <pre>
  * 수정일        수정자        수정내용

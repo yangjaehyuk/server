@@ -8,6 +8,7 @@ import javax.validation.constraints.Pattern;
  * 회원 정보 변경 변경 클래스
  *
  * @author 양재혁
+ * @since 2024.07.28
  *
  * <pre>
  * 수정일        수정자        수정내용

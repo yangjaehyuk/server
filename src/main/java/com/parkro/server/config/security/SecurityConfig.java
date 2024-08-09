@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * 인증/인가 설정
  *
  * @author 양재혁
+ * @since 2024.07.29
  *
  * <pre>
  * 수정일        수정자        수정내용
