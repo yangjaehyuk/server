@@ -9,6 +9,18 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * 정산 시, 사용자가 보유한 쿠폰 목록 DTO
+ *
+ * @author 김지수
+ * @since 2024.07.26
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.26  김지수      최초 생성
+ * </pre>
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
