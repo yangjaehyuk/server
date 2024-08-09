@@ -9,6 +9,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * UTC -> KST 변환
+ *
+ * @author 김민정
+ * @since 2024.07.25
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.25  김민정      최초 생성
+ *
+ * </pre>
+ */
 public class KSTDateSerializer extends StdSerializer<Date> {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

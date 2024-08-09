@@ -8,6 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * 전역 예외 처리
+ *
+ * @author 김민정
+ * @since 2024.07.25
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.25  김민정      최초 생성
+ *
+ * </pre>
+ */
 @RestControllerAdvice
 @Log4j2
 public class GlobalExceptionHandler {

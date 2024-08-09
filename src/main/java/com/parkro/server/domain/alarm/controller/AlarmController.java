@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author 김민정
  * @since 2024.07.29
- * @version 1.0
  *
  * <pre>
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.29  김민정      최초 생성
+ * 2024.07.30  김민정      결제 취소 알림 테스트
+ * 2024.07.30  김민정      결제 취소 알림 테스트 - 스케줄러 실행
+ *
  * </pre>
  */
 @RestController

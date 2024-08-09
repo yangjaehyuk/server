@@ -4,6 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+/**
+ * 알림 스케줄러
+ *
+ * @author 김민정
+ * @since 2024.08.06
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.06  김민정      최초 생성
+ * 2024.08.06  김민정      쿠폰 알림 스케줄러
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 public class AlarmSchedulerService {

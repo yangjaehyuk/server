@@ -13,6 +13,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * FCM 설정
+ *
+ * @author 김민정
+ * @since 2024.07.30
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30  김민정      최초 생성
+ *
+ * </pre>
+ */
 @Configuration
 public class FCMConfig {
 
