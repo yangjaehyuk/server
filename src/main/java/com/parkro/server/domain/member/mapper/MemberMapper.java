@@ -9,15 +9,26 @@ import java.util.Optional;
 
 @Mapper
 public interface MemberMapper {
+    // username(멤버 아이디)으로 중복 아이디 조회
     Optional<PostMemberReq> selectMemberName(String username);
+    // PostMemberReq로 멤버 삽입
     void insertMember(PostMemberReq postMemberReq);
+    // username(멤버 아이디)로 멤버 삭제
     Integer deleteMember(String username);
+    
     GetMemberRes selectMemberByUsername(String username);
+
     GetMemberRes selectMemberByCarNumber(String carNumber);
+    // PutMemberReq로 멤버 정보 수정
     Integer updateMemberDetails(PutMemberReq putMemberReq);
+    // PostMemberReq로 차량 번호 수정
     Integer updateCarNumber(PostMemberReq postMemberReq);
+    // username(멤버 아이디)로 차량 삭제
     void deleteCarNumber(String username);
+    // PostMemberReq로 FCM토큰 업데이트
     Integer updateFCM(PostMemberReq postMemberReq);
+    // carNumber(차량 번호)로 차량 중복 조회
     Integer countCarNumber(String carNumber);
+    // phoneNumber(전화 번호)로 전화 번호 중복 조회
     Integer countPhoneNumber(String phoneNumber);
 }

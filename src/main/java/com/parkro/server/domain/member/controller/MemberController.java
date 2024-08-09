@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-
 /**
  * 회원
  *
@@ -33,7 +31,15 @@ import java.util.Map;
  * <pre>
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.25  양재혁      최초 생성
+ * 2024.07.25  양재혁       최초 생성
+ * 2024.07.26  양재혁       아이디 중복 조회 API 생성
+ * 2024.07.27  양재혁       회원 가입 API 생성
+ * 2024.07.28  양재혁       회원 정보 수정 API 생성
+ * 2024.07.28  양재혁       회원 탈퇴 API 생성
+ * 2024.07.28  양재혁       회원 정보 조회 API 생성
+ * 2024.07.29  양재혁       로그인 API 생성
+ * 2024.07.29  양재혁       차량 등록 API 생성
+ * 2024.07.29  양재혁       차량 삭제 API 생성
  * </pre>
  */
 @RestController

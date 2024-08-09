@@ -19,7 +19,7 @@ import java.util.List;
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.26  김민정      최초 생성
- * 2024.07.26  김지수      주차 정보 조회
+ * 2024.07.26  김지수      parking_id로 주차 정보 조회
  * 2024.07.27  김민정      입차 시, 주차 정보 등록
  * 2024.07.28  김민정      출차 시, 잔여 좌석 수 업데이트
  * 2024.07.28  김민정      주차 정산(전) 정보 조회
@@ -34,7 +34,7 @@ import java.util.List;
  */
 public interface ParkingService {
 
-  // 주차 정보 조회
+  // parking_id로 주차 정보 조회
   GetParkingRes findParkingByParkingId(Integer parkingId);
 
     // 입차 시, 주차 정보 등록

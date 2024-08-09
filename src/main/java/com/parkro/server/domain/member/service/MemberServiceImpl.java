@@ -21,7 +21,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Optional;
-
+/**
+ * 회원 정보 도메인
+ *
+ * @author 양재혁
+ * @since 2024.07.25
+ *
+ * <pre>
+ * 수정일자       수정자        수정내용
+ * ------------ --------    ---------------------------
+ * 2024.07.25   양재혁      최초 생성
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -35,6 +46,10 @@ public class MemberServiceImpl implements MemberService {
     private final CouponService couponService;
     private final AlarmService alarmService;
 
+    /**
+     * 아이디 중복 조회
+     * @param username
+     */
     @Transactional
     @Override
     public void findUsername(String username) {
@@ -49,6 +64,10 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    /**
+     * 회원 가입
+     * @param postMemberReq
+     */
     @Override
     @Transactional
     public void addMember(PostMemberReq postMemberReq) {
@@ -92,7 +111,11 @@ public class MemberServiceImpl implements MemberService {
         couponService.addCoupons(modifiedReq);
     }
 
-
+    /**
+     * 로그인
+     * @param postMemberReq
+     * @return 로그인 정보 {@link PostMemberRes}
+     */
     @Override
     @Transactional
     public PostMemberRes signInMember(PostMemberReq postMemberReq) {
@@ -121,7 +144,11 @@ public class MemberServiceImpl implements MemberService {
         return postMemberRes;
     }
 
-
+    /**
+     * username 으로 멤버 정보 조회
+     * @param username
+     * @return 멤버 정보 {@link GetMemberRes}
+     */
     @Override
     public GetMemberRes findMember(String username) {
 
@@ -132,7 +159,12 @@ public class MemberServiceImpl implements MemberService {
         }
         return member;
     }
-  
+
+    /**
+     * 회원 탈퇴
+     * @param username
+     * @return Integer 회원 탈퇴 성공 여부
+     */
     @Override
     public Integer removeMember(String username) {
         GetMemberRes getMemberRes = findMember(username);
@@ -147,11 +179,20 @@ public class MemberServiceImpl implements MemberService {
         return cnt;
     }
 
-
+    /**
+     * 차량번호로 멤버 정보 조회
+     * @param carNumber
+     * @return GetMemberRes
+     */
     @Override
     @Transactional(readOnly=true)
     public GetMemberRes findMemberByCarNumber(String carNumber) { return memberMapper.selectMemberByCarNumber(carNumber);}
 
+    /**
+     * 회원 정보 수정
+     * @param putMemberReq
+     * @return 회원 수정 정보 {@link PutMemberReq}
+     */
     @Override
     public PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq) {
 
@@ -171,6 +212,10 @@ public class MemberServiceImpl implements MemberService {
         return putMemberReq;
     }
 
+    /**
+     * 차량 등록
+     * @param postMemberReq
+     */
     @Override
     @Transactional
     public void modifyCarNumber(PostMemberReq postMemberReq) {
@@ -187,6 +232,10 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    /**
+     * 차량 삭제
+     * @param username
+     */
     @Override
     @Transactional
     public void removeCarNumber(String username) {
@@ -203,6 +252,10 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    /**
+     * FCM Token 업데이트
+     * @param postMemberReq
+     */
     @Override
     public void modifyFCM(PostMemberReq postMemberReq) {
         PostMemberReq modifiedReq = PostMemberReq.builder()
@@ -218,12 +271,22 @@ public class MemberServiceImpl implements MemberService {
         alarmService.subscribeToTopic(postMemberReq.getFcmToken(), "allUsers");
     }
 
+    /**
+     * 중복 차량 번호 조회
+     * @param carNumber
+     * @return Boolean 중복 여부
+     */
     @Override
     public boolean findCarNumber(String carNumber) {
         int cnt = memberMapper.countCarNumber(carNumber);
         return cnt > 0;
     }
 
+    /**
+     * 중복 전화 번호 조회
+     * @param phoneNumber
+     * @return Boolean 중복 여부
+     */
     @Override
     public boolean findPhoneNumber(String phoneNumber) {
         int cnt = memberMapper.countPhoneNumber(phoneNumber);

@@ -11,6 +11,20 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+/**
+ * 
+ *
+ * @author 김민정
+ * @since 2024.07.25
+ *
+ * <pre>
+ * 수정일자       수정자        수정내용
+ * ------------ --------    ---------------------------
+ * 2024.07.25   김민정      최초 생성
+ * 2024.07.29   양재혁      멤버 아이디 업데이트
+ * 2024.07.29   양재혁      멤버 아이디 삭제
+ * </pre>
+ */
 
 /**
  * 주차
@@ -30,8 +44,8 @@ import java.util.List;
  * 2024.07.28  김민정      [관리자] 주차 내역 상세 조회
  * 2024.07.28  김민정      [관리자] 지점별 주차 내역 목록 조회
  * 2024.07.28  김민정      [관리자] 결제 완료
- * 2024.07.29  양재혁      updateMemberId 생성
- * 2024.07.29  양재혁      deleteMemberId 생성
+ * 2024.07.29  양재혁      멤버 아이디 업데이트
+ * 2024.07.29  양재혁      멤버 아이디 삭제
  * 2024.08.03  김지수      결제 취소 후 parking status 업데이트
  * </pre>
  */
@@ -65,10 +79,10 @@ public interface ParkingMapper {
     // [관리자] 결제 완료
     Integer updateParkingOutById(Integer parkingId);
 
-    // updateMemberId 생성
+    // 멤버 아이디 업데이트
     void updateMemberId(PostMemberReq postMemberIdReq);
 
-    // deleteMemberId 생성
+    // 멤버 아이디 삭제
     void deleteMemberId(String carNumber);
 
   // 결제 취소 후 parking status 업데이트

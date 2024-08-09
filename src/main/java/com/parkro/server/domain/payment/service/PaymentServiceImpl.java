@@ -9,20 +9,30 @@ import com.parkro.server.domain.payment.dto.GetPaymentRes;
 import com.parkro.server.domain.payment.mapper.PaymentMapper;
 import com.parkro.server.domain.payment.dto.PostPaymentReq;
 import com.parkro.server.domain.receipt.service.ReceiptService;
-import com.parkro.server.exception.CustomException;
-import com.parkro.server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 import static com.parkro.server.exception.ErrorCode.INVALID_PAYMENT_CANCELLATION;
 
+/**
+ * 결제 내역 등록, 조회와 같은 주차 사전 정산 관련 로직
+ *
+ * @author 김지수
+ * @since 2024.7.26
+ *
+ * <pre>
+ * 수정일자       수정자        수정내용
+ * ------------ --------    ---------------------------
+ * 2024.07.26   김지수      최초 생성
+ * 2024.07.26   김지수      사용자 보유 쿠폰 조회 API
+ * 2024.07.26   김지수      주차장 결제 내역 등록 API
+ * 2024.07.28   김지수      정산(결제) 상세 정보 조회 API
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -64,7 +74,7 @@ public class PaymentServiceImpl implements PaymentService {
     // 영수증 사용 상태로 변경
     if (req.getReceiptId() != null) receiptService.modifyReceiptStatus(req.getReceiptId());
 
-    // 주차 상태 변경 (입차 -> 결차)
+    // 주차 상태 변경 (입차 -> 결제)
     parkingService.modifyParkingStatusPay(req.getParkingId());
     // 결제 취소 스케쥴러 호출
     paymentSchedulerService.schedulerModifyCancelledDate(req.getParkingId(), req.getPaymentId(), member.getFcmToken());
