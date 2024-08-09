@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    파일명 : ParkingMapper.xml
+    설  명 : 주차
+
+    == 개정이력 ========================================
+    수정일         수정자     수정내용
+    ==========   =======   ================================
+    2024.07.26   김민정      최초 생성
+    2024.07.26   김지수      parkingId로 주차 정보 조회
+    2024.07.27   김민정      주차 정보 삽입
+    2024.07.27   김민정      주차 상태 EXIT로 업데이트
+    2024.07.28   김민정      주차 정산(전) 정보 조회
+    2024.07.28   김민정      memberId로 주차 정보 조회
+    2024.07.28   김민정      주차 deletedDate 현재 시간으로 변경
+    2024.07.28   김민정      [관리자] 주차 내역 상세 조회
+    2024.07.28   김민정      [관리자] 지점별 주차 내역 목록 조회
+    2024.07.28   김민정      [관리자] 결제 완료
+    2024.07.29   양재혁      parking 내 memberId 변경
+    2024.07.29   양재혁      parking 내 memberId null로 변경
+    2024.08.03   김지수      결제 취소 후 parking status 업데이트
+-->
 <mapper namespace="com.parkro.server.domain.parking.mapper.ParkingMapper">
+    <!-- parkingId로 주차 정보 조회 -->
     <select id="selectParkingByParkingId" resultType="GetParkingRes" parameterType="Integer">
         <![CDATA[
             SELECT parking_id AS parkingId,
@@ -15,16 +37,8 @@
             WHERE parking_id = #{parkingId}
         ]]>
     </select>
-    <update id="updateParkingStatus" parameterType="Map">
-        <![CDATA[
-        UPDATE parking
-        SET
-            status = #{status}
-        WHERE parking_id = #{parkingId}
-        ]]>
-    </update>
   
-    <!-- 입차 -->
+    <!-- 주차 정보 삽입 -->
     <insert id="insertParking" parameterType="PostParkingReq">
         <selectKey keyProperty="parkingId" resultType="Integer" order="BEFORE">
             <![CDATA[
@@ -40,7 +54,7 @@
         ]]>
     </insert>
 
-    <!-- 출차 -->
+    <!-- 주차 상태 EXIT로 업데이트 -->
     <update id="updateParkingOut" parameterType="PatchParkingReq">
         <![CDATA[
         UPDATE parking
@@ -82,7 +96,7 @@
         ]]>
     </select>
 
-    <!-- 나의 주차 내역 목록 조회 -->
+    <!-- memberId로 주차 정보 조회 -->
     <select id="selectParkingListByMemberId" parameterType="GetParkingReq" resultType="GetParkingRes">
         SELECT p.parking_id AS parkingId,
                s.name AS storeName,
@@ -102,7 +116,7 @@
         OFFSET ((#{page}-1)*#{pageSize}) ROWS FETCH NEXT #{pageSize} ROWS ONLY
     </select>
 
-    <!-- 주차 내역 삭제 -->
+    <!-- 주차 deletedDate 현재 시간으로 변경 -->
     <update id="deleteParkingById" parameterType="Integer">
         <![CDATA[
         UPDATE parking
@@ -178,6 +192,15 @@
         ]]>
     </update>
 
+    <!-- 결제 취소 후 parking status 업데이트 -->
+    <update id="updateParkingStatus" parameterType="Map">
+        <![CDATA[
+        UPDATE parking
+        SET
+            status = #{status}
+        WHERE parking_id = #{parkingId}
+        ]]>
+    </update>
 
     <!-- parking 내 memberId 변경 -->
     <update id="updateMemberId" parameterType="PostMemberReq">

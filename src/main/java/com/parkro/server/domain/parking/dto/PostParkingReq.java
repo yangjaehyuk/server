@@ -6,6 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 주차 등록 DTO
+ *
+ * @author 김민정
+ * @since 2024.07.27
+ *
+ * <pre>
+ * 수정일자       수정자        수정내용
+ * ------------ --------    ---------------------------
+ * 2024.07.27   김민정       최초 생성
+ * </pre>
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

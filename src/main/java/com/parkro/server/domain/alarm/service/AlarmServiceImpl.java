@@ -14,6 +14,24 @@ import java.util.List;
 
 import static com.parkro.server.exception.ErrorCode.FCM_TOKEN_NOT_VALID;
 
+/**
+ * 알림
+ *
+ * @author 김민정
+ * @since 2024.08.06
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30  김민정      최초 생성
+ * 2024.07.30  김민정      공통 알림 전송 메서드
+ * 2024.07.30  김민정      입차 알림
+ * 2024.07.30  김민정      결제 취소 알림
+ * 2024.08.05  김민정      토픽 기반 공통 알림 전송 메서드
+ * 2024.08.05  김민정      유저를 topic에 구독시키기
+ * 2024.08.05  김민정      쿠폰 발급 알림
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
