@@ -15,9 +15,9 @@ public interface MemberMapper {
     void insertMember(PostMemberReq postMemberReq);
     // username(멤버 아이디)로 멤버 삭제
     Integer deleteMember(String username);
-    // username(멤버 아이디)로 멤버 조회
+    
     GetMemberRes selectMemberByUsername(String username);
-    // CarNumber(차량 번호)로 멤버 조회
+
     GetMemberRes selectMemberByCarNumber(String carNumber);
     // PutMemberReq로 멤버 정보 수정
     Integer updateMemberDetails(PutMemberReq putMemberReq);

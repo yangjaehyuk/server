@@ -13,7 +13,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * 권한 부여 도메인
+ *
+ * @author 양재혁
+ * @since 2024.07.25
+ *
+ * <pre>
+ * 수정일자       수정자        수정내용
+ * ------------ --------    ---------------------------
+ * 2024.07.25   양재혁      최초 생성
+ * </pre>
+ */
 @RequiredArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

@@ -11,6 +11,20 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+/**
+ * 
+ *
+ * @author 김민정
+ * @since 2024.07.25
+ *
+ * <pre>
+ * 수정일자       수정자        수정내용
+ * ------------ --------    ---------------------------
+ * 2024.07.25   김민정      최초 생성
+ * 2024.07.29   양재혁      멤버 아이디 업데이트
+ * 2024.07.29   양재혁      멤버 아이디 삭제
+ * </pre>
+ */
 
 @Mapper
 public interface ParkingMapper {
@@ -47,6 +61,7 @@ public interface ParkingMapper {
 
     // 멤버 아이디 업데이트
     void updateMemberId(PostMemberReq postMemberIdReq);
+
     // 멤버 아이디 삭제
     void deleteMemberId(String carNumber);
 }

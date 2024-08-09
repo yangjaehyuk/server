@@ -4,7 +4,6 @@ import com.parkro.server.domain.member.dto.GetMemberRes;
 import com.parkro.server.domain.member.dto.PostMemberReq;
 import com.parkro.server.domain.member.dto.PutMemberReq;
 import com.parkro.server.domain.member.dto.PostMemberRes;
-
 public interface MemberService {
     /* 아이디 중복 조회 */
     void findUsername(String username);
@@ -12,9 +11,11 @@ public interface MemberService {
     void addMember(PostMemberReq postMemberReq);
     /* 회원 탈퇴 */
     Integer removeMember(String username);
+
     GetMemberRes findMember(String username);
     /* 로그인 */
     PostMemberRes signInMember(PostMemberReq postMemberReq);
+
     GetMemberRes findMemberByCarNumber(String carNumber);
     /* 회원 정보 수정 */
     PutMemberReq modifyMemberDetails(PutMemberReq putMemberReq);

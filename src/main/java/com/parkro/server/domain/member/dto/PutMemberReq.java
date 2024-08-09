@@ -10,9 +10,9 @@ import javax.validation.constraints.Pattern;
  * @author 양재혁
  *
  * <pre>
- * 수정자       수정내용
- * ----------  --------  
- * 양재혁       최초 생성
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.28  양재혁       최초 생성
  * </pre>
  */
 @AllArgsConstructor
