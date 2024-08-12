@@ -22,7 +22,7 @@ For more details of Front-end, visit [client](https://github.com/parkro-99s/clie
 
 Hyundai Department Store has prepared additional parking spaces in connection with external parking lots to solve the narrow parking problem, which is a big complaint of customers, but many customers are not aware of this.  
 <br/>
-To improve this, we have created the app with information on linked parking lots and pre-settlement functions.
+To improve this, we created the app with information on linked parking lots and pre-settlement functions.
 <br/>
 
 ## 🔨 Tech
